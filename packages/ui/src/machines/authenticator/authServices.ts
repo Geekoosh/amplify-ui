@@ -20,6 +20,11 @@ import type { PasswordlessCapabilities } from './types';
 type SendUserAttributeVerificationCode =
   typeof AmplifyAuth.sendUserAttributeVerificationCode;
 
+/**
+ * Normalized subset of Amplify Auth configuration consumed by the
+ * authenticator machine. This facade keeps machine code independent from
+ * Amplify's raw config shape while preserving the fields the UI already uses.
+ */
 export type AmplifyConfigFacade = Partial<
   ResourcesConfig['Auth']['Cognito']
 > & {
@@ -34,6 +39,14 @@ export interface ChangePasswordInput {
   newPassword: string;
 }
 
+/**
+ * Complete service contract for the authenticator machine.
+ *
+ * `defaultServices` satisfies this interface, while host applications can
+ * provide `Partial<AuthServices>` overrides for custom auth behavior. Runtime
+ * Amplify calls should be routed through the matching service member instead
+ * of being imported directly into machine or helper modules.
+ */
 export interface AuthServices {
   getAmplifyConfig(): Promise<AmplifyConfigFacade>;
   getCurrentUser: typeof AmplifyAuth.getCurrentUser;
@@ -98,4 +111,8 @@ export type AuthValidatorKey =
   | 'validatePreferredUsername'
   | 'validateRequiredFieldsForAuthMethod';
 
+/**
+ * Runtime Amplify adapter shape. Validators stay in `defaultServices`, so this
+ * type represents only the operations backed by Amplify and related utilities.
+ */
 export type AmplifyAuthAdapter = Omit<AuthServices, AuthValidatorKey>;

@@ -1,3 +1,12 @@
+/**
+ * Single runtime boundary for Amplify Auth dependencies used by the
+ * authenticator package.
+ *
+ * Authenticator code should consume `defaultServices` or this adapter instead
+ * of importing `aws-amplify`, `aws-amplify/auth`, or `aws-amplify/utils`
+ * directly. Keeping those imports centralized makes future service overrides
+ * and fork-specific auth integrations easier to reason about.
+ */
 import { AmplifyErrorCode } from '@aws-amplify/core/internals/utils';
 import type { ResourcesConfig } from 'aws-amplify';
 import { Amplify } from 'aws-amplify';
