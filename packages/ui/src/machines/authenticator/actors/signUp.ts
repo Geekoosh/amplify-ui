@@ -1,12 +1,6 @@
 import { createMachine, sendUpdate } from 'xstate';
 
 import type { ConfirmSignUpInput } from 'aws-amplify/auth';
-import {
-  autoSignIn,
-  signInWithRedirect,
-  fetchUserAttributes,
-  listWebAuthnCredentials,
-} from 'aws-amplify/auth';
 
 import type { AuthContext, AuthEvent, SignUpContext } from '../types';
 import { getSignUpInput } from '../utils';
@@ -14,6 +8,7 @@ import { getSignUpInput } from '../utils';
 import { runValidators } from '../../../validators';
 
 import actions from '../actions';
+import { amplifyAuthAdapter } from '../amplifyAuthAdapter';
 import guards from '../guards';
 
 import { getFederatedSignInState } from './utils';
@@ -109,7 +104,8 @@ export function signUpActor({ services }: SignUpMachineOptions) {
           invoke: {
             src: async () => {
               try {
-                const result = await listWebAuthnCredentials();
+                const result =
+                  await amplifyAuthAdapter.listWebAuthnCredentials();
                 return result.credentials && result.credentials.length > 0;
               } catch {
                 return false;
@@ -337,10 +333,10 @@ export function signUpActor({ services }: SignUpMachineOptions) {
       guards,
       services: {
         autoSignIn() {
-          return autoSignIn();
+          return amplifyAuthAdapter.autoSignIn();
         },
         async fetchUserAttributes() {
-          return fetchUserAttributes();
+          return amplifyAuthAdapter.fetchUserAttributes();
         },
         confirmSignUp({ formValues, username }) {
           const { confirmation_code: confirmationCode } = formValues;
@@ -351,7 +347,7 @@ export function signUpActor({ services }: SignUpMachineOptions) {
           return services.handleResendSignUpCode({ username });
         },
         signInWithRedirect(_, { data }) {
-          return signInWithRedirect(data);
+          return amplifyAuthAdapter.signInWithRedirect(data);
         },
         handleSignUp(context) {
           const {

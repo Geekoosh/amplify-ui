@@ -13,7 +13,7 @@ import type {
   PasswordSettings,
 } from '../../types';
 
-import type { defaultServices } from './defaultServices';
+import type { AuthServices } from './authServices';
 
 // Passwordless authentication types
 export type AuthMethod = 'PASSWORD' | 'EMAIL_OTP' | 'SMS_OTP' | 'WEB_AUTHN';
@@ -160,7 +160,7 @@ export interface AuthContext {
     passwordSettings?: PasswordSettings;
     passwordless?: PasswordlessSettings;
   };
-  services?: Partial<typeof defaultServices>;
+  services?: Partial<AuthServices>;
   user?: AuthUser;
   // data returned from actors when they finish and reach their final state
   actorDoneData?: ActorDoneData;

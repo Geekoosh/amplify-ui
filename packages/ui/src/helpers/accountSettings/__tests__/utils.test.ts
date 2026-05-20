@@ -1,12 +1,11 @@
-import * as Auth from 'aws-amplify/auth';
-
+import { amplifyAuthAdapter } from '../../../machines/authenticator/amplifyAuthAdapter';
 import { changePassword, deleteUser } from '../utils';
 
 // mock `aws-amplify` to prevent logging auth errors during test runs
 jest.mock('aws-amplify');
 
-const changePasswordSpy = jest.spyOn(Auth, 'updatePassword');
-const deleteUserSpy = jest.spyOn(Auth, 'deleteUser');
+const changePasswordSpy = jest.spyOn(amplifyAuthAdapter, 'changePassword');
+const deleteUserSpy = jest.spyOn(amplifyAuthAdapter, 'deleteUser');
 
 describe('changePassword', () => {
   const currentPassword = 'oldpassword';
@@ -20,8 +19,8 @@ describe('changePassword', () => {
     ).resolves.toBeUndefined();
 
     expect(changePasswordSpy).toHaveBeenCalledWith({
-      newPassword: newPassword,
-      oldPassword: currentPassword,
+      currentPassword,
+      newPassword,
     });
   });
 
@@ -34,8 +33,8 @@ describe('changePassword', () => {
     ).rejects.toEqual(error);
 
     expect(changePasswordSpy).toHaveBeenCalledWith({
-      newPassword: newPassword,
-      oldPassword: currentPassword,
+      currentPassword,
+      newPassword,
     });
   });
 });

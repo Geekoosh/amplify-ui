@@ -1,12 +1,12 @@
 import { interpret } from 'xstate';
 import { setImmediate } from 'timers';
 
-import * as AuthModule from 'aws-amplify/auth';
+import { amplifyAuthAdapter } from '../../amplifyAuthAdapter';
 import { signOutActor } from '../signOut';
 
 jest.mock('aws-amplify');
 
-const signOutSpy = jest.spyOn(AuthModule, 'signOut');
+const signOutSpy = jest.spyOn(amplifyAuthAdapter, 'signOut');
 const flushPromises = () => new Promise(setImmediate);
 
 describe('signOutActor', () => {

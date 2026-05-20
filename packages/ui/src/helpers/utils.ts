@@ -1,4 +1,4 @@
-import { ConsoleLogger as Logger } from 'aws-amplify/utils';
+import { createAmplifyLogger } from '../machines/authenticator/amplifyAuthAdapter';
 
 type LoggerCategory =
   | 'Auth'
@@ -8,4 +8,4 @@ type LoggerCategory =
   | 'Storage';
 
 export const getLogger = (category: LoggerCategory) =>
-  new Logger(`AmplifyUI:${category}`);
+  createAmplifyLogger(`AmplifyUI:${category}`);

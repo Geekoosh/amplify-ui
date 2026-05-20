@@ -1,116 +1,19 @@
-import type { ResourcesConfig } from 'aws-amplify';
-import { Amplify } from 'aws-amplify';
-import type { UserAttributeKey } from 'aws-amplify/auth';
-
-import {
-  confirmResetPassword,
-  confirmSignIn,
-  confirmSignUp,
-  getCurrentUser,
-  resendSignUpCode,
-  resetPassword,
-  signIn,
-  signUp,
-} from 'aws-amplify/auth';
-import { hasSpecialChars } from '../../helpers';
+import { hasSpecialChars } from '../../helpers/authenticator/utils';
 
 import type {
   AuthFormData,
   AuthTouchData,
-  LoginMechanism,
   PasswordSettings,
-  SocialProvider,
   ValidatorResult,
 } from '../../types';
+import { amplifyAuthAdapter } from './amplifyAuthAdapter';
+import type { AuthServices } from './authServices';
 
 // Cognito does not allow a password length less then 8 characters
 const DEFAULT_COGNITO_PASSWORD_MIN_LENGTH = 8;
 
-type UserAttributes = ResourcesConfig['Auth']['Cognito']['userAttributes'];
-type InvalidUserAttributes =
-  ResourcesConfig['Auth']['Cognito']['userAttributes'][];
-
-const isInvalidUserAtributes = (
-  userAttributes: UserAttributes | InvalidUserAttributes
-): userAttributes is InvalidUserAttributes => Array.isArray(userAttributes);
-
-const parseUserAttributes = (
-  userAttributes: UserAttributes | InvalidUserAttributes
-): UserAttributeKey[] => {
-  if (!userAttributes) {
-    return undefined;
-  }
-
-  // `aws-amplify` versions <= 6.0.5 return an array of `userAttributes` rather than an object
-  if (isInvalidUserAtributes(userAttributes)) {
-    return Object.entries(userAttributes).map(
-      ([_, value]) => Object.keys(value)[0]
-    );
-  }
-
-  return Object.keys(userAttributes);
-};
-
 export const defaultServices = {
-  async getAmplifyConfig() {
-    const result = Amplify.getConfig();
-
-    const cliConfig = result.Auth?.Cognito;
-    const { loginWith, userAttributes } = result.Auth?.Cognito ?? {};
-
-    const parsedLoginMechanisms = loginWith
-      ? (Object.entries(loginWith)
-          .filter(([key, _value]) => key !== 'oauth')
-          .filter(([_key, value]) => !!value)
-          .map((keyValueArray) => {
-            return keyValueArray[0] === 'phone' // the key for phone_number is phone in getConfig but everywhere else we treat is as phone_number
-              ? 'phone_number'
-              : keyValueArray[0];
-          }) as LoginMechanism[])
-      : undefined;
-
-    const parsedSignupAttributes = parseUserAttributes(userAttributes);
-
-    const parsedSocialProviders = loginWith?.oauth?.providers
-      ? (loginWith.oauth.providers?.map((provider) =>
-          provider.toString().toLowerCase()
-        ) as SocialProvider[])
-      : undefined;
-
-    // Detect passwordless capabilities from amplify_outputs.json
-    // Support both snake_case (legacy) and camelCase (current) formats
-    const passwordlessConfig = (result.Auth?.Cognito as any)?.passwordless;
-    const passwordlessCapabilities = {
-      emailOtpEnabled:
-        passwordlessConfig?.emailOtpEnabled ??
-        passwordlessConfig?.email_otp_enabled === true,
-      smsOtpEnabled:
-        passwordlessConfig?.smsOtpEnabled ??
-        passwordlessConfig?.sms_otp_enabled === true,
-      webAuthnEnabled: !!(
-        passwordlessConfig?.webAuthn ?? passwordlessConfig?.web_authn
-      ),
-      preferredChallenge:
-        passwordlessConfig?.preferredChallenge ??
-        passwordlessConfig?.preferred_challenge,
-    };
-
-    return {
-      ...cliConfig,
-      loginMechanisms: parsedLoginMechanisms,
-      signUpAttributes: parsedSignupAttributes,
-      socialProviders: parsedSocialProviders,
-      passwordlessCapabilities,
-    };
-  },
-  getCurrentUser,
-  handleSignIn: signIn,
-  handleSignUp: signUp,
-  handleConfirmSignIn: confirmSignIn,
-  handleConfirmSignUp: confirmSignUp,
-  handleForgotPasswordSubmit: confirmResetPassword,
-  handleForgotPassword: resetPassword,
-  handleResendSignUpCode: resendSignUpCode,
+  ...amplifyAuthAdapter,
 
   // Validation hooks for overriding
   async validateCustomSignUp(
@@ -227,4 +130,4 @@ export const defaultServices = {
 
     return null;
   },
-};
+} satisfies AuthServices;

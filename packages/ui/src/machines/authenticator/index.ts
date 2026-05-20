@@ -28,6 +28,8 @@ import {
 import { defaultServices } from './defaultServices';
 import { getAvailableAuthMethods } from './utils';
 
+export type { AmplifyConfigFacade, AuthServices } from './authServices';
+
 export type AuthenticatorMachineOptions = AuthContext['config'] & {
   services?: AuthContext['services'];
 };

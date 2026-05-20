@@ -1,15 +1,9 @@
 import { createMachine, sendUpdate } from 'xstate';
 import type { ConfirmSignInInput } from 'aws-amplify/auth';
-import {
-  confirmSignIn,
-  fetchUserAttributes,
-  listWebAuthnCredentials,
-  resetPassword,
-  signInWithRedirect,
-} from 'aws-amplify/auth';
 
 import { runValidators } from '../../../validators';
 import actions from '../actions';
+import { amplifyAuthAdapter } from '../amplifyAuthAdapter';
 import { defaultServices } from '../defaultServices';
 import guards from '../guards';
 
@@ -161,7 +155,8 @@ export function signInActor({ services }: SignInMachineOptions) {
           invoke: {
             src: async () => {
               try {
-                const result = await listWebAuthnCredentials();
+                const result =
+                  await amplifyAuthAdapter.listWebAuthnCredentials();
                 return result.credentials && result.credentials.length > 0;
               } catch {
                 return false;
@@ -419,10 +414,10 @@ export function signInActor({ services }: SignInMachineOptions) {
       guards,
       services: {
         async fetchUserAttributes() {
-          return fetchUserAttributes();
+          return amplifyAuthAdapter.fetchUserAttributes();
         },
         resetPassword({ username }) {
-          return resetPassword({ username });
+          return amplifyAuthAdapter.resetPassword({ username });
         },
         handleResendSignUpCode({ username }) {
           return services.handleResendSignUpCode({ username });
@@ -509,10 +504,10 @@ export function signInActor({ services }: SignInMachineOptions) {
             options: { userAttributes },
           };
 
-          return confirmSignIn(input);
+          return amplifyAuthAdapter.confirmSignIn(input);
         },
         signInWithRedirect(_, { data }) {
-          return signInWithRedirect(data);
+          return amplifyAuthAdapter.signInWithRedirect(data);
         },
         async validateFields(context) {
           return runValidators(
