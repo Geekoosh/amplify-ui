@@ -3,15 +3,12 @@ import type {
   ConfirmUserAttributeInput,
   SendUserAttributeVerificationCodeInput,
 } from 'aws-amplify/auth';
-import {
-  confirmUserAttribute,
-  sendUserAttributeVerificationCode,
-} from 'aws-amplify/auth';
 
 import { runValidators } from '../../../validators';
 
 import type { AuthEvent, VerifyUserContext } from '../types';
 import actions from '../actions';
+import { amplifyAuthAdapter } from '../amplifyAuthAdapter';
 import { defaultServices } from '../defaultServices';
 
 export function verifyUserAttributesActor() {
@@ -98,7 +95,7 @@ export function verifyUserAttributesActor() {
             userAttributeKey:
               unverifiedAttr as SendUserAttributeVerificationCodeInput['userAttributeKey'],
           };
-          return sendUserAttributeVerificationCode(input);
+          return amplifyAuthAdapter.sendUserAttributeVerificationCode(input);
         },
         async confirmVerifyUserAttribute({
           formValues: { confirmation_code: confirmationCode },
@@ -109,7 +106,7 @@ export function verifyUserAttributesActor() {
             userAttributeKey:
               selectedUserAttribute as ConfirmUserAttributeInput['userAttributeKey'],
           };
-          return confirmUserAttribute(input);
+          return amplifyAuthAdapter.confirmUserAttribute(input);
         },
         async validateFields(context) {
           return runValidators(

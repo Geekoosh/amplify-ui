@@ -10,7 +10,7 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions
  * and limitations under the License.
  */
-import { I18n } from 'aws-amplify/utils';
+import { amplifyI18n } from '../machines/authenticator/amplifyAuthAdapter';
 import {
   deDict,
   enDict,
@@ -69,14 +69,14 @@ export type Dict = Record<string, string>;
  * You can also use translate<string> to handle custom strings or dynamic content.
  */
 export function translate<T extends string>(phrase: T): string {
-  return I18n.get(phrase);
+  return amplifyI18n.get(phrase);
 }
 
 /**
  * Whether I18n has a translation entry for given phrase
  */
 export function hasTranslation(phrase: string) {
-  return I18n.get(phrase) !== phrase;
+  return amplifyI18n.get(phrase) !== phrase;
 }
 
 export const translations: Record<string, Dict> = {

@@ -3,6 +3,7 @@ import { setImmediate } from 'timers';
 
 import * as AuthModule from 'aws-amplify/auth';
 
+import { amplifyAuthAdapter } from '../../amplifyAuthAdapter';
 import { SignInMachineOptions, signInActor } from '../signIn';
 
 const flushPromises = () => new Promise(setImmediate);
@@ -578,7 +579,7 @@ describe('signInActor', () => {
 
     beforeEach(() => {
       confirmSignInSpy = jest
-        .spyOn(AuthModule, 'confirmSignIn')
+        .spyOn(amplifyAuthAdapter, 'confirmSignIn')
         .mockResolvedValue({
           isSignedIn: true,
           nextStep: { signInStep: 'DONE' },

@@ -1,5 +1,4 @@
-import { updatePassword, deleteUser as deleteAuthUser } from 'aws-amplify/auth';
-
+import { amplifyAuthAdapter } from '../../machines/authenticator/amplifyAuthAdapter';
 import { getLogger } from '../utils';
 
 const logger = getLogger('Auth');
@@ -15,8 +14,8 @@ export const changePassword = async ({
 }: ChangePasswordInput): Promise<void> => {
   try {
     logger.debug('calling Auth.updatePassword');
-    await updatePassword({
-      oldPassword: currentPassword,
+    await amplifyAuthAdapter.changePassword({
+      currentPassword,
       newPassword,
     });
     logger.debug('Auth.updatePassword was successful');
@@ -30,7 +29,7 @@ export const changePassword = async ({
 export const deleteUser = async () => {
   try {
     logger.debug('calling Auth.deleteUser');
-    await deleteAuthUser();
+    await amplifyAuthAdapter.deleteUser();
     logger.debug('Auth.deleteUser was successful');
     return Promise.resolve();
   } catch (e) {

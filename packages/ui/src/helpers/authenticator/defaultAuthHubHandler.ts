@@ -1,6 +1,7 @@
-import { AmplifyErrorCode } from '@aws-amplify/core/internals/utils';
-import { Hub } from 'aws-amplify/utils';
-
+import {
+  AMPLIFY_NETWORK_ERROR,
+  amplifyAuthAdapter,
+} from '../../machines/authenticator/amplifyAuthAdapter';
 import { isFunction } from '../../utils';
 
 import type { AuthInterpreter, AuthMachineHubHandler } from './types';
@@ -37,7 +38,7 @@ export const defaultAuthHubHandler: AuthMachineHubHandler = (
       break;
     }
     case 'tokenRefresh_failure': {
-      if (data?.error?.name === AmplifyErrorCode.NetworkError) {
+      if (data?.error?.name === AMPLIFY_NETWORK_ERROR) {
         return;
       }
       send('SIGN_OUT');
@@ -61,7 +62,5 @@ export const listenToAuthHub = (
   service: AuthInterpreter,
   handler: AuthMachineHubHandler = defaultAuthHubHandler
 ) => {
-  const eventHandler: Parameters<typeof Hub.listen>[1] = (data) =>
-    handler(data, service);
-  return Hub.listen('auth', eventHandler, 'authenticator-hub-handler');
+  return amplifyAuthAdapter.subscribeToAuthEvents(service, handler);
 };
