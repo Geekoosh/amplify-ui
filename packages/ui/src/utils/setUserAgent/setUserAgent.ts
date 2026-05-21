@@ -35,6 +35,8 @@ export type ComponentName =
   | 'FileUploader'
   | 'InAppMessaging'
   | 'LocationSearch'
+  | 'ManageMFA'
+  | 'ManagePasskeys'
   | 'MapView'
   | 'StorageBrowser'
   | 'StorageManager'
@@ -82,7 +84,9 @@ export const setUserAgent = ({
       break;
     }
     case 'ChangePassword':
-    case 'DeleteUser': {
+    case 'DeleteUser':
+    case 'ManageMFA':
+    case 'ManagePasskeys': {
       setCustomUserAgent({
         ...ACCOUNT_SETTINGS_INPUT_BASE,
         additionalDetails: [['AccountSettings'], packageData],

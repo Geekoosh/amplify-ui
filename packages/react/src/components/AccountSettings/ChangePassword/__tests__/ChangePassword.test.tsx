@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
 import * as UIModule from '@aws-amplify/ui';
+import { AuthServiceProvider } from '@aws-amplify/ui-react-core';
 
 import ChangePassword from '../ChangePassword';
 import { Button } from '../../../../primitives';
@@ -44,7 +45,7 @@ jest.mock('../../../../internal', () => ({
   }),
 }));
 
-const changePasswordSpy = jest.spyOn(UIModule, 'changePassword');
+const changePasswordSpy = jest.fn();
 jest.spyOn(UIModule, 'getDefaultPasswordValidators').mockReturnValue([
   {
     validationMode: 'onTouched',
@@ -58,13 +59,20 @@ jest.spyOn(UIModule, 'getDefaultPasswordValidators').mockReturnValue([
   },
 ]);
 
+const renderWithAuthService = (ui: React.ReactElement) =>
+  render(
+    <AuthServiceProvider value={{ changePassword: changePasswordSpy }}>
+      {ui}
+    </AuthServiceProvider>
+  );
+
 describe('ChangePassword', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('renders as expected', () => {
-    const { container } = render(<ChangePassword />);
+    const { container } = renderWithAuthService(<ChangePassword />);
     expect(container).toMatchSnapshot();
 
     const changePassword = container.getElementsByClassName(
@@ -74,10 +82,10 @@ describe('ChangePassword', () => {
   });
 
   it('calls changePassword with expected arguments', async () => {
-    changePasswordSpy.mockResolvedValue();
+    changePasswordSpy.mockResolvedValue(undefined);
 
     const onSuccess = jest.fn();
-    render(<ChangePassword onSuccess={onSuccess} />);
+    renderWithAuthService(<ChangePassword onSuccess={onSuccess} />);
 
     const currentPassword = await screen.findByLabelText(
       currentPasswordFieldLabel
@@ -104,10 +112,10 @@ describe('ChangePassword', () => {
   });
 
   it('onSuccess is called after successful sign up', async () => {
-    changePasswordSpy.mockResolvedValue();
+    changePasswordSpy.mockResolvedValue(undefined);
 
     const onSuccess = jest.fn();
-    render(<ChangePassword onSuccess={onSuccess} />);
+    renderWithAuthService(<ChangePassword onSuccess={onSuccess} />);
 
     const submitButton = await screen.findByRole('button', {
       name: updatePasswordButtonText,
@@ -123,7 +131,7 @@ describe('ChangePassword', () => {
     changePasswordSpy.mockRejectedValue(new Error('Mock Error'));
 
     const onError = jest.fn();
-    render(<ChangePassword onError={onError} />);
+    renderWithAuthService(<ChangePassword onError={onError} />);
 
     const submitButton = await screen.findByRole('button', {
       name: updatePasswordButtonText,
@@ -139,7 +147,7 @@ describe('ChangePassword', () => {
     changePasswordSpy.mockRejectedValue(new Error('Mock Error'));
 
     const onError = jest.fn();
-    render(<ChangePassword onError={onError} />);
+    renderWithAuthService(<ChangePassword onError={onError} />);
 
     const submitButton = await screen.findByRole('button', {
       name: updatePasswordButtonText,
@@ -151,7 +159,7 @@ describe('ChangePassword', () => {
   });
 
   it('disables submit button on init', async () => {
-    render(<ChangePassword />);
+    renderWithAuthService(<ChangePassword />);
 
     const submitButton = await screen.findByRole('button', {
       name: updatePasswordButtonText,
@@ -161,7 +169,7 @@ describe('ChangePassword', () => {
   });
 
   it('enables submit button once formValues are valid', async () => {
-    render(<ChangePassword />);
+    renderWithAuthService(<ChangePassword />);
 
     const currentPassword = await screen.findByLabelText(
       currentPasswordFieldLabel
@@ -191,7 +199,7 @@ describe('ChangePassword', () => {
   });
 
   it('displays new password validation error message', async () => {
-    render(<ChangePassword />);
+    renderWithAuthService(<ChangePassword />);
 
     const newPassword = await screen.findByLabelText(newPasswordFieldLabel);
     const submitButton = await screen.findByRole('button', {
@@ -215,7 +223,7 @@ describe('ChangePassword', () => {
   });
 
   it('displays confirm password validation error message', async () => {
-    render(<ChangePassword />);
+    renderWithAuthService(<ChangePassword />);
 
     const newPassword = await screen.findByLabelText(newPasswordFieldLabel);
     const confirmPassword = await screen.findByLabelText(
@@ -257,7 +265,9 @@ describe('ChangePassword', () => {
       validator: (password) => password.includes('*'),
       message: 'Password must have a star',
     };
-    render(<ChangePassword validators={[minLength, hasSpecialChar]} />);
+    renderWithAuthService(
+      <ChangePassword validators={[minLength, hasSpecialChar]} />
+    );
 
     const newPassword = await screen.findByLabelText(newPasswordFieldLabel);
     const submitButton = await screen.findByRole('button', {
@@ -278,7 +288,9 @@ describe('ChangePassword', () => {
   });
 
   it('renders as expected with component overrides', async () => {
-    const { container } = render(<ChangePassword components={components} />);
+    const { container } = renderWithAuthService(
+      <ChangePassword components={components} />
+    );
 
     expect(
       await screen.findByLabelText('Custom Current Password')
@@ -298,10 +310,12 @@ describe('ChangePassword', () => {
   });
 
   it('onSuccess is called with component overrides after successful password change', async () => {
-    changePasswordSpy.mockResolvedValue();
+    changePasswordSpy.mockResolvedValue(undefined);
 
     const onSuccess = jest.fn();
-    render(<ChangePassword components={components} onSuccess={onSuccess} />);
+    renderWithAuthService(
+      <ChangePassword components={components} onSuccess={onSuccess} />
+    );
 
     const submitButton = await screen.findByRole('button', {
       name: 'Custom Submit Button',
@@ -312,9 +326,9 @@ describe('ChangePassword', () => {
   });
 
   it('calls changePassword with expected arguments and component overrides', async () => {
-    changePasswordSpy.mockResolvedValue();
+    changePasswordSpy.mockResolvedValue(undefined);
 
-    render(<ChangePassword components={components} />);
+    renderWithAuthService(<ChangePassword components={components} />);
 
     const currentPassword = await screen.findByLabelText(
       'Custom Current Password'
@@ -351,7 +365,7 @@ describe('ChangePassword', () => {
     const displayTextOverride = {
       newPasswordFieldLabel: newPasswordFieldLabelOverride,
     };
-    const { getByText, queryByText } = render(
+    const { getByText, queryByText } = renderWithAuthService(
       <AccountSettings.ChangePassword displayText={displayTextOverride} />
     );
     expect(getByText(newPasswordFieldLabelOverride)).toBeVisible();

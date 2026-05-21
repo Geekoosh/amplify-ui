@@ -1,10 +1,9 @@
 import React from 'react';
 import isEqual from 'lodash/isEqual.js';
 
-import { useSetUserAgent } from '@aws-amplify/ui-react-core';
+import { useAuthService, useSetUserAgent } from '@aws-amplify/ui-react-core';
 import type { ValidatorOptions } from '@aws-amplify/ui';
 import {
-  changePassword,
   getDefaultConfirmPasswordValidators,
   getDefaultPasswordValidators,
   getLogger,
@@ -54,6 +53,7 @@ function ChangePassword({
   );
   const blurredFields = React.useRef<BlurredFields>([]);
   const { user, isLoading } = useAuth();
+  const { changePassword } = useAuthService();
 
   const isDisabled = getIsDisabled(formValues, validationError);
 

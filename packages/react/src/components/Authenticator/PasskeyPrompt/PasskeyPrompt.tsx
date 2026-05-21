@@ -1,8 +1,4 @@
 import React from 'react';
-import {
-  associateWebAuthnCredential,
-  listWebAuthnCredentials,
-} from 'aws-amplify/auth';
 import type { AuthWebAuthnCredential } from 'aws-amplify/auth';
 import { authenticatorTextUtil } from '@aws-amplify/ui';
 
@@ -11,7 +7,7 @@ import { Flex } from '../../../primitives/Flex';
 import { Heading } from '../../../primitives/Heading';
 import { Text } from '../../../primitives/Text';
 import { View } from '../../../primitives/View';
-import { useAuthenticator } from '@aws-amplify/ui-react-core';
+import { useAuthenticator, useAuthService } from '@aws-amplify/ui-react-core';
 import { IconCheckCircleFill, IconPasskey } from '../../../primitives/Icon';
 import { RemoteErrorMessage } from '../shared/RemoteErrorMessage';
 import type { RouteProps } from '../RouteContainer';
@@ -46,6 +42,8 @@ export function PasskeyPrompt({
     context.submitForm,
     context.isPending,
   ]);
+  const { associateWebAuthnCredential, listWebAuthnCredentials } =
+    useAuthService();
 
   const loadCredentials = React.useCallback(async () => {
     try {
@@ -54,7 +52,7 @@ export function PasskeyPrompt({
     } catch {
       // Silently fail - credentials list is optional
     }
-  }, []);
+  }, [listWebAuthnCredentials]);
 
   React.useEffect(() => {
     if (success) {
@@ -99,7 +97,7 @@ export function PasskeyPrompt({
     } finally {
       setIsRegistering(false);
     }
-  }, [handleSkip]);
+  }, [associateWebAuthnCredential, handleSkip]);
 
   if (success) {
     return (

@@ -9,6 +9,7 @@ import type { AuthUser } from 'aws-amplify/auth';
 
 import type { UseAuthenticator } from '@aws-amplify/ui-react-core';
 import {
+  AuthServiceProvider,
   AuthenticatorProvider as Provider,
   useAuthenticator,
   useAuthenticatorInitMachine,
@@ -144,16 +145,24 @@ export function AuthenticatorInternal({
  * [📖 Docs](https://ui.docs.amplify.aws/react/connected-components/authenticator)
  */
 export function Authenticator(props: AuthenticatorProps): React.JSX.Element {
+  const { services } = props;
+
   useSetUserAgent({
     componentName: 'Authenticator',
     packageName: 'react',
     version: VERSION,
   });
 
-  return (
+  const content = (
     <Provider>
       <AuthenticatorInternal {...props} />
     </Provider>
+  );
+
+  return services ? (
+    <AuthServiceProvider value={services}>{content}</AuthServiceProvider>
+  ) : (
+    content
   );
 }
 

@@ -17,18 +17,23 @@ import {
   confirmSignIn,
   confirmSignUp,
   confirmUserAttribute,
-  deleteUser,
+  deleteUser as deleteAuthUser,
+  deleteWebAuthnCredential,
+  fetchMFAPreference,
   fetchUserAttributes,
   getCurrentUser,
   listWebAuthnCredentials,
   resendSignUpCode,
   resetPassword,
   sendUserAttributeVerificationCode,
+  setUpTOTP,
   signIn,
   signInWithRedirect,
   signOut,
   signUp,
+  updateMFAPreference,
   updatePassword,
+  verifyTOTPSetup,
 } from 'aws-amplify/auth';
 import type { UserAttributeKey } from 'aws-amplify/auth';
 import { ConsoleLogger as Logger, Hub, I18n } from 'aws-amplify/utils';
@@ -141,6 +146,7 @@ export const createAmplifyLogger = (namespace: string) => new Logger(namespace);
 
 export const AMPLIFY_NETWORK_ERROR = AmplifyErrorCode.NetworkError;
 export const amplifyI18n = I18n;
+export { deleteAuthUser, updatePassword };
 
 export const amplifyAuthAdapter: AmplifyAuthAdapter = {
   getAmplifyConfig,
@@ -161,16 +167,21 @@ export const amplifyAuthAdapter: AmplifyAuthAdapter = {
   confirmSignIn,
   confirmSignUp,
   confirmUserAttribute,
-  deleteUser,
+  deleteUser: deleteAuthUser,
+  deleteWebAuthnCredential,
+  fetchMFAPreference,
   fetchUserAttributes,
   listWebAuthnCredentials,
   resendSignUpCode,
   resetPassword,
   sendUserAttributeVerificationCode,
+  setUpTOTP,
   signIn,
   signInWithRedirect,
   signOut,
   signUp,
+  updateMFAPreference,
+  verifyTOTPSetup,
 
   changePassword,
   getPasswordPolicy,

@@ -1,0 +1,138 @@
+import React from 'react';
+
+import { Button, Flex, Text, TextField, View } from '../../../primitives';
+import type { ButtonComponent } from '../types';
+import { DefaultErrorMessage } from '../shared/Defaults';
+import { defaultManageMFADisplayText } from '../utils';
+import type {
+  ManageMFAComponents,
+  PreferenceViewComponent,
+  TotpSetupViewComponent,
+} from './types';
+
+const DefaultSetupButton: ButtonComponent = (props) => (
+  <Button {...props} variation="primary" />
+);
+
+const DefaultVerifyButton: ButtonComponent = (props) => (
+  <Button {...props} variation="primary" />
+);
+
+const DefaultPreferenceButton: ButtonComponent = (props) => (
+  <Button {...props} variation="link" />
+);
+
+const DefaultPreferenceView: PreferenceViewComponent = ({
+  displayText: overrideDisplayText,
+  isDisabled,
+  onUpdatePreference,
+  PreferenceButton,
+  preference,
+}) => {
+  const displayText = {
+    ...defaultManageMFADisplayText,
+    ...overrideDisplayText,
+  };
+  const {
+    disableTotpButtonText,
+    enableTotpButtonText,
+    mfaDisabledText,
+    mfaEnabledText,
+    preferredTotpButtonText,
+  } = displayText;
+  const isTotpEnabled = preference.enabled?.includes('TOTP') ?? false;
+
+  return (
+    <Flex direction="column">
+      <Text>{isTotpEnabled ? mfaEnabledText : mfaDisabledText}</Text>
+      <Flex>
+        <PreferenceButton
+          isDisabled={isDisabled}
+          onClick={() => onUpdatePreference('ENABLED')}
+        >
+          {enableTotpButtonText}
+        </PreferenceButton>
+        <PreferenceButton
+          isDisabled={isDisabled || !isTotpEnabled}
+          onClick={() => onUpdatePreference('PREFERRED')}
+        >
+          {preferredTotpButtonText}
+        </PreferenceButton>
+        <PreferenceButton
+          isDisabled={isDisabled || !isTotpEnabled}
+          onClick={() => onUpdatePreference('DISABLED')}
+          variation="destructive"
+        >
+          {disableTotpButtonText}
+        </PreferenceButton>
+      </Flex>
+    </Flex>
+  );
+};
+
+const DefaultTotpSetupView: TotpSetupViewComponent = ({
+  code,
+  displayText: overrideDisplayText,
+  isDisabled,
+  onChange,
+  onVerify,
+  qrCode,
+  setupDetails,
+  VerifyButton,
+}) => {
+  const displayText = {
+    ...defaultManageMFADisplayText,
+    ...overrideDisplayText,
+  };
+  const {
+    loadingText,
+    setupTotpDescriptionText,
+    totpCodeFieldLabel,
+    totpQRCodeAltText,
+    verifyTotpButtonText,
+  } = displayText;
+
+  return (
+    <Flex direction="column">
+      <Text>{setupTotpDescriptionText}</Text>
+      {qrCode ? (
+        <img
+          alt={totpQRCodeAltText}
+          data-amplify-accountsettings-mfa-qrcode
+          height="228"
+          src={qrCode}
+          width="228"
+        />
+      ) : (
+        <Text>{loadingText}</Text>
+      )}
+      <View data-amplify-accountsettings-mfa-shared-secret>
+        {setupDetails.sharedSecret}
+      </View>
+      <TextField
+        label={totpCodeFieldLabel}
+        name="totpCode"
+        onChange={onChange}
+        value={code}
+      />
+      <VerifyButton
+        isDisabled={isDisabled || code.length === 0}
+        isLoading={isDisabled}
+        onClick={onVerify}
+      >
+        {verifyTotpButtonText}
+      </VerifyButton>
+    </Flex>
+  );
+};
+
+const DEFAULTS: Required<ManageMFAComponents> = {
+  ErrorMessage: DefaultErrorMessage,
+  PreferenceButton: DefaultPreferenceButton,
+  PreferenceView: DefaultPreferenceView,
+  SetupButton: DefaultSetupButton,
+  TotpSetupView: DefaultTotpSetupView,
+  VerifyButton: DefaultVerifyButton,
+};
+
+export default DEFAULTS;

@@ -35,3 +35,55 @@ export const defaultDeleteUserDisplayText: DeleteUserDisplayTextDefault = {
   warningText:
     'Deleting your account is not reversible. You will lose access to your account and all data associated with it.',
 };
+
+// ManagePasskeys
+export type ManagePasskeysDisplayText = DisplayTextTemplate<{
+  deletePasskeyButtonText?: string;
+  loadingText?: string;
+  noPasskeysText?: string;
+  passkeyLabelText?: string;
+  registerPasskeyButtonText?: string;
+}>;
+
+type ManagePasskeysDisplayTextDefault = Required<ManagePasskeysDisplayText>;
+
+export const defaultManagePasskeysDisplayText: ManagePasskeysDisplayTextDefault =
+  {
+    deletePasskeyButtonText: 'Delete',
+    loadingText: 'Loading passkeys',
+    noPasskeysText: 'No passkeys registered.',
+    passkeyLabelText: 'Passkey',
+    registerPasskeyButtonText: 'Register passkey',
+  };
+
+// ManageMFA
+export type ManageMFADisplayText = DisplayTextTemplate<{
+  disableTotpButtonText?: string;
+  enableTotpButtonText?: string;
+  loadingText?: string;
+  mfaDisabledText?: string;
+  mfaEnabledText?: string;
+  preferredTotpButtonText?: string;
+  setupTotpButtonText?: string;
+  setupTotpDescriptionText?: string;
+  totpCodeFieldLabel?: string;
+  totpQRCodeAltText?: string;
+  verifyTotpButtonText?: string;
+}>;
+
+type ManageMFADisplayTextDefault = Required<ManageMFADisplayText>;
+
+export const defaultManageMFADisplayText: ManageMFADisplayTextDefault = {
+  disableTotpButtonText: 'Disable TOTP',
+  enableTotpButtonText: 'Enable TOTP',
+  loadingText: 'Loading MFA settings',
+  mfaDisabledText: 'TOTP is not enabled.',
+  mfaEnabledText: 'TOTP is enabled.',
+  preferredTotpButtonText: 'Set TOTP as preferred',
+  setupTotpButtonText: 'Set up TOTP',
+  setupTotpDescriptionText:
+    'Scan the QR code with an authenticator app, then enter the generated code.',
+  totpCodeFieldLabel: 'Verification code',
+  totpQRCodeAltText: 'TOTP setup QR code',
+  verifyTotpButtonText: 'Verify TOTP',
+};
