@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Button, Flex, Text, TextField, View } from '../../../primitives';
+import { Button, Flex, Text, TextField } from '../../../primitives';
+import { TotpSetupDisplay } from '../../shared';
 import type { ButtonComponent } from '../types';
 import { DefaultErrorMessage } from '../shared/Defaults';
 import { defaultManageMFADisplayText } from '../utils';
@@ -95,20 +96,14 @@ const DefaultTotpSetupView: TotpSetupViewComponent = ({
   return (
     <Flex direction="column">
       <Text>{setupTotpDescriptionText}</Text>
-      {qrCode ? (
-        <img
-          alt={totpQRCodeAltText}
-          data-amplify-accountsettings-mfa-qrcode
-          height="228"
-          src={qrCode}
-          width="228"
-        />
-      ) : (
-        <Text>{loadingText}</Text>
-      )}
-      <View data-amplify-accountsettings-mfa-shared-secret>
-        {setupDetails.sharedSecret}
-      </View>
+      <TotpSetupDisplay
+        loadingText={loadingText}
+        qrCode={qrCode}
+        qrCodeAltText={totpQRCodeAltText}
+        qrCodeDataAttr="data-amplify-accountsettings-mfa-qrcode"
+        secretCode={setupDetails.sharedSecret}
+        secretDataAttr="data-amplify-accountsettings-mfa-shared-secret"
+      />
       <TextField
         label={totpCodeFieldLabel}
         name="totpCode"

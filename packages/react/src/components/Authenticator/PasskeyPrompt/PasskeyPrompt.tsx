@@ -9,6 +9,7 @@ import { Text } from '../../../primitives/Text';
 import { View } from '../../../primitives/View';
 import { useAuthenticator, useAuthService } from '@aws-amplify/ui-react-core';
 import { IconCheckCircleFill, IconPasskey } from '../../../primitives/Icon';
+import { PasskeyList } from '../../shared';
 import { RemoteErrorMessage } from '../shared/RemoteErrorMessage';
 import type { RouteProps } from '../RouteContainer';
 import { RouteContainer } from '../RouteContainer';
@@ -115,19 +116,14 @@ export function PasskeyPrompt({
           {credentials.length > 0 && (
             <View marginTop="large">
               <Heading level={5}>{getExistingPasskeysText()}</Heading>
-              <Flex direction="column" gap="xs" marginTop="xs">
-                {credentials.map((cred, index) => (
-                  <View
-                    key={cred.credentialId}
-                    className="amplify-authenticator__passkey-credential-item"
-                  >
-                    <Text fontSize="small">
-                      {cred.friendlyCredentialName ??
-                        `${getPasskeyLabelText()} ${index + 1}`}
-                    </Text>
-                  </View>
-                ))}
-              </Flex>
+              <View marginTop="xs">
+                <PasskeyList
+                  credentials={credentials}
+                  itemClassName="amplify-authenticator__passkey-credential-item"
+                  passkeyLabelText={getPasskeyLabelText()}
+                  textProps={{ fontSize: 'small' }}
+                />
+              </View>
             </View>
           )}
           <Flex direction="column" gap="medium" marginTop="large">

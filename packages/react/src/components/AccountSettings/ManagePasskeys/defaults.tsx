@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Button, Flex, Text, View } from '../../../primitives';
+import { Button, Text } from '../../../primitives';
+import { PasskeyList } from '../../shared';
 import type { ButtonComponent } from '../types';
 import { DefaultErrorMessage } from '../shared/Defaults';
 import { defaultManagePasskeysDisplayText } from '../utils';
@@ -34,37 +35,27 @@ const DefaultPasskeyList: PasskeyListComponent = ({
   }
 
   return (
-    <Flex direction="column">
-      {credentials.map((credential, index) => {
+    <PasskeyList
+      credentials={credentials}
+      passkeyLabelText={passkeyLabelText}
+      renderAction={(credential) => {
         const { credentialId } = credential;
 
         return (
-          <Flex
-            alignItems="center"
-            justifyContent="space-between"
-            key={credentialId ?? index}
+          <DeleteButton
+            isDisabled={isDisabled || !credentialId}
+            isLoading={deletingCredentialId === credentialId}
+            onClick={() => {
+              if (credentialId) {
+                onDelete(credentialId);
+              }
+            }}
           >
-            <View>
-              <Text>
-                {credential.friendlyCredentialName ??
-                  `${passkeyLabelText} ${index + 1}`}
-              </Text>
-            </View>
-            <DeleteButton
-              isDisabled={isDisabled || !credentialId}
-              isLoading={deletingCredentialId === credentialId}
-              onClick={() => {
-                if (credentialId) {
-                  onDelete(credentialId);
-                }
-              }}
-            >
-              {deletePasskeyButtonText}
-            </DeleteButton>
-          </Flex>
+            {deletePasskeyButtonText}
+          </DeleteButton>
         );
-      })}
-    </Flex>
+      }}
+    />
   );
 };
 
