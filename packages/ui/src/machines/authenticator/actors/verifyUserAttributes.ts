@@ -6,12 +6,19 @@ import type {
 
 import { runValidators } from '../../../validators';
 
-import type { AuthEvent, VerifyUserContext } from '../types';
+import type { AuthContext, AuthEvent, VerifyUserContext } from '../types';
 import actions from '../actions';
-import { amplifyAuthAdapter } from '../amplifyAuthAdapter';
 import { defaultServices } from '../defaultServices';
 
-export function verifyUserAttributesActor() {
+export type VerifyUserAttributesMachineOptions = {
+  services?: AuthContext['services'];
+};
+
+export function verifyUserAttributesActor({
+  services,
+}: VerifyUserAttributesMachineOptions = {}) {
+  const actorServices = { ...defaultServices, ...services };
+
   return createMachine<VerifyUserContext, AuthEvent>(
     {
       id: 'verifyUserAttributesActor',
@@ -95,7 +102,7 @@ export function verifyUserAttributesActor() {
             userAttributeKey:
               unverifiedAttr as SendUserAttributeVerificationCodeInput['userAttributeKey'],
           };
-          return amplifyAuthAdapter.sendUserAttributeVerificationCode(input);
+          return actorServices.sendUserAttributeVerificationCode(input);
         },
         async confirmVerifyUserAttribute({
           formValues: { confirmation_code: confirmationCode },
@@ -106,7 +113,7 @@ export function verifyUserAttributesActor() {
             userAttributeKey:
               selectedUserAttribute as ConfirmUserAttributeInput['userAttributeKey'],
           };
-          return amplifyAuthAdapter.confirmUserAttribute(input);
+          return actorServices.confirmUserAttribute(input);
         },
         async validateFields(context) {
           return runValidators(

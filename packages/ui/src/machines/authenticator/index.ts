@@ -29,6 +29,7 @@ import { defaultServices } from './defaultServices';
 import { getAvailableAuthMethods } from './utils';
 
 export type { AmplifyConfigFacade, AuthServices } from './authServices';
+export { defaultServices } from './defaultServices';
 
 export type AuthenticatorMachineOptions = AuthContext['config'] & {
   services?: AuthContext['services'];
@@ -404,7 +405,8 @@ export function createAuthenticatorMachine(
         }),
         spawnVerifyUserAttributesActor: assign({
           actorRef: (context) => {
-            const actor = verifyUserAttributesActor().withContext(
+            const { services } = context;
+            const actor = verifyUserAttributesActor({ services }).withContext(
               getActorContext(context)
             );
             return spawn(actor, { name: 'verifyUserAttributesActor' });
@@ -412,7 +414,10 @@ export function createAuthenticatorMachine(
         }),
         spawnSignOutActor: assign({
           actorRef: (context) => {
-            const actor = signOutActor().withContext({ user: context?.user });
+            const { services } = context;
+            const actor = signOutActor({ services }).withContext({
+              user: context?.user,
+            });
             return spawn(actor, { name: 'signOutActor' });
           },
         }),

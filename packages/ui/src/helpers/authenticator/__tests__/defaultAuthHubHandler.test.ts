@@ -1,10 +1,10 @@
 import { AmplifyErrorCode } from '@aws-amplify/core/internals/utils';
-import { Hub } from 'aws-amplify/utils';
 import {
   defaultAuthHubHandler,
   listenToAuthHub,
 } from '../defaultAuthHubHandler';
 import { AuthInterpreter } from '../types';
+import { amplifyAuthAdapter } from '../../../machines/authenticator/amplifyAuthAdapter';
 
 const MockNetworkError = { name: AmplifyErrorCode.NetworkError };
 const onSignIn = jest.fn();
@@ -77,33 +77,17 @@ describe('defaultAuthHubHandler', () => {
 });
 
 describe('listenToAuthHub', () => {
-  it('creates a Hub listener', () => {
-    // add empty mockImplementation to prevent logging "auth channel" warning output to the console
-    jest.spyOn(console, 'warn').mockImplementation();
-
-    const hubListenSpy = jest.spyOn(Hub, 'listen');
+  it('subscribes through the auth adapter', () => {
+    const unsubscribe = jest.fn();
+    const subscribeToAuthEventsSpy = jest
+      .spyOn(amplifyAuthAdapter, 'subscribeToAuthEvents')
+      .mockReturnValue(unsubscribe);
     const handler = jest.fn();
 
-    listenToAuthHub(service, handler);
+    const result = listenToAuthHub(service, handler);
 
-    expect(hubListenSpy).toHaveBeenCalledTimes(1);
-    expect(hubListenSpy).toHaveBeenCalledWith(
-      'auth',
-      expect.any(Function),
-      'authenticator-hub-handler'
-    );
-
-    Hub.dispatch('auth', { event: 'signedIn' }, 'authenticator-hub-handler');
-
-    expect(handler).toHaveBeenCalledTimes(1);
-    expect(handler).toHaveBeenCalledWith(
-      {
-        channel: 'auth',
-        patternInfo: [],
-        payload: { event: 'signedIn' },
-        source: 'authenticator-hub-handler',
-      },
-      { send: expect.any(Function) }
-    );
+    expect(subscribeToAuthEventsSpy).toHaveBeenCalledTimes(1);
+    expect(subscribeToAuthEventsSpy).toHaveBeenCalledWith(service, handler);
+    expect(result).toBe(unsubscribe);
   });
 });

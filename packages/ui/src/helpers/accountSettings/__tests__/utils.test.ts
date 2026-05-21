@@ -12,7 +12,7 @@ describe('changePassword', () => {
   const newPassword = 'newpassword';
 
   it('should resolve if Auth.updatePassword is successful', async () => {
-    changePasswordSpy.mockResolvedValue();
+    changePasswordSpy.mockResolvedValue(undefined);
 
     await expect(
       changePassword({ currentPassword, newPassword })

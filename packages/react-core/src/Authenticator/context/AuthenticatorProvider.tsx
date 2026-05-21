@@ -2,12 +2,11 @@ import type { ReactNode } from 'react';
 import React, { useContext, useEffect, useMemo } from 'react';
 import { useInterpret } from '@xstate/react';
 
-import { getCurrentUser } from 'aws-amplify/auth';
 import type { AuthStatus, AuthMachineHubHandler } from '@aws-amplify/ui';
 import {
   createAuthenticatorMachine,
   defaultAuthHubHandler,
-  listenToAuthHub,
+  defaultServices,
 } from '@aws-amplify/ui';
 
 import { AuthenticatorContext } from './AuthenticatorContext';
@@ -33,7 +32,8 @@ export default function AuthenticatorProvider({
 
   // only run on first render
   React.useEffect(() => {
-    getCurrentUser()
+    defaultServices
+      .getCurrentUser()
       .then(() => {
         setAuthStatus('authenticated');
       })
@@ -67,7 +67,7 @@ export default function AuthenticatorProvider({
       setAuthStatus('unauthenticated');
     };
 
-    const unsubscribe = listenToAuthHub(
+    const unsubscribe = defaultServices.subscribeToAuthEvents(
       activeService,
       createHubHandler({ onSignIn, onSignOut })
     );

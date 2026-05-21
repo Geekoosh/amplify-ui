@@ -8,7 +8,7 @@ import { getSignUpInput } from '../utils';
 import { runValidators } from '../../../validators';
 
 import actions from '../actions';
-import { amplifyAuthAdapter } from '../amplifyAuthAdapter';
+import { defaultServices } from '../defaultServices';
 import guards from '../guards';
 
 import { getFederatedSignInState } from './utils';
@@ -63,7 +63,9 @@ const handleAutoSignInResponse = {
   },
 };
 
-export function signUpActor({ services }: SignUpMachineOptions) {
+export function signUpActor({ services }: SignUpMachineOptions = {}) {
+  const actorServices = { ...defaultServices, ...services };
+
   return createMachine<SignUpContext, AuthEvent>(
     {
       id: 'signUpActor',
@@ -104,8 +106,7 @@ export function signUpActor({ services }: SignUpMachineOptions) {
           invoke: {
             src: async () => {
               try {
-                const result =
-                  await amplifyAuthAdapter.listWebAuthnCredentials();
+                const result = await actorServices.listWebAuthnCredentials();
                 return result.credentials && result.credentials.length > 0;
               } catch {
                 return false;
@@ -333,21 +334,21 @@ export function signUpActor({ services }: SignUpMachineOptions) {
       guards,
       services: {
         autoSignIn() {
-          return amplifyAuthAdapter.autoSignIn();
+          return actorServices.autoSignIn();
         },
         async fetchUserAttributes() {
-          return amplifyAuthAdapter.fetchUserAttributes();
+          return actorServices.fetchUserAttributes();
         },
         confirmSignUp({ formValues, username }) {
           const { confirmation_code: confirmationCode } = formValues;
           const input: ConfirmSignUpInput = { username, confirmationCode };
-          return services.handleConfirmSignUp(input);
+          return actorServices.handleConfirmSignUp(input);
         },
         resendSignUpCode({ username }) {
-          return services.handleResendSignUpCode({ username });
+          return actorServices.handleResendSignUpCode({ username });
         },
         signInWithRedirect(_, { data }) {
-          return amplifyAuthAdapter.signInWithRedirect(data);
+          return actorServices.signInWithRedirect(data);
         },
         handleSignUp(context) {
           const {
@@ -366,7 +367,7 @@ export function signUpActor({ services }: SignUpMachineOptions) {
             authMethod
           );
 
-          return services.handleSignUp(input);
+          return actorServices.handleSignUp(input);
         },
         async validateSignUp(context) {
           // This needs to exist in the machine to reference new `services`
@@ -377,14 +378,14 @@ export function signUpActor({ services }: SignUpMachineOptions) {
             context.passwordSettings,
             [
               // Validation of password
-              services.validateFormPassword,
+              actorServices.validateFormPassword,
               // Validation for default form fields
-              services.validateConfirmPassword,
-              services.validatePreferredUsername,
+              actorServices.validateConfirmPassword,
+              actorServices.validatePreferredUsername,
               // Validation for required fields based on auth method
-              services.validateRequiredFieldsForAuthMethod,
+              actorServices.validateRequiredFieldsForAuthMethod,
               // Validation for any custom Sign Up fields
-              services.validateCustomSignUp,
+              actorServices.validateCustomSignUp,
             ]
           );
         },
