@@ -3,7 +3,6 @@ import { setImmediate } from 'timers';
 
 import * as AuthModule from 'aws-amplify/auth';
 
-import { amplifyAuthAdapter } from '../../amplifyAuthAdapter';
 import { SignInMachineOptions, signInActor } from '../signIn';
 
 const flushPromises = () => new Promise(setImmediate);
@@ -21,6 +20,10 @@ const mockHandleConfirmSignIn = jest.fn(
 ) as unknown as (
   input: AuthModule.ConfirmSignInInput
 ) => Promise<AuthModule.ConfirmSignInOutput>;
+const mockHandleConfirmSignInWithAttributes = jest.fn<
+  Promise<AuthModule.ConfirmSignInOutput>,
+  [AuthModule.ConfirmSignInInput]
+>();
 const mockUsername = 'test';
 const mockPassword = 'test';
 const mockUserId = '1234';
@@ -31,6 +34,7 @@ const signInMachineProps: SignInMachineOptions = {
   services: {
     handleSignIn: mockHandleSignIn,
     handleConfirmSignIn: mockHandleConfirmSignIn,
+    handleConfirmSignInWithAttributes: mockHandleConfirmSignInWithAttributes,
   },
 };
 
@@ -574,24 +578,17 @@ describe('signInActor', () => {
   });
 
   describe('handleForceChangePassword service', () => {
-    let confirmSignInSpy: jest.SpyInstance;
     let testService: any;
 
     beforeEach(() => {
-      confirmSignInSpy = jest
-        .spyOn(amplifyAuthAdapter, 'confirmSignIn')
-        .mockResolvedValue({
-          isSignedIn: true,
-          nextStep: { signInStep: 'DONE' },
-        } as any);
+      mockHandleConfirmSignInWithAttributes.mockResolvedValue({
+        isSignedIn: true,
+        nextStep: { signInStep: 'DONE' },
+      } as any);
 
       // Initialize a dummy service to prevent afterEach errors
       testService = { stop: jest.fn() };
       service = testService;
-    });
-
-    afterEach(() => {
-      confirmSignInSpy.mockRestore();
     });
 
     it('should exclude username from userAttributes when calling confirmSignIn', async () => {
@@ -613,7 +610,7 @@ describe('signInActor', () => {
 
       await handleForceChangePassword(context, {} as any);
 
-      expect(confirmSignInSpy).toHaveBeenCalledWith({
+      expect(mockHandleConfirmSignInWithAttributes).toHaveBeenCalledWith({
         challengeResponse: 'newPassword123!',
         options: {
           userAttributes: {
@@ -624,7 +621,7 @@ describe('signInActor', () => {
       });
 
       // Verify username and confirm_password are NOT in userAttributes
-      const callArgs = confirmSignInSpy.mock.calls[0][0];
+      const callArgs = mockHandleConfirmSignInWithAttributes.mock.calls[0][0];
       expect(callArgs.options.userAttributes).not.toHaveProperty('username');
       expect(callArgs.options.userAttributes).not.toHaveProperty(
         'confirm_password'
@@ -650,7 +647,7 @@ describe('signInActor', () => {
 
       await handleForceChangePassword(context, {} as any);
 
-      expect(confirmSignInSpy).toHaveBeenCalledWith({
+      expect(mockHandleConfirmSignInWithAttributes).toHaveBeenCalledWith({
         challengeResponse: 'newPassword123!',
         options: {
           userAttributes: {
@@ -661,7 +658,7 @@ describe('signInActor', () => {
       });
 
       // Verify username, confirm_password, and country_code are NOT in userAttributes
-      const callArgs = confirmSignInSpy.mock.calls[0][0];
+      const callArgs = mockHandleConfirmSignInWithAttributes.mock.calls[0][0];
       expect(callArgs.options.userAttributes).not.toHaveProperty('username');
       expect(callArgs.options.userAttributes).not.toHaveProperty(
         'confirm_password'
@@ -687,7 +684,7 @@ describe('signInActor', () => {
 
       await handleForceChangePassword(context, {} as any);
 
-      expect(confirmSignInSpy).toHaveBeenCalledWith({
+      expect(mockHandleConfirmSignInWithAttributes).toHaveBeenCalledWith({
         challengeResponse: 'newPassword123!',
         options: {
           userAttributes: {},

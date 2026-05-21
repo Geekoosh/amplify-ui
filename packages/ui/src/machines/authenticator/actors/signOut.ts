@@ -1,9 +1,15 @@
 import { createMachine } from 'xstate';
 
-import type { AuthEvent, SignOutContext } from '../types';
-import { amplifyAuthAdapter } from '../amplifyAuthAdapter';
+import { defaultServices } from '../defaultServices';
+import type { AuthContext, AuthEvent, SignOutContext } from '../types';
 
-export const signOutActor = () => {
+export type SignOutMachineOptions = {
+  services?: AuthContext['services'];
+};
+
+export const signOutActor = ({ services }: SignOutMachineOptions = {}) => {
+  const actorServices = { ...defaultServices, ...services };
+
   return createMachine<SignOutContext, AuthEvent>(
     {
       initial: 'pending',
@@ -24,7 +30,7 @@ export const signOutActor = () => {
     },
     {
       services: {
-        signOut: () => amplifyAuthAdapter.signOut(),
+        signOut: () => actorServices.handleSignOut(),
       },
     }
   );

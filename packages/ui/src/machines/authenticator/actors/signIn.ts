@@ -3,7 +3,6 @@ import type { ConfirmSignInInput } from 'aws-amplify/auth';
 
 import { runValidators } from '../../../validators';
 import actions from '../actions';
-import { amplifyAuthAdapter } from '../amplifyAuthAdapter';
 import { defaultServices } from '../defaultServices';
 import guards from '../guards';
 
@@ -96,7 +95,9 @@ const getDefaultConfirmSignInState = (exit: string[]) => ({
   },
 });
 
-export function signInActor({ services }: SignInMachineOptions) {
+export function signInActor({ services }: SignInMachineOptions = {}) {
+  const actorServices = { ...defaultServices, ...services };
+
   return createMachine<SignInContext, AuthEvent>(
     {
       id: 'signInActor',
@@ -155,8 +156,7 @@ export function signInActor({ services }: SignInMachineOptions) {
           invoke: {
             src: async () => {
               try {
-                const result =
-                  await amplifyAuthAdapter.listWebAuthnCredentials();
+                const result = await actorServices.listWebAuthnCredentials();
                 return result.credentials && result.credentials.length > 0;
               } catch {
                 return false;
@@ -414,13 +414,13 @@ export function signInActor({ services }: SignInMachineOptions) {
       guards,
       services: {
         async fetchUserAttributes() {
-          return amplifyAuthAdapter.fetchUserAttributes();
+          return actorServices.fetchUserAttributes();
         },
         resetPassword({ username }) {
-          return amplifyAuthAdapter.resetPassword({ username });
+          return actorServices.resetPassword({ username });
         },
         handleResendSignUpCode({ username }) {
-          return services.handleResendSignUpCode({ username });
+          return actorServices.handleResendSignUpCode({ username });
         },
         resendSignInCode({
           username,
@@ -435,7 +435,7 @@ export function signInActor({ services }: SignInMachineOptions) {
             availableAuthMethods?.[0] ??
             'PASSWORD';
 
-          return services.handleSignIn({
+          return actorServices.handleSignIn({
             username,
             options: {
               authFlowType: 'USER_AUTH',
@@ -460,10 +460,10 @@ export function signInActor({ services }: SignInMachineOptions) {
           if (method === 'PASSWORD') {
             // Traditional password flow
             const { password } = formValues;
-            return services.handleSignIn({ username, password });
+            return actorServices.handleSignIn({ username, password });
           } else {
             // Passwordless flow using USER_AUTH
-            return services.handleSignIn({
+            return actorServices.handleSignIn({
               username,
               options: {
                 authFlowType: 'USER_AUTH',
@@ -475,7 +475,7 @@ export function signInActor({ services }: SignInMachineOptions) {
         confirmSignIn({ formValues, step }) {
           const formValuesKey = getConfirmSignInFormValuesKey(step);
           const { [formValuesKey]: challengeResponse } = formValues;
-          return services.handleConfirmSignIn({ challengeResponse });
+          return actorServices.handleConfirmSignIn({ challengeResponse });
         },
         async handleForceChangePassword({ formValues }) {
           let {
@@ -504,10 +504,10 @@ export function signInActor({ services }: SignInMachineOptions) {
             options: { userAttributes },
           };
 
-          return amplifyAuthAdapter.confirmSignIn(input);
+          return actorServices.handleConfirmSignInWithAttributes(input);
         },
         signInWithRedirect(_, { data }) {
-          return amplifyAuthAdapter.signInWithRedirect(data);
+          return actorServices.signInWithRedirect(data);
         },
         async validateFields(context) {
           return runValidators(

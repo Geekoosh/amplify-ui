@@ -1,7 +1,5 @@
 import React from 'react';
 import { act, render, waitFor } from '@testing-library/react';
-import { Hub } from 'aws-amplify/utils';
-import * as Auth from 'aws-amplify/auth';
 import * as UIModule from '@aws-amplify/ui';
 
 import { useAuthenticator } from '../..';
@@ -10,11 +8,13 @@ import { AuthenticatorProvider } from '..';
 // mock `aws-amplify` to prevent logging auth errors during test runs
 jest.mock('aws-amplify');
 
-const hubListenSpy = jest.spyOn(Hub, 'listen');
-const listenToAuthHubSpy = jest.spyOn(UIModule, 'listenToAuthHub');
 const getCurrentUserSpy = jest
-  .spyOn(Auth, 'getCurrentUser')
+  .spyOn(UIModule.defaultServices, 'getCurrentUser')
   .mockResolvedValue({ userId: '1234', username: 'test' });
+const subscribeToAuthEventsSpy = jest.spyOn(
+  UIModule.defaultServices,
+  'subscribeToAuthEvents'
+);
 
 function TestComponent(): React.JSX.Element | null {
   const { authStatus } = useAuthenticator();
@@ -24,6 +24,8 @@ function TestComponent(): React.JSX.Element | null {
 describe('AuthenticatorProvider', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    getCurrentUserSpy.mockResolvedValue({ userId: '1234', username: 'test' });
+    subscribeToAuthEventsSpy.mockReturnValue(jest.fn());
   });
 
   it('listens to Auth Hub events on init', async () => {
@@ -34,18 +36,71 @@ describe('AuthenticatorProvider', () => {
     );
 
     await waitFor(() => {
-      expect(hubListenSpy).toHaveBeenCalledTimes(1);
-      expect(hubListenSpy).toHaveBeenCalledWith(
-        'auth',
-        expect.any(Function),
-        'authenticator-hub-handler'
+      expect(subscribeToAuthEventsSpy).toHaveBeenCalledTimes(1);
+      expect(subscribeToAuthEventsSpy).toHaveBeenCalledWith(
+        expect.any(Object),
+        expect.any(Function)
       );
     });
   });
 
+  it('updates auth status from subscribed auth events', async () => {
+    let handler!: UIModule.AuthMachineHubHandler;
+    subscribeToAuthEventsSpy.mockImplementation(
+      (_activeService, hubHandler) => {
+        handler = hubHandler;
+        return jest.fn();
+      }
+    );
+
+    const { getByText } = render(
+      <AuthenticatorProvider>
+        <TestComponent />
+      </AuthenticatorProvider>
+    );
+
+    await waitFor(() => {
+      expect(subscribeToAuthEventsSpy).toHaveBeenCalledTimes(1);
+    });
+
+    const send = jest.fn();
+    const eventService = {
+      send,
+    } as unknown as Parameters<UIModule.AuthMachineHubHandler>[1];
+
+    act(() => {
+      handler(
+        { channel: 'auth', payload: { event: 'signedIn' } },
+        eventService
+      );
+    });
+    expect(getByText('authenticated')).toBeDefined();
+
+    act(() => {
+      handler(
+        { channel: 'auth', payload: { event: 'signedOut' } },
+        eventService
+      );
+    });
+    expect(getByText('unauthenticated')).toBeDefined();
+    expect(send).toHaveBeenCalledWith('SIGN_OUT');
+
+    send.mockClear();
+    act(() => {
+      handler(
+        {
+          channel: 'auth',
+          payload: { event: 'tokenRefresh_failure', data: { error: {} } },
+        },
+        eventService
+      );
+    });
+    expect(send).toHaveBeenCalledWith('SIGN_OUT');
+  });
+
   it('unsubscribes from listening on unmount', async () => {
     const unsubscribe = jest.fn();
-    listenToAuthHubSpy.mockReturnValue(unsubscribe);
+    subscribeToAuthEventsSpy.mockReturnValue(unsubscribe);
     const { unmount } = render(
       <AuthenticatorProvider>
         <TestComponent />

@@ -45,9 +45,9 @@ import type {
   ChangePasswordInput,
 } from './authServices';
 
-type UserAttributes = ResourcesConfig['Auth']['Cognito']['userAttributes'];
-type InvalidUserAttributes =
-  ResourcesConfig['Auth']['Cognito']['userAttributes'][];
+type CognitoConfig = NonNullable<ResourcesConfig['Auth']>['Cognito'];
+type UserAttributes = CognitoConfig['userAttributes'];
+type InvalidUserAttributes = CognitoConfig['userAttributes'][];
 
 const isInvalidUserAtributes = (
   userAttributes: UserAttributes | InvalidUserAttributes
@@ -142,16 +142,18 @@ export const createAmplifyLogger = (namespace: string) => new Logger(namespace);
 export const AMPLIFY_NETWORK_ERROR = AmplifyErrorCode.NetworkError;
 export const amplifyI18n = I18n;
 
-export const amplifyAuthAdapter = {
+export const amplifyAuthAdapter: AmplifyAuthAdapter = {
   getAmplifyConfig,
   getCurrentUser,
   handleSignIn: signIn,
   handleSignUp: signUp,
   handleConfirmSignIn: confirmSignIn,
+  handleConfirmSignInWithAttributes: confirmSignIn,
   handleConfirmSignUp: confirmSignUp,
   handleForgotPasswordSubmit: confirmResetPassword,
   handleForgotPassword: resetPassword,
   handleResendSignUpCode: resendSignUpCode,
+  handleSignOut: signOut,
 
   autoSignIn,
   associateWebAuthnCredential,
@@ -177,4 +179,4 @@ export const amplifyAuthAdapter = {
       handler(data, service);
     return Hub.listen('auth', eventHandler, 'authenticator-hub-handler');
   },
-} satisfies AmplifyAuthAdapter;
+};

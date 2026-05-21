@@ -12,7 +12,7 @@ import type { AuthServices } from './authServices';
 // Cognito does not allow a password length less then 8 characters
 const DEFAULT_COGNITO_PASSWORD_MIN_LENGTH = 8;
 
-export const defaultServices = {
+export const defaultServices: AuthServices = {
   ...amplifyAuthAdapter,
 
   // Validation hooks for overriding
@@ -130,4 +130,4 @@ export const defaultServices = {
 
     return null;
   },
-} satisfies AuthServices;
+};

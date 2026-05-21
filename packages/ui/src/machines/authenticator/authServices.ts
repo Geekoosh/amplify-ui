@@ -17,6 +17,7 @@ import type {
 
 import type { PasswordlessCapabilities } from './types';
 
+type CognitoConfig = NonNullable<ResourcesConfig['Auth']>['Cognito'];
 type SendUserAttributeVerificationCode =
   typeof AmplifyAuth.sendUserAttributeVerificationCode;
 
@@ -25,9 +26,7 @@ type SendUserAttributeVerificationCode =
  * authenticator machine. This facade keeps machine code independent from
  * Amplify's raw config shape while preserving the fields the UI already uses.
  */
-export type AmplifyConfigFacade = Partial<
-  ResourcesConfig['Auth']['Cognito']
-> & {
+export type AmplifyConfigFacade = Partial<CognitoConfig> & {
   loginMechanisms?: LoginMechanism[];
   signUpAttributes?: UserAttributeKey[];
   socialProviders?: SocialProvider[];
@@ -53,10 +52,12 @@ export interface AuthServices {
   handleSignIn: typeof AmplifyAuth.signIn;
   handleSignUp: typeof AmplifyAuth.signUp;
   handleConfirmSignIn: typeof AmplifyAuth.confirmSignIn;
+  handleConfirmSignInWithAttributes: typeof AmplifyAuth.confirmSignIn;
   handleConfirmSignUp: typeof AmplifyAuth.confirmSignUp;
   handleForgotPasswordSubmit: typeof AmplifyAuth.confirmResetPassword;
   handleForgotPassword: typeof AmplifyAuth.resetPassword;
   handleResendSignUpCode: typeof AmplifyAuth.resendSignUpCode;
+  handleSignOut: typeof AmplifyAuth.signOut;
 
   autoSignIn: typeof AmplifyAuth.autoSignIn;
   associateWebAuthnCredential: typeof AmplifyAuth.associateWebAuthnCredential;
