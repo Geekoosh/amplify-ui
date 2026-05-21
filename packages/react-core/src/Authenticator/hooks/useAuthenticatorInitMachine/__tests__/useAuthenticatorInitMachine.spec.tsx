@@ -1,9 +1,7 @@
-import React from 'react';
 import { renderHook } from '@testing-library/react';
 
 import { useAuthenticator, UseAuthenticator } from '../../useAuthenticator';
 import { mockUseAuthenticatorOutput } from '../../useAuthenticator/__mock__/useAuthenticator';
-import { AuthServiceProvider } from '../../../../AuthService';
 
 import { routeSelector } from '../useAuthenticatorInitMachine';
 import { useAuthenticatorInitMachine } from '..';
@@ -54,62 +52,25 @@ describe('useAuthenticatorInitMachine', () => {
     expect(initializeMachine).toHaveBeenCalledTimes(0);
   });
 
-  it('initializes with AuthServiceProvider services when services prop is omitted', () => {
+  it('passes explicit services to initializeMachine', () => {
     const route = 'setup';
     const getCurrentUser = jest.fn();
+    const explicitServices = { getCurrentUser };
 
     (useAuthenticator as jest.Mock).mockReturnValue({
       initializeMachine,
       route,
     } as unknown as UseAuthenticator);
 
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <AuthServiceProvider value={{ getCurrentUser }}>
-        {children}
-      </AuthServiceProvider>
+    renderHook(() =>
+      useAuthenticatorInitMachine({ services: explicitServices })
     );
-
-    renderHook(() => useAuthenticatorInitMachine({}), { wrapper });
 
     expect(initializeMachine).toHaveBeenCalledWith(
       expect.objectContaining({
-        services: expect.objectContaining({ getCurrentUser }),
+        services: explicitServices,
       })
     );
-  });
-
-  it('initializes with explicit services over AuthServiceProvider services', () => {
-    const route = 'setup';
-    const contextGetCurrentUser = jest.fn();
-    const contextSignIn = jest.fn();
-    const explicitGetCurrentUser = jest.fn();
-    const explicitServices = { getCurrentUser: explicitGetCurrentUser };
-
-    (useAuthenticator as jest.Mock).mockReturnValue({
-      initializeMachine,
-      route,
-    } as unknown as UseAuthenticator);
-
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <AuthServiceProvider
-        value={{
-          getCurrentUser: contextGetCurrentUser,
-          signIn: contextSignIn,
-        }}
-      >
-        {children}
-      </AuthServiceProvider>
-    );
-
-    renderHook(
-      () => useAuthenticatorInitMachine({ services: explicitServices }),
-      { wrapper }
-    );
-
-    expect(initializeMachine.mock.calls[0][0].services).toMatchObject({
-      getCurrentUser: explicitGetCurrentUser,
-      signIn: contextSignIn,
-    });
   });
 });
 
