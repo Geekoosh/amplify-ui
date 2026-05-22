@@ -10,6 +10,7 @@ Please read through these guidelines carefully before submitting a PR and let us
 - [Pull Requests](#pull-requests)
 - [Project Structure](#project-structure)
 - [Local Development Guides](#local-development-guides)
+- [SaaSOn Fork Maintenance](#saason-fork-maintenance)
 - [Publishing](#publishing)
 
 ## Bug Reports
@@ -111,6 +112,62 @@ Please refer to the following contributing guides:
 - [`examples`](examples/README.md#examples-development)
 - [`e2e`](packages/e2e/README.md#contributing)
 - [`environments`](environments/README.md#external-contributors)
+
+## SaaSOn Fork Maintenance
+
+This fork keeps the Authenticator and account-component auth seam isolated from
+upstream Amplify runtime imports. Runtime imports from `aws-amplify/auth` and
+`aws-amplify/utils` in the guarded Authenticator/account surfaces must stay in
+`packages/ui/src/machines/authenticator/amplifyAuthAdapter.ts`; use
+`AuthServices`, `defaultServices`, or `import type` elsewhere.
+
+### Upstream Sync
+
+1. Add the upstream remote once:
+
+   ```bash
+   git remote add upstream https://github.com/aws-amplify/amplify-ui.git
+   ```
+
+1. Keep `vendor/upstream` as a mirror of the upstream commit being evaluated.
+   This branch is vendor-only; update it with fetch plus `reset --hard` only:
+
+   ```bash
+   git fetch upstream main
+   git switch vendor/upstream
+   git reset --hard upstream/main
+   ```
+
+1. Return to the fork branch and merge the pinned vendor branch deliberately:
+
+   ```bash
+   git switch main
+   git merge --no-ff vendor/upstream
+   ```
+
+1. Pin the upstream version or commit in the PR description or release notes.
+   Every bump must run the auth seam guard and focused type checks before the
+   merge is accepted:
+
+   ```bash
+   yarn auth:import-guard
+   yarn auth:import-guard:self-test
+   yarn ui typecheck
+   yarn ui test --runTestsByPath src/machines/authenticator/__tests__/authServices.conformance.test.ts src/machines/authenticator/__tests__/fakeServices.test.ts
+   ```
+
+### SaaSOn Publish
+
+The fork uses changesets and publishes the SaaSOn-consumed packages through the
+private registry configured by `publishConfig` in `packages/ui/package.json` and
+`packages/react/package.json`. For each release:
+
+1. Add or update a changeset for `@aws-amplify/ui` and
+   `@aws-amplify/ui-react`.
+1. Build the publish targets with `yarn ui build` and `yarn react build`.
+1. Publish through the private registry with changesets.
+1. Smoke install in SaaSOn and verify imports from the private fork packages
+   before promoting the version.
 
 ## Publishing
 

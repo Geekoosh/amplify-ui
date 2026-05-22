@@ -1,8 +1,11 @@
 import QRCode from 'qrcode';
 import * as React from 'react';
 
-import { ConsoleLogger as Logger } from 'aws-amplify/utils';
-import { authenticatorTextUtil, getTotpCodeURL } from '@aws-amplify/ui';
+import {
+  authenticatorTextUtil,
+  getLogger,
+  getTotpCodeURL,
+} from '@aws-amplify/ui';
 
 import { Flex } from '../../../primitives/Flex';
 import { Heading } from '../../../primitives/Heading';
@@ -16,7 +19,7 @@ import { FormFields } from '../shared/FormFields';
 import type { RouteProps } from '../RouteContainer';
 import { RouteContainer } from '../RouteContainer';
 
-const logger = new Logger('SetupTotp-logger');
+const logger = getLogger('Auth');
 
 type LegacyQRFields = { totpIssuer?: string; totpUsername?: string };
 

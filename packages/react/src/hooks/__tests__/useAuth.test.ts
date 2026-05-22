@@ -1,14 +1,48 @@
+import React from 'react';
+import type { ReactNode } from 'react';
 import { act, renderHook, waitFor } from '@testing-library/react';
 
-import * as AuthModule from 'aws-amplify/auth';
-import { Hub } from 'aws-amplify/utils';
+import { AuthServiceProvider } from '@aws-amplify/ui-react-core';
+import type { AuthMachineHubHandler, AuthServices } from '@aws-amplify/ui';
 
 import { useAuth } from '../useAuth';
 
-const getCurrentUserSpy = jest.spyOn(AuthModule, 'getCurrentUser');
+const getCurrentUserSpy = jest.fn();
+const hubHandlers = new Set<AuthMachineHubHandler>();
+const subscribeToAuthEventsSpy: AuthServices['subscribeToAuthEvents'] = jest.fn(
+  (_service, handler) => {
+    hubHandlers.add(handler);
+    return () => {
+      hubHandlers.delete(handler);
+    };
+  }
+);
+const authServiceValue = {
+  getCurrentUser: getCurrentUserSpy,
+  subscribeToAuthEvents: subscribeToAuthEventsSpy,
+};
+
+const wrapper = ({ children }: { children: ReactNode }) =>
+  React.createElement(AuthServiceProvider, {
+    children,
+    value: authServiceValue,
+  });
+
+const dispatchAuthEvent = (payload: Record<string, unknown>) => {
+  act(() => {
+    hubHandlers.forEach((handler) => {
+      handler(
+        { payload } as Parameters<AuthMachineHubHandler>[0],
+        {
+          send: () => undefined,
+        } as unknown as Parameters<AuthMachineHubHandler>[1]
+      );
+    });
+  });
+};
 
 // hub events that return valid user object
-const SUCCESS_EVENTS_WITH_USER = ['signIn', 'signUp', 'autoSignIn'];
+const SUCCESS_EVENTS_WITH_USER = ['signedIn', 'signUp', 'autoSignIn'];
 
 // hub events that return error object
 const FAILURE_EVENTS_WITH_ERROR = ['tokenRefresh_failure', 'signIn_failure'];
@@ -24,13 +58,14 @@ const mockCognitoUser = {
 
 describe('useAuth', () => {
   afterEach(() => {
-    jest.resetAllMocks();
+    jest.clearAllMocks();
+    hubHandlers.clear();
   });
 
   it('should return default values when initialized', async () => {
     getCurrentUserSpy.mockRejectedValue(undefined);
 
-    const { result } = renderHook(() => useAuth());
+    const { result } = renderHook(() => useAuth(), { wrapper });
 
     await waitFor(() => {
       expect(result.current.user).toBe(undefined);
@@ -42,7 +77,7 @@ describe('useAuth', () => {
   it('should invoke getCurrentUser function', async () => {
     getCurrentUserSpy.mockResolvedValue(mockCognitoUser);
 
-    renderHook(() => useAuth());
+    renderHook(() => useAuth(), { wrapper });
 
     await waitFor(() => {
       expect(getCurrentUserSpy).toHaveBeenCalledTimes(1);
@@ -52,7 +87,7 @@ describe('useAuth', () => {
   it('should set an error when something unexpected happen', async () => {
     getCurrentUserSpy.mockRejectedValue(new Error('Unknown error'));
 
-    const { result } = renderHook(() => useAuth());
+    const { result } = renderHook(() => useAuth(), { wrapper });
 
     await waitFor(() => {
       expect(result.current.error).not.toBeUndefined();
@@ -62,7 +97,7 @@ describe('useAuth', () => {
   it('should retrieve a Cognito user', async () => {
     getCurrentUserSpy.mockResolvedValue(mockCognitoUser);
 
-    const { result } = renderHook(() => useAuth());
+    const { result } = renderHook(() => useAuth(), { wrapper });
 
     await waitFor(() => {
       expect(result.current.error).toBeUndefined();
@@ -72,22 +107,22 @@ describe('useAuth', () => {
 
   it.each(SUCCESS_EVENTS_WITH_USER)(
     'should receive a Cognito user on %s Hub event',
-    async () => {
+    async (event) => {
       // turn off warning logs in console
       jest.spyOn(console, 'warn').mockImplementation();
 
       getCurrentUserSpy.mockRejectedValue(undefined);
 
-      const { result } = renderHook(() => useAuth());
+      const { result } = renderHook(() => useAuth(), { wrapper });
 
       await waitFor(() => {
         expect(result.current.user).toBe(undefined);
       });
-
-      // Simulate Auth sign in Hub action
-      act(() => {
-        Hub.dispatch('auth', { event: 'signedIn', data: mockCognitoUser });
+      await waitFor(() => {
+        expect(subscribeToAuthEventsSpy).toHaveBeenCalled();
       });
+
+      dispatchAuthEvent({ event, data: mockCognitoUser });
 
       expect(result.current.user).toBe(mockCognitoUser);
     }
@@ -99,16 +134,16 @@ describe('useAuth', () => {
 
     getCurrentUserSpy.mockResolvedValue(mockCognitoUser);
 
-    const { result } = renderHook(() => useAuth());
+    const { result } = renderHook(() => useAuth(), { wrapper });
 
     await waitFor(() => {
       expect(result.current.user).toBe(mockCognitoUser);
     });
-
-    // Simulate Auth sign out Hub action
-    act(() => {
-      Hub.dispatch('auth', { event: 'signedOut' });
+    await waitFor(() => {
+      expect(subscribeToAuthEventsSpy).toHaveBeenCalled();
     });
+
+    dispatchAuthEvent({ event: 'signedOut' });
 
     expect(result.current.user).toBeUndefined();
   });
@@ -116,12 +151,9 @@ describe('useAuth', () => {
   it('invokes getCurrentUser on tokenRefresh event', async () => {
     getCurrentUserSpy.mockResolvedValue(mockCognitoUser);
 
-    renderHook(() => useAuth());
+    renderHook(() => useAuth(), { wrapper });
 
-    // Simulate Auth tokenRefresh Hub action
-    act(() => {
-      Hub.dispatch('auth', { event: 'tokenRefresh' });
-    });
+    dispatchAuthEvent({ event: 'tokenRefresh' });
 
     await waitFor(() => {
       expect(getCurrentUserSpy).toHaveBeenCalled();
@@ -133,13 +165,14 @@ describe('useAuth', () => {
     async (event) => {
       getCurrentUserSpy.mockResolvedValue(mockCognitoUser);
 
-      const { result } = renderHook(() => useAuth());
+      const { result } = renderHook(() => useAuth(), { wrapper });
 
-      act(() => {
-        Hub.dispatch('auth', {
-          event,
-          data: new Error('mock auth error'),
-        });
+      await waitFor(() => {
+        expect(subscribeToAuthEventsSpy).toHaveBeenCalled();
+      });
+      dispatchAuthEvent({
+        event,
+        data: new Error('mock auth error'),
       });
 
       await waitFor(() => {
@@ -152,15 +185,14 @@ describe('useAuth', () => {
   it('returns error on autoSignIn_failure event', async () => {
     getCurrentUserSpy.mockResolvedValue(mockCognitoUser);
 
-    const { result } = renderHook(() => useAuth());
+    const { result } = renderHook(() => useAuth(), { wrapper });
 
-    act(() => {
-      // adapted from https://github.com/aws-amplify/amplify-js/blob/272c2c607cc4adb5ddc9421444887bdb382227a0/packages/auth/src/Auth.ts#L274-L278
-      Hub.dispatch('auth', {
-        event: 'autoSignIn_failure',
-        // autoSignIn_failure event only contains `message` but not `payload`.
-        message: 'autoSignInError',
-      });
+    await waitFor(() => {
+      expect(subscribeToAuthEventsSpy).toHaveBeenCalled();
+    });
+    dispatchAuthEvent({
+      event: 'autoSignIn_failure',
+      message: 'autoSignInError',
     });
 
     await waitFor(() => {

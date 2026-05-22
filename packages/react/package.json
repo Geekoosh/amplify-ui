@@ -34,6 +34,10 @@
     "url": "https://github.com/aws-amplify/amplify-ui",
     "directory": "packages/react"
   },
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://npm.pkg.github.com"
+  },
   "files": [
     "dist",
     "internal",

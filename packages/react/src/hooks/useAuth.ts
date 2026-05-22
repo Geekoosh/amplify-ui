@@ -1,9 +1,8 @@
 import * as React from 'react';
 
-import type { HubCallback } from '@aws-amplify/core';
-import { Hub } from '@aws-amplify/core';
 import type { AuthUser } from 'aws-amplify/auth';
-import { getCurrentUser } from 'aws-amplify/auth';
+import type { AuthInterpreter, AuthMachineHubHandler } from '@aws-amplify/ui';
+import { useAuthService } from '@aws-amplify/ui-react-core';
 
 export interface UseAuthResult {
   user?: AuthUser;
@@ -13,11 +12,18 @@ export interface UseAuthResult {
   fetch?: () => Promise<void>;
 }
 
+type AuthHubPayload = {
+  data?: unknown;
+  event?: string;
+  message?: string;
+};
+
 /**
  * Amplify Auth React hook
  * @internal
  */
 export const useAuth = (): UseAuthResult => {
+  const authService = useAuthService();
   const [result, setResult] = React.useState<UseAuthResult>({
     error: undefined,
     isLoading: true,
@@ -32,16 +38,18 @@ export const useAuth = (): UseAuthResult => {
     setResult((prevResult) => ({ ...prevResult, isLoading: true }));
 
     try {
-      const user = await getCurrentUser();
+      const user = await authService.getCurrentUser();
       setResult({ user, isLoading: false });
     } catch (e) {
       const error = e as Error;
       setResult({ error, isLoading: false });
     }
-  }, []);
+  }, [authService]);
 
-  const handleAuth: HubCallback = React.useCallback(
-    ({ payload }) => {
+  const handleAuth: AuthMachineHubHandler = React.useCallback(
+    ({ payload: unsafePayload }) => {
+      const payload = unsafePayload as AuthHubPayload;
+
       switch (payload.event) {
         // success events
         case 'signedIn':
@@ -58,12 +66,21 @@ export const useAuth = (): UseAuthResult => {
         // failure events
         case 'tokenRefresh_failure':
         case 'signIn_failure': {
-          setResult({ error: payload.data as Error, isLoading: false });
+          const error =
+            payload.data instanceof Error
+              ? payload.data
+              : new Error(
+                  typeof payload.data === 'string' ? payload.data : 'Auth error'
+                );
+          setResult({ error, isLoading: false });
           break;
         }
         case 'autoSignIn_failure': {
           // autoSignIn just returns error message. Wrap it to an Error object
-          setResult({ error: new Error(payload.message), isLoading: false });
+          setResult({
+            error: new Error(payload.message ?? 'Auto sign-in failed'),
+            isLoading: false,
+          });
           break;
         }
 
@@ -83,11 +100,14 @@ export const useAuth = (): UseAuthResult => {
   );
 
   React.useEffect(() => {
-    const unsubscribe = Hub.listen('auth', handleAuth, 'useAuth');
+    const service = {
+      send: () => undefined,
+    } as unknown as AuthInterpreter;
+    const unsubscribe = authService.subscribeToAuthEvents(service, handleAuth);
     fetchCurrentUser(); // on init, see if user is already logged in
 
     return unsubscribe;
-  }, [handleAuth, fetchCurrentUser]);
+  }, [authService, handleAuth, fetchCurrentUser]);
 
   return {
     ...result,
