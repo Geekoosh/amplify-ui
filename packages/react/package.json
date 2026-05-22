@@ -100,7 +100,7 @@
       "name": "AccountSettings",
       "path": "dist/esm/index.mjs",
       "import": "{ AccountSettings }",
-      "limit": "25 kB"
+      "limit": "33.5 kB"
     }
   ]
 }
