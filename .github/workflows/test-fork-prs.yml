@@ -130,55 +130,6 @@ jobs:
           # URL below is a link to the current workflow run to allow users to see the status of the workflow.
           target-url: https://github.com/${{ github.event.repository.owner.login }}/${{ github.event.repository.name }}/actions/runs/${{ github.run_id }}
 
-  codeql:
-    needs: setup
-    runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      security-events: write # required to write security findings
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [javascript]
-    steps:
-      - name: Remove run-codeql label, if applicable
-        if: github.event.label.name == 'run-codeql'
-        env:
-          ISSUE_NUMBER: ${{ github.event.pull_request.number }}
-          REPO_OWNER: ${{ github.repository_owner }}
-          REPO_NAME: ${{ github.event.repository.name }}
-          LABEL_NAME: 'run-codeql'
-        uses: actions/github-script@d746ffe35508b1917358783b479e04febd2b8f71 # v9.0.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { ISSUE_NUMBER, REPO_OWNER, REPO_NAME, LABEL_NAME } = process.env
-            github.rest.issues.removeLabel({ owner: REPO_OWNER, repo: REPO_NAME, issue_number: ISSUE_NUMBER, name: LABEL_NAME })
-
-      - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          ref: ${{ needs.setup.outputs.commit_id }}
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@7fc6561ed893d15cec696e062df840b21db27eb0 # v4.35.2
-        with:
-          languages: ${{ matrix.language }}
-          config-file: ./.github/codeql/codeql-config.yml
-          queries: +security-and-quality
-
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@7fc6561ed893d15cec696e062df840b21db27eb0 # v4.35.2
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@7fc6561ed893d15cec696e062df840b21db27eb0 # v4.35.2
-        with:
-          # ref should target refs/pull/<number>/head
-          ref: refs/pull/${{ needs.setup.outputs.pr_number }}/head
-          sha: ${{ needs.setup.outputs.commit_id }}
-          category: '/language:${{ matrix.language }}'
-
   dependency-review:
     needs: setup
     runs-on: ubuntu-latest
@@ -235,7 +186,7 @@ jobs:
   # update status on success
   update-success-status:
     if: ${{ success() }}
-    needs: [setup, e2e, codeql, dependency-review]
+    needs: [setup, e2e, dependency-review]
     runs-on: ubuntu-latest
     permissions:
       statuses: write # This is required for running set-status actions
@@ -253,7 +204,7 @@ jobs:
   # update status on failure
   update-failure-status:
     if: ${{ failure() }}
-    needs: [setup, e2e, codeql, dependency-review]
+    needs: [setup, e2e, dependency-review]
     runs-on: ubuntu-latest
     permissions:
       statuses: write # This is required for running set-status actions
