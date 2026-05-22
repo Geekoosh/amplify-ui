@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Button, Flex, Text, TextField } from '../../../primitives';
+import { Button, Flex, Text, TextField, View } from '../../../primitives';
 import { TotpSetupDisplay } from '../../shared';
-import type { ButtonComponent } from '../types';
+import type { ButtonComponent, SubmitButtonComponent } from '../types';
 import { DefaultErrorMessage } from '../shared/Defaults';
 import { defaultManageMFADisplayText } from '../utils';
 import type {
@@ -15,7 +15,7 @@ const DefaultSetupButton: ButtonComponent = (props) => (
   <Button {...props} variation="primary" />
 );
 
-const DefaultVerifyButton: ButtonComponent = (props) => (
+const DefaultVerifyButton: SubmitButtonComponent = (props) => (
   <Button {...props} variation="primary" />
 );
 
@@ -93,31 +93,41 @@ const DefaultTotpSetupView: TotpSetupViewComponent = ({
     verifyTotpButtonText,
   } = displayText;
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!isDisabled && code.length > 0) {
+      onVerify();
+    }
+  };
+
   return (
-    <Flex direction="column">
-      <Text>{setupTotpDescriptionText}</Text>
-      <TotpSetupDisplay
-        loadingText={loadingText}
-        qrCode={qrCode}
-        qrCodeAltText={totpQRCodeAltText}
-        qrCodeDataAttr="data-amplify-accountsettings-mfa-qrcode"
-        secretCode={setupDetails.sharedSecret}
-        secretDataAttr="data-amplify-accountsettings-mfa-shared-secret"
-      />
-      <TextField
-        label={totpCodeFieldLabel}
-        name="totpCode"
-        onChange={onChange}
-        value={code}
-      />
-      <VerifyButton
-        isDisabled={isDisabled || code.length === 0}
-        isLoading={isDisabled}
-        onClick={onVerify}
-      >
-        {verifyTotpButtonText}
-      </VerifyButton>
-    </Flex>
+    <View as="form" onSubmit={handleSubmit}>
+      <Flex direction="column">
+        <Text>{setupTotpDescriptionText}</Text>
+        <TotpSetupDisplay
+          loadingText={loadingText}
+          qrCode={qrCode}
+          qrCodeAltText={totpQRCodeAltText}
+          qrCodeDataAttr="data-amplify-accountsettings-mfa-qrcode"
+          secretCode={setupDetails.sharedSecret}
+          secretDataAttr="data-amplify-accountsettings-mfa-shared-secret"
+        />
+        <TextField
+          label={totpCodeFieldLabel}
+          name="totpCode"
+          onChange={onChange}
+          value={code}
+        />
+        <VerifyButton
+          isDisabled={isDisabled || code.length === 0}
+          isLoading={isDisabled}
+          type="submit"
+        >
+          {verifyTotpButtonText}
+        </VerifyButton>
+      </Flex>
+    </View>
   );
 };
 

@@ -65,7 +65,9 @@ describe('ManageMFA', () => {
     fireEvent.input(screen.getByLabelText('Verification code'), {
       target: { value: '123456' },
     });
-    fireEvent.click(screen.getByRole('button', { name: 'Verify TOTP' }));
+    const form = screen.getByLabelText('Verification code').closest('form');
+    expect(form).not.toBeNull();
+    fireEvent.submit(form!);
 
     await waitFor(() => {
       expect(verifyTOTPSetup).toHaveBeenCalledWith({ code: '123456' });

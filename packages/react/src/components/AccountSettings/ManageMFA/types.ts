@@ -5,7 +5,11 @@ import type {
   UpdateMFAPreferenceInput,
 } from 'aws-amplify/auth';
 
-import type { ButtonComponent, ErrorMessageComponent } from '../types';
+import type {
+  ButtonComponent,
+  ErrorMessageComponent,
+  SubmitButtonComponent,
+} from '../types';
 import type { ManageMFADisplayText } from '../utils';
 
 export type ManageMFAState =
@@ -38,7 +42,7 @@ export interface TotpSetupViewProps {
   onVerify: () => void;
   qrCode?: string;
   setupDetails: SetUpTOTPOutput;
-  VerifyButton: ButtonComponent;
+  VerifyButton: SubmitButtonComponent;
 }
 
 export type TotpSetupViewComponent<Props = {}> = React.ComponentType<
@@ -51,7 +55,7 @@ export interface ManageMFAComponents {
   PreferenceView?: PreferenceViewComponent;
   SetupButton?: ButtonComponent;
   TotpSetupView?: TotpSetupViewComponent;
-  VerifyButton?: ButtonComponent;
+  VerifyButton?: SubmitButtonComponent;
 }
 
 export interface ManageMFAProps {
