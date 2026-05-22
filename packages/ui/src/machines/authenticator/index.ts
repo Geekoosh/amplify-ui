@@ -28,7 +28,12 @@ import {
 import { defaultServices } from './defaultServices';
 import { getAvailableAuthMethods } from './utils';
 
-export type { AmplifyConfigFacade, AuthServices } from './authServices';
+export type {
+  AmplifyAuthAdapter,
+  AmplifyConfigFacade,
+  AuthServices,
+} from './authServices';
+export { amplifyAuthAdapter } from './amplifyAuthAdapter';
 export { defaultServices } from './defaultServices';
 
 export type AuthenticatorMachineOptions = AuthContext['config'] & {
@@ -101,7 +106,10 @@ export function createAuthenticatorMachine(
       context: {
         user: undefined,
         config: {},
-        services: defaultServices,
+        services: {
+          ...defaultServices,
+          ...overrideConfigServices.services,
+        },
         actorRef: undefined,
         hasSetup: false,
       },
@@ -422,14 +430,19 @@ export function createAuthenticatorMachine(
           },
         }),
         configure: assign((_, event) => {
-          const { services: customServices, ...config } = !isEmptyObject(
-            overrideConfigServices
-          )
-            ? overrideConfigServices
-            : event.data ?? {};
+          const { services: optionServices, ...optionConfig } =
+            overrideConfigServices;
+          const { services: eventServices, ...eventConfig } = event.data ?? {};
+          const config = !isEmptyObject(eventConfig)
+            ? { ...optionConfig, ...eventConfig }
+            : optionConfig;
 
           return {
-            services: { ...defaultServices, ...customServices },
+            services: {
+              ...defaultServices,
+              ...optionServices,
+              ...eventServices,
+            },
             config,
           };
         }),

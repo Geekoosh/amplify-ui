@@ -51,6 +51,27 @@ describe('useAuthenticatorInitMachine', () => {
 
     expect(initializeMachine).toHaveBeenCalledTimes(0);
   });
+
+  it('passes explicit services to initializeMachine', () => {
+    const route = 'setup';
+    const getCurrentUser = jest.fn();
+    const explicitServices = { getCurrentUser };
+
+    (useAuthenticator as jest.Mock).mockReturnValue({
+      initializeMachine,
+      route,
+    } as unknown as UseAuthenticator);
+
+    renderHook(() =>
+      useAuthenticatorInitMachine({ services: explicitServices })
+    );
+
+    expect(initializeMachine).toHaveBeenCalledWith(
+      expect.objectContaining({
+        services: explicitServices,
+      })
+    );
+  });
 });
 
 describe('routeSelector', () => {

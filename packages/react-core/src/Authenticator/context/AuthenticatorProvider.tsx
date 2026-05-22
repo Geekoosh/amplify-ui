@@ -6,10 +6,10 @@ import type { AuthStatus, AuthMachineHubHandler } from '@aws-amplify/ui';
 import {
   createAuthenticatorMachine,
   defaultAuthHubHandler,
-  defaultServices,
 } from '@aws-amplify/ui';
 
 import { AuthenticatorContext } from './AuthenticatorContext';
+import { useAuthService } from '../../AuthService';
 
 type Options = Parameters<AuthMachineHubHandler>[2];
 
@@ -29,10 +29,11 @@ export default function AuthenticatorProvider({
   // leads to scenarios where the state machine `authStatus` gets "stuck". For exmample,
   // if a user was to sign in using `Auth.signIn` directly rather than using `Authenticator`
   const [authStatus, setAuthStatus] = React.useState<AuthStatus>('configuring');
+  const authService = useAuthService();
 
   // only run on first render
   React.useEffect(() => {
-    defaultServices
+    authService
       .getCurrentUser()
       .then(() => {
         setAuthStatus('authenticated');
@@ -40,7 +41,7 @@ export default function AuthenticatorProvider({
       .catch(() => {
         setAuthStatus('unauthenticated');
       });
-  }, []);
+  }, [authService]);
 
   /**
    * Based on use cases, developer might already have added another Provider
@@ -50,7 +51,9 @@ export default function AuthenticatorProvider({
    * TODO(BREAKING): enforce only one provider in App tree
    */
   const parentProviderVal = useContext(AuthenticatorContext);
-  const service = useInterpret(createAuthenticatorMachine);
+  const service = useInterpret(() =>
+    createAuthenticatorMachine({ services: authService })
+  );
 
   const value = useMemo(
     () => parentProviderVal ?? { authStatus, service },
@@ -67,12 +70,12 @@ export default function AuthenticatorProvider({
       setAuthStatus('unauthenticated');
     };
 
-    const unsubscribe = defaultServices.subscribeToAuthEvents(
+    const unsubscribe = authService.subscribeToAuthEvents(
       activeService,
       createHubHandler({ onSignIn, onSignOut })
     );
     return unsubscribe;
-  }, [activeService]);
+  }, [activeService, authService]);
 
   return (
     <AuthenticatorContext.Provider value={value}>

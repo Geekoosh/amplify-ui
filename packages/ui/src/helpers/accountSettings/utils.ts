@@ -13,15 +13,15 @@ export const changePassword = async ({
   newPassword,
 }: ChangePasswordInput): Promise<void> => {
   try {
-    logger.debug('calling Auth.updatePassword');
+    logger.debug('calling Auth.changePassword');
     await amplifyAuthAdapter.changePassword({
       currentPassword,
       newPassword,
     });
-    logger.debug('Auth.updatePassword was successful');
+    logger.debug('Auth.changePassword was successful');
     return Promise.resolve();
   } catch (e) {
-    logger.debug('Auth.updatePassword failed with error', e);
+    logger.debug('Auth.changePassword failed with error', e);
     return Promise.reject(e);
   }
 };

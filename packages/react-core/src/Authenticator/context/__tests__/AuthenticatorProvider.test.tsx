@@ -4,6 +4,7 @@ import * as UIModule from '@aws-amplify/ui';
 
 import { useAuthenticator } from '../..';
 import { AuthenticatorProvider } from '..';
+import { AuthServiceProvider } from '../../../AuthService';
 
 // mock `aws-amplify` to prevent logging auth errors during test runs
 jest.mock('aws-amplify');
@@ -42,6 +43,29 @@ describe('AuthenticatorProvider', () => {
         expect.any(Function)
       );
     });
+  });
+
+  it('uses AuthServiceProvider services on init', async () => {
+    const getCurrentUser = jest.fn().mockResolvedValue({
+      userId: 'custom-user',
+      username: 'custom-user',
+    });
+    const subscribeToAuthEvents = jest.fn().mockReturnValue(jest.fn());
+
+    render(
+      <AuthServiceProvider value={{ getCurrentUser, subscribeToAuthEvents }}>
+        <AuthenticatorProvider>
+          <TestComponent />
+        </AuthenticatorProvider>
+      </AuthServiceProvider>
+    );
+
+    await waitFor(() => {
+      expect(getCurrentUser).toHaveBeenCalled();
+      expect(subscribeToAuthEvents).toHaveBeenCalledTimes(1);
+    });
+    expect(getCurrentUserSpy).not.toHaveBeenCalled();
+    expect(subscribeToAuthEventsSpy).not.toHaveBeenCalled();
   });
 
   it('updates auth status from subscribed auth events', async () => {

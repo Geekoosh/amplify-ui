@@ -1,8 +1,4 @@
 import React from 'react';
-import {
-  associateWebAuthnCredential,
-  listWebAuthnCredentials,
-} from 'aws-amplify/auth';
 import type { AuthWebAuthnCredential } from 'aws-amplify/auth';
 import { authenticatorTextUtil } from '@aws-amplify/ui';
 
@@ -11,8 +7,9 @@ import { Flex } from '../../../primitives/Flex';
 import { Heading } from '../../../primitives/Heading';
 import { Text } from '../../../primitives/Text';
 import { View } from '../../../primitives/View';
-import { useAuthenticator } from '@aws-amplify/ui-react-core';
+import { useAuthenticator, useAuthService } from '@aws-amplify/ui-react-core';
 import { IconCheckCircleFill, IconPasskey } from '../../../primitives/Icon';
+import { PasskeyList } from '../../shared';
 import { RemoteErrorMessage } from '../shared/RemoteErrorMessage';
 import type { RouteProps } from '../RouteContainer';
 import { RouteContainer } from '../RouteContainer';
@@ -46,6 +43,8 @@ export function PasskeyPrompt({
     context.submitForm,
     context.isPending,
   ]);
+  const { associateWebAuthnCredential, listWebAuthnCredentials } =
+    useAuthService();
 
   const loadCredentials = React.useCallback(async () => {
     try {
@@ -54,7 +53,7 @@ export function PasskeyPrompt({
     } catch {
       // Silently fail - credentials list is optional
     }
-  }, []);
+  }, [listWebAuthnCredentials]);
 
   React.useEffect(() => {
     if (success) {
@@ -99,7 +98,7 @@ export function PasskeyPrompt({
     } finally {
       setIsRegistering(false);
     }
-  }, [handleSkip]);
+  }, [associateWebAuthnCredential, handleSkip]);
 
   if (success) {
     return (
@@ -117,19 +116,14 @@ export function PasskeyPrompt({
           {credentials.length > 0 && (
             <View marginTop="large">
               <Heading level={5}>{getExistingPasskeysText()}</Heading>
-              <Flex direction="column" gap="xs" marginTop="xs">
-                {credentials.map((cred, index) => (
-                  <View
-                    key={cred.credentialId}
-                    className="amplify-authenticator__passkey-credential-item"
-                  >
-                    <Text fontSize="small">
-                      {cred.friendlyCredentialName ??
-                        `${getPasskeyLabelText()} ${index + 1}`}
-                    </Text>
-                  </View>
-                ))}
-              </Flex>
+              <View marginTop="xs">
+                <PasskeyList
+                  credentials={credentials}
+                  itemClassName="amplify-authenticator__passkey-credential-item"
+                  passkeyLabelText={getPasskeyLabelText()}
+                  textProps={{ fontSize: 'small' }}
+                />
+              </View>
             </View>
           )}
           <Flex direction="column" gap="medium" marginTop="large">

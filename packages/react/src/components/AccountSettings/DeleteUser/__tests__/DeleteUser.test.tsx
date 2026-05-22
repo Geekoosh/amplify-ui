@@ -7,7 +7,7 @@ import {
   act,
 } from '@testing-library/react';
 
-import * as UIModule from '@aws-amplify/ui';
+import { AuthServiceProvider } from '@aws-amplify/ui-react-core';
 
 import {
   Button,
@@ -28,7 +28,14 @@ jest.mock('../../../../internal', () => ({
   }),
 }));
 
-const deleteUserSpy = jest.spyOn(UIModule, 'deleteUser');
+const deleteUserSpy = jest.fn();
+
+const renderWithAuthService = (ui: React.ReactElement) =>
+  render(
+    <AuthServiceProvider value={{ deleteUser: deleteUserSpy }}>
+      {ui}
+    </AuthServiceProvider>
+  );
 
 const { cancelButtonText, deleteAccountButtonText, confirmDeleteButtonText } =
   defaultDeleteUserDisplayText;
@@ -72,7 +79,7 @@ describe('DeleteUser', () => {
   });
 
   it('renders as expected', () => {
-    const { container } = render(<DeleteUser />);
+    const { container } = renderWithAuthService(<DeleteUser />);
     expect(container).toMatchSnapshot();
 
     const deleteUser = container.getElementsByClassName(
@@ -82,10 +89,10 @@ describe('DeleteUser', () => {
   });
 
   it('calls deleteUser with expected arguments', async () => {
-    deleteUserSpy.mockResolvedValue();
+    deleteUserSpy.mockResolvedValue(undefined);
 
     const onSuccess = jest.fn();
-    render(<DeleteUser onSuccess={onSuccess} />);
+    renderWithAuthService(<DeleteUser onSuccess={onSuccess} />);
 
     const deleteAccountButton = await screen.findByRole('button', {
       name: deleteAccountButtonText,
@@ -105,10 +112,10 @@ describe('DeleteUser', () => {
   });
 
   it('onSuccess is called after successful account deletion', async () => {
-    deleteUserSpy.mockResolvedValue();
+    deleteUserSpy.mockResolvedValue(undefined);
 
     const onSuccess = jest.fn();
-    render(<DeleteUser onSuccess={onSuccess} />);
+    renderWithAuthService(<DeleteUser onSuccess={onSuccess} />);
 
     const deleteAccountButton = await screen.findByRole('button', {
       name: deleteAccountButtonText,
@@ -131,7 +138,7 @@ describe('DeleteUser', () => {
     deleteUserSpy.mockRejectedValue(new Error('Mock Error'));
 
     const onError = jest.fn();
-    render(<DeleteUser onError={onError} />);
+    renderWithAuthService(<DeleteUser onError={onError} />);
 
     const deleteAccountButton = await screen.findByRole('button', {
       name: deleteAccountButtonText,
@@ -150,9 +157,9 @@ describe('DeleteUser', () => {
   });
 
   it('hides warning component if cancel is clicked', async () => {
-    deleteUserSpy.mockResolvedValue();
+    deleteUserSpy.mockResolvedValue(undefined);
 
-    render(<DeleteUser />);
+    renderWithAuthService(<DeleteUser />);
 
     const deleteAccountButton = await screen.findByRole('button', {
       name: deleteAccountButtonText,
@@ -179,7 +186,7 @@ describe('DeleteUser', () => {
     deleteUserSpy.mockRejectedValue(new Error('Mock Error'));
 
     const onError = jest.fn();
-    render(<DeleteUser onError={onError} />);
+    renderWithAuthService(<DeleteUser onError={onError} />);
 
     const deleteAccountButton = await screen.findByRole('button', {
       name: deleteAccountButtonText,
@@ -197,7 +204,9 @@ describe('DeleteUser', () => {
   });
 
   it('renders as expected with components overrides', async () => {
-    const { container } = render(<DeleteUser components={components} />);
+    const { container } = renderWithAuthService(
+      <DeleteUser components={components} />
+    );
 
     const submitButton = await screen.findByRole('button', {
       name: 'Custom Delete Button',
@@ -212,10 +221,12 @@ describe('DeleteUser', () => {
   });
 
   it('onSuccess is called with component overrides after successful user deletion', async () => {
-    deleteUserSpy.mockResolvedValue();
+    deleteUserSpy.mockResolvedValue(undefined);
 
     const onSuccess = jest.fn();
-    render(<DeleteUser components={components} onSuccess={onSuccess} />);
+    renderWithAuthService(
+      <DeleteUser components={components} onSuccess={onSuccess} />
+    );
 
     const deleteAccountButton = await screen.findByRole('button', {
       name: 'Custom Delete Button',
@@ -236,10 +247,12 @@ describe('DeleteUser', () => {
   });
 
   it('calls deleteUser with expected arguments and component overrides', async () => {
-    deleteUserSpy.mockResolvedValue();
+    deleteUserSpy.mockResolvedValue(undefined);
 
     const onSuccess = jest.fn();
-    render(<DeleteUser components={components} onSuccess={onSuccess} />);
+    renderWithAuthService(
+      <DeleteUser components={components} onSuccess={onSuccess} />
+    );
 
     const deleteAccountButton = await screen.findByRole('button', {
       name: 'Custom Delete Button',
@@ -261,7 +274,7 @@ describe('DeleteUser', () => {
   it('error message is displayed with component overrides after unsuccessful submit', async () => {
     deleteUserSpy.mockRejectedValue(new Error('Mock Error'));
 
-    render(<DeleteUser components={components} />);
+    renderWithAuthService(<DeleteUser components={components} />);
 
     const deleteAccountButton = await screen.findByRole('button', {
       name: 'Custom Delete Button',
@@ -284,7 +297,7 @@ describe('DeleteUser', () => {
     const displayTextOverride = {
       deleteAccountButtonText: deleteAccountButtonTextOverride,
     };
-    const { getByText, queryByText } = render(
+    const { getByText, queryByText } = renderWithAuthService(
       <DeleteUser displayText={displayTextOverride} />
     );
     expect(getByText(deleteAccountButtonTextOverride)).toBeVisible();

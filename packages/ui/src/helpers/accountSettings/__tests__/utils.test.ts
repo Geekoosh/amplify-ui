@@ -1,17 +1,22 @@
 import { amplifyAuthAdapter } from '../../../machines/authenticator/amplifyAuthAdapter';
 import { changePassword, deleteUser } from '../utils';
 
-// mock `aws-amplify` to prevent logging auth errors during test runs
-jest.mock('aws-amplify');
+jest.mock('../../../machines/authenticator/amplifyAuthAdapter', () => ({
+  amplifyAuthAdapter: {
+    changePassword: jest.fn(),
+    deleteUser: jest.fn(),
+  },
+  createAmplifyLogger: () => ({ debug: jest.fn() }),
+}));
 
-const changePasswordSpy = jest.spyOn(amplifyAuthAdapter, 'changePassword');
-const deleteUserSpy = jest.spyOn(amplifyAuthAdapter, 'deleteUser');
+const changePasswordSpy = jest.mocked(amplifyAuthAdapter.changePassword);
+const deleteUserSpy = jest.mocked(amplifyAuthAdapter.deleteUser);
 
 describe('changePassword', () => {
   const currentPassword = 'oldpassword';
   const newPassword = 'newpassword';
 
-  it('should resolve if Auth.updatePassword is successful', async () => {
+  it('should resolve if Auth.changePassword is successful', async () => {
     changePasswordSpy.mockResolvedValue(undefined);
 
     await expect(
@@ -24,7 +29,7 @@ describe('changePassword', () => {
     });
   });
 
-  it('should reject with error if Auth.updatePassword fails', async () => {
+  it('should reject with error if Auth.changePassword fails', async () => {
     const error = new Error('change password failed');
     changePasswordSpy.mockRejectedValue(error);
 

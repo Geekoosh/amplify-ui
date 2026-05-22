@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { useSetUserAgent } from '@aws-amplify/ui-react-core';
-import { deleteUser, getLogger } from '@aws-amplify/ui';
+import { useAuthService, useSetUserAgent } from '@aws-amplify/ui-react-core';
+import { getLogger } from '@aws-amplify/ui';
 
 import { useAuth } from '../../../internal';
 import { Flex } from '../../../primitives';
@@ -22,6 +22,7 @@ function DeleteUser({
 }: DeleteUserProps): React.JSX.Element | null {
   const [state, setState] = React.useState<DeleteUserState>('IDLE');
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
+  const { deleteUser } = useAuthService();
 
   useSetUserAgent({
     componentName: 'DeleteUser',

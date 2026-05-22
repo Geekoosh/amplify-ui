@@ -94,6 +94,7 @@ export const defaultTexts = {
   SETUP_ANOTHER_PASSKEY: 'Setup another Passkey',
   SETUP_EMAIL: 'Setup Email',
   SETUP_TOTP: 'Setup TOTP',
+  SETUP_TOTP_QR_CODE: 'TOTP setup QR code',
   SHOW_PASSWORD: 'Show password',
   SIGN_IN_BUTTON: 'Sign in',
   SIGN_IN_TAB: 'Sign In',

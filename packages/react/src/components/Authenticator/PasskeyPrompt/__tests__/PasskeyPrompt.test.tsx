@@ -1,15 +1,10 @@
 import * as React from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { useAuthenticator } from '@aws-amplify/ui-react-core';
-import {
-  associateWebAuthnCredential,
-  listWebAuthnCredentials,
-} from 'aws-amplify/auth';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { useAuthService, useAuthenticator } from '@aws-amplify/ui-react-core';
 
 import { PasskeyPrompt } from '../PasskeyPrompt';
 
 jest.mock('@aws-amplify/ui-react-core');
-jest.mock('aws-amplify/auth');
 jest.mock('../../hooks/useCustomComponents', () => ({
   useCustomComponents: () => ({
     components: {
@@ -21,10 +16,9 @@ jest.mock('../../hooks/useCustomComponents', () => ({
 
 const mockSubmitForm = jest.fn();
 const mockUseAuthenticator = jest.mocked(useAuthenticator);
-const mockAssociateWebAuthnCredential = jest.mocked(
-  associateWebAuthnCredential
-);
-const mockListWebAuthnCredentials = jest.mocked(listWebAuthnCredentials);
+const mockUseAuthService = jest.mocked(useAuthService);
+const mockAssociateWebAuthnCredential = jest.fn();
+const mockListWebAuthnCredentials = jest.fn();
 
 const mockUseAuthenticatorOutput = {
   submitForm: mockSubmitForm,
@@ -42,6 +36,10 @@ describe('PasskeyPrompt', () => {
     mockAssociateWebAuthnCredential.mockResolvedValue(undefined);
     mockUseAuthenticatorOutput.isPending = false;
     mockUseAuthenticator.mockReturnValue(mockUseAuthenticatorOutput as any);
+    mockUseAuthService.mockReturnValue({
+      associateWebAuthnCredential: mockAssociateWebAuthnCredential,
+      listWebAuthnCredentials: mockListWebAuthnCredentials,
+    } as any);
   });
 
   it('renders initial prompt', () => {
@@ -89,6 +87,11 @@ describe('PasskeyPrompt', () => {
     await waitFor(() => {
       expect(mockAssociateWebAuthnCredential).toHaveBeenCalledTimes(1);
     });
+    await waitFor(() => {
+      expect(
+        screen.getByText('Passkey created successfully!')
+      ).toBeInTheDocument();
+    });
   });
 
   it('shows loading state during registration', async () => {
@@ -107,8 +110,12 @@ describe('PasskeyPrompt', () => {
     // Should show loading state
     expect(await screen.findByText('Registering')).toBeInTheDocument();
 
-    // Resolve the promise
-    resolveRegistration();
+    await act(async () => {
+      resolveRegistration();
+    });
+    expect(
+      await screen.findByText('Passkey created successfully!')
+    ).toBeInTheDocument();
   });
 
   it('shows success screen after successful registration', async () => {

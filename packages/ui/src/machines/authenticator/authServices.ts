@@ -65,15 +65,20 @@ export interface AuthServices {
   confirmSignIn: typeof AmplifyAuth.confirmSignIn;
   confirmSignUp: typeof AmplifyAuth.confirmSignUp;
   confirmUserAttribute: typeof AmplifyAuth.confirmUserAttribute;
+  deleteWebAuthnCredential: typeof AmplifyAuth.deleteWebAuthnCredential;
   fetchUserAttributes: typeof AmplifyAuth.fetchUserAttributes;
+  fetchMFAPreference: typeof AmplifyAuth.fetchMFAPreference;
   listWebAuthnCredentials: typeof AmplifyAuth.listWebAuthnCredentials;
   resendSignUpCode: typeof AmplifyAuth.resendSignUpCode;
   resetPassword: typeof AmplifyAuth.resetPassword;
   sendUserAttributeVerificationCode: SendUserAttributeVerificationCode;
+  setUpTOTP: typeof AmplifyAuth.setUpTOTP;
   signIn: typeof AmplifyAuth.signIn;
   signInWithRedirect: typeof AmplifyAuth.signInWithRedirect;
   signOut: typeof AmplifyAuth.signOut;
   signUp: typeof AmplifyAuth.signUp;
+  updateMFAPreference: typeof AmplifyAuth.updateMFAPreference;
+  verifyTOTPSetup: typeof AmplifyAuth.verifyTOTPSetup;
 
   changePassword(input: ChangePasswordInput): Promise<void>;
   deleteUser: typeof AmplifyAuth.deleteUser;

@@ -22,6 +22,12 @@ export {
   useAuthenticatorInitMachine,
 } from './Authenticator';
 
+export {
+  AuthServiceProvider,
+  useAuthService,
+  type AuthServiceContextValue,
+} from './AuthService';
+
 export type {
   FormProviderProps,
   FormValues,
