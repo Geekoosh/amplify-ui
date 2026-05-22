@@ -20,8 +20,12 @@ const logger = new Logger('SetupTotp-logger');
 
 type LegacyQRFields = { totpIssuer?: string; totpUsername?: string };
 
-const { getSetupTotpText, getCopiedText, getLoadingText } =
-  authenticatorTextUtil;
+const {
+  getCopiedText,
+  getLoadingText,
+  getSetupTotpQRCodeAltText,
+  getSetupTotpText,
+} = authenticatorTextUtil;
 
 export const SetupTotp = ({
   className,
@@ -94,7 +98,7 @@ export const SetupTotp = ({
               loadingText={<>{getLoadingText()}&hellip;</>}
               onCopy={copyText}
               qrCode={isLoading ? undefined : qrCode}
-              qrCodeAltText="qr code"
+              qrCodeAltText={getSetupTotpQRCodeAltText()}
               qrCodeDataAttr="data-amplify-qrcode"
               secretCode={totpSecretCode!}
             />

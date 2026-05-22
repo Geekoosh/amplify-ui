@@ -181,6 +181,7 @@ export const authenticatorTextUtil = {
 
   /** SetupTotp */
   getSetupTotpText: () => translate(DefaultTexts.SETUP_TOTP),
+  getSetupTotpQRCodeAltText: () => translate(DefaultTexts.SETUP_TOTP_QR_CODE),
   // TODO: add defaultText for below
   getSetupTotpInstructionsText: () =>
     translate(
