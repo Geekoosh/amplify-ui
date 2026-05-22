@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Button, Text } from '../../../primitives';
-import { PasskeyList } from '../../shared';
+import { PasskeyList as SharedPasskeyList } from '../../shared';
 import type { ButtonComponent } from '../types';
 import { DefaultErrorMessage } from '../shared/Defaults';
 import { defaultManagePasskeysDisplayText } from '../utils';
@@ -35,7 +35,7 @@ const DefaultPasskeyList: PasskeyListComponent = ({
   }
 
   return (
-    <PasskeyList
+    <SharedPasskeyList
       credentials={credentials}
       passkeyLabelText={passkeyLabelText}
       renderAction={(credential) => {

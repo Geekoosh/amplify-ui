@@ -39,25 +39,20 @@ export function PasskeyList({
           index,
           passkeyLabelText
         );
+        const key = credentialId ?? index;
         const credentialView = (
-          <View className={itemClassName}>
+          <View className={itemClassName} key={key}>
             <Text {...textProps}>{label}</Text>
           </View>
         );
 
         return renderAction ? (
-          <Flex
-            alignItems="center"
-            justifyContent="space-between"
-            key={credentialId ?? index}
-          >
+          <Flex alignItems="center" justifyContent="space-between" key={key}>
             {credentialView}
             {renderAction(credential, index)}
           </Flex>
         ) : (
-          <View className={itemClassName} key={credentialId ?? index}>
-            <Text {...textProps}>{label}</Text>
-          </View>
+          credentialView
         );
       })}
     </Flex>

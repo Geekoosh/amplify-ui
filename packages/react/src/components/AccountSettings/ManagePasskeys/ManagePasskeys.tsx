@@ -48,8 +48,15 @@ function ManagePasskeys({
   const { loadingText, registerPasskeyButtonText } = displayText;
   const isAuthenticated = !!user;
 
-  const { DeleteButton, ErrorMessage, PasskeyList, RegisterButton } =
-    React.useMemo(() => ({ ...DEFAULTS, ...(components ?? {}) }), [components]);
+  const {
+    DeleteButton,
+    ErrorMessage,
+    PasskeyList: PasskeyListView,
+    RegisterButton,
+  } = React.useMemo(
+    () => ({ ...DEFAULTS, ...(components ?? {}) }),
+    [components]
+  );
 
   const loadCredentials = React.useCallback(async () => {
     setState('LOADING');
@@ -135,7 +142,7 @@ function ManagePasskeys({
       {state === 'LOADING' ? (
         <Text>{loadingText}</Text>
       ) : (
-        <PasskeyList
+        <PasskeyListView
           credentials={credentials}
           DeleteButton={DeleteButton}
           deletingCredentialId={deletingCredentialId}

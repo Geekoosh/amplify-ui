@@ -1,45 +1,44 @@
-import {
-  deleteAuthUser,
-  updatePassword,
-} from '../../../machines/authenticator/amplifyAuthAdapter';
+import { amplifyAuthAdapter } from '../../../machines/authenticator/amplifyAuthAdapter';
 import { changePassword, deleteUser } from '../utils';
 
 jest.mock('../../../machines/authenticator/amplifyAuthAdapter', () => ({
+  amplifyAuthAdapter: {
+    changePassword: jest.fn(),
+    deleteUser: jest.fn(),
+  },
   createAmplifyLogger: () => ({ debug: jest.fn() }),
-  deleteAuthUser: jest.fn(),
-  updatePassword: jest.fn(),
 }));
 
-const updatePasswordSpy = jest.mocked(updatePassword);
-const deleteAuthUserSpy = jest.mocked(deleteAuthUser);
+const changePasswordSpy = jest.mocked(amplifyAuthAdapter.changePassword);
+const deleteUserSpy = jest.mocked(amplifyAuthAdapter.deleteUser);
 
 describe('changePassword', () => {
   const currentPassword = 'oldpassword';
   const newPassword = 'newpassword';
 
-  it('should resolve if Auth.updatePassword is successful', async () => {
-    updatePasswordSpy.mockResolvedValue(undefined);
+  it('should resolve if Auth.changePassword is successful', async () => {
+    changePasswordSpy.mockResolvedValue(undefined);
 
     await expect(
       changePassword({ currentPassword, newPassword })
     ).resolves.toBeUndefined();
 
-    expect(updatePasswordSpy).toHaveBeenCalledWith({
-      oldPassword: currentPassword,
+    expect(changePasswordSpy).toHaveBeenCalledWith({
+      currentPassword,
       newPassword,
     });
   });
 
-  it('should reject with error if Auth.updatePassword fails', async () => {
+  it('should reject with error if Auth.changePassword fails', async () => {
     const error = new Error('change password failed');
-    updatePasswordSpy.mockRejectedValue(error);
+    changePasswordSpy.mockRejectedValue(error);
 
     await expect(
       changePassword({ currentPassword, newPassword })
     ).rejects.toEqual(error);
 
-    expect(updatePasswordSpy).toHaveBeenCalledWith({
-      oldPassword: currentPassword,
+    expect(changePasswordSpy).toHaveBeenCalledWith({
+      currentPassword,
       newPassword,
     });
   });
@@ -47,19 +46,19 @@ describe('changePassword', () => {
 
 describe('deleteUser', () => {
   it('should resolve if Auth.deleteUser is successful', async () => {
-    deleteAuthUserSpy.mockResolvedValue(undefined);
+    deleteUserSpy.mockResolvedValue(undefined);
 
     await expect(deleteUser()).resolves.toBeUndefined();
 
-    expect(deleteAuthUserSpy).toHaveBeenCalled();
+    expect(deleteUserSpy).toHaveBeenCalled();
   });
 
   it('should reject with error if Auth.deleteUser fails', async () => {
     const error = new Error('delete user failed');
-    deleteAuthUserSpy.mockRejectedValue(error);
+    deleteUserSpy.mockRejectedValue(error);
 
     await expect(deleteUser()).rejects.toEqual(error);
 
-    expect(deleteAuthUserSpy).toHaveBeenCalled();
+    expect(deleteUserSpy).toHaveBeenCalled();
   });
 });

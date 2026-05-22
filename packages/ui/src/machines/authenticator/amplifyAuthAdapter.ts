@@ -146,7 +146,6 @@ export const createAmplifyLogger = (namespace: string) => new Logger(namespace);
 
 export const AMPLIFY_NETWORK_ERROR = AmplifyErrorCode.NetworkError;
 export const amplifyI18n = I18n;
-export { deleteAuthUser, updatePassword };
 
 export const amplifyAuthAdapter: AmplifyAuthAdapter = {
   getAmplifyConfig,
