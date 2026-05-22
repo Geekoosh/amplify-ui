@@ -150,13 +150,11 @@ export function Authenticator(props: AuthenticatorProps): React.JSX.Element {
     version: VERSION,
   });
 
-  const content = (
+  return (
     <Provider>
       <AuthenticatorInternal {...props} />
     </Provider>
   );
-
-  return content;
 }
 
 Authenticator.Provider = Provider;
