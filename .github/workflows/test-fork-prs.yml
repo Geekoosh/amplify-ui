@@ -156,6 +156,7 @@ jobs:
       repository: ${{ github.repository }}
 
   e2e:
+    if: github.repository == 'aws-amplify/amplify-ui'
     uses: aws-amplify/amplify-ui/.github/workflows/reusable-e2e.yml@main
     needs: [setup, setup-cache]
     permissions:
@@ -183,10 +184,18 @@ jobs:
       DOCSEARCH_DOCS_API_KEY: ${{ secrets.DOCSEARCH_DOCS_API_KEY }}
       DOCSEARCH_DOCS_INDEX_NAME: ${{ secrets.DOCSEARCH_DOCS_INDEX_NAME }}
 
+  e2e-skip:
+    if: github.repository != 'aws-amplify/amplify-ui'
+    needs: [setup, setup-cache]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip AWS-backed e2e checks
+        run: echo "Skipping e2e checks because this repository does not provide AWS e2e role secrets."
+
   # update status on success
   update-success-status:
-    if: ${{ success() }}
-    needs: [setup, e2e, dependency-review]
+    if: ${{ always() && needs.setup.result == 'success' && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') }}
+    needs: [setup, e2e, e2e-skip, dependency-review]
     runs-on: ubuntu-latest
     permissions:
       statuses: write # This is required for running set-status actions
@@ -203,8 +212,8 @@ jobs:
 
   # update status on failure
   update-failure-status:
-    if: ${{ failure() }}
-    needs: [setup, e2e, dependency-review]
+    if: ${{ always() && needs.setup.result != 'skipped' && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) }}
+    needs: [setup, e2e, e2e-skip, dependency-review]
     runs-on: ubuntu-latest
     permissions:
       statuses: write # This is required for running set-status actions
