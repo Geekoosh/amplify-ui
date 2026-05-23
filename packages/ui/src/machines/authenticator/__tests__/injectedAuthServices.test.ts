@@ -36,7 +36,7 @@ const waitForState = async (predicate: () => boolean) => {
   throw new Error('Timed out waiting for authenticator state');
 };
 
-describe('authenticator machine with fake services', () => {
+describe('authenticator machine with injected AuthServices', () => {
   let service;
 
   afterEach(() => {
@@ -70,7 +70,7 @@ describe('authenticator machine with fake services', () => {
       isSignedIn = false;
     });
 
-    const fakeServices = {
+    const authServiceOverrides = {
       fetchUserAttributes: jest.fn(async () => ({
         email: 'user@example.com',
         email_verified: 'true',
@@ -101,7 +101,7 @@ describe('authenticator machine with fake services', () => {
 
     service = interpret(
       createAuthenticatorMachine({
-        services: fakeServices,
+        services: authServiceOverrides,
         useNextWaitConfig: true,
       })
     ).start();

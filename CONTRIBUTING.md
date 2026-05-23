@@ -153,7 +153,7 @@ upstream Amplify runtime imports. Runtime imports from `aws-amplify/auth` and
    yarn auth:import-guard
    yarn auth:import-guard:self-test
    yarn ui typecheck
-   yarn ui test --runTestsByPath src/machines/authenticator/__tests__/authServices.conformance.test.ts src/machines/authenticator/__tests__/fakeServices.test.ts
+   yarn ui test --runTestsByPath src/machines/authenticator/__tests__/authServices.conformance.test.ts src/machines/authenticator/__tests__/injectedAuthServices.test.ts
    ```
 
 The `authServices.conformance.test.ts` suite is a compile-time guard for the
