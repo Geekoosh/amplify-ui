@@ -158,15 +158,17 @@ upstream Amplify runtime imports. Runtime imports from `aws-amplify/auth` and
 
 ### SaaSOn Publish
 
-The fork uses changesets and publishes the SaaSOn-consumed packages through the
-private registry configured by `publishConfig` in `packages/ui/package.json` and
-`packages/react/package.json`. For each release:
+The fork uses changesets and publishes the SaaSOn-consumed packages as public
+scoped npm packages. The `publishConfig` entries in `packages/ui/package.json`
+and `packages/react/package.json` pin public npm publishing so scoped packages
+such as `@saason/amplify-ui` are not treated as private by npm. For each
+release:
 
 1. Add or update a changeset for `@aws-amplify/ui` and
    `@aws-amplify/ui-react`.
 1. Build the publish targets with `yarn ui build` and `yarn react build`.
-1. Publish through the private registry with changesets.
-1. Smoke install in SaaSOn and verify imports from the private fork packages
+1. Publish the public scoped packages with changesets.
+1. Smoke install in SaaSOn and verify imports from the public fork packages
    before promoting the version.
 
 ## Publishing
