@@ -3,4 +3,4 @@
 '@aws-amplify/ui-react': patch
 ---
 
-Add SaaSOn fork auth import guards, AuthServices shape conformance coverage, and private-registry publish metadata.
+Add auth import guards, AuthServices shape conformance coverage, and private-registry publish metadata.
