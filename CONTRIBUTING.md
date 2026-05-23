@@ -119,7 +119,9 @@ This fork keeps the Authenticator and account-component auth seam isolated from
 upstream Amplify runtime imports. Runtime imports from `aws-amplify/auth` and
 `aws-amplify/utils` in the guarded Authenticator/account surfaces must stay in
 `packages/ui/src/machines/authenticator/amplifyAuthAdapter.ts`; use
-`AuthServices`, `defaultServices`, or `import type` elsewhere.
+`AuthServices`, `defaultServices`, or `import type` elsewhere. Package ESLint
+configs enforce this boundary for the guarded `ui`, `react-core`, and `react`
+paths.
 
 ### Upstream Sync
 
@@ -146,13 +148,13 @@ upstream Amplify runtime imports. Runtime imports from `aws-amplify/auth` and
    ```
 
 1. Pin the upstream version or commit in the PR description or release notes.
-   Every bump must run the auth seam guard and focused type checks before the
+   Every bump must run the auth seam lint and focused type checks before the
    merge is accepted:
 
    ```bash
-   yarn auth:import-guard
-   yarn auth:import-guard:self-test
-   yarn ui typecheck
+   yarn ui lint
+   yarn react-core lint
+   yarn react lint
    yarn ui test --runTestsByPath src/machines/authenticator/__tests__/authServices.conformance.test.ts src/machines/authenticator/__tests__/injectedAuthServices.test.ts
    ```
 
@@ -160,7 +162,7 @@ The `authServices.conformance.test.ts` suite is a compile-time guard for the
 SaaSOn auth seam. It pins the Amplify `nextStep` fields that authenticator
 actions consume through `AuthServices`, such as TOTP setup details, MFA options,
 code delivery details, and sign-in/sign-up step names. If an upstream Amplify
-type change removes or renames one of those fields, `yarn ui typecheck` or the
+type change removes or renames one of those fields, `yarn ui lint` or the
 focused Jest run should fail in that test before the fork ships a mismatched
 service contract.
 

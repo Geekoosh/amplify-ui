@@ -77,14 +77,6 @@ jobs:
         with:
           skip-cypress-binary: true # unit test doesn't need cypress
 
-      - name: Run auth import guard
-        # Keep guarded auth UI code behind the AuthServices adapter boundary.
-        # Direct runtime imports from aws-amplify/auth or aws-amplify/utils would
-        # re-couple components to upstream Amplify internals and make future
-        # upstream syncs require component-level auth rewrites.
-        if: ${{ matrix.package == 'ui' }}
-        run: yarn auth:import-guard
-
       - name: Build ui package
         if: ${{ steps.restore-ui-cache.outputs.cache-hit != 'true' && matrix.package == 'ui' }}
         run: yarn ui build
