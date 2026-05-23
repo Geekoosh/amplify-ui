@@ -3,14 +3,14 @@ import type { ReactNode } from 'react';
 import { act, renderHook, waitFor } from '@testing-library/react';
 
 import { AuthServiceProvider } from '@aws-amplify/ui-react-core';
-import type { AuthMachineHubHandler, AuthServices } from '@aws-amplify/ui';
+import type { AuthHubHandler, AuthServices } from '@aws-amplify/ui';
 
 import { useAuth } from '../useAuth';
 
 const getCurrentUserSpy = jest.fn();
-const hubHandlers = new Set<AuthMachineHubHandler>();
-const subscribeToAuthEventsSpy: AuthServices['subscribeToAuthEvents'] = jest.fn(
-  (_service, handler) => {
+const hubHandlers = new Set<AuthHubHandler>();
+const subscribeToAuthHubSpy: AuthServices['subscribeToAuthHub'] = jest.fn(
+  (handler) => {
     hubHandlers.add(handler);
     return () => {
       hubHandlers.delete(handler);
@@ -19,7 +19,7 @@ const subscribeToAuthEventsSpy: AuthServices['subscribeToAuthEvents'] = jest.fn(
 );
 const authServiceValue = {
   getCurrentUser: getCurrentUserSpy,
-  subscribeToAuthEvents: subscribeToAuthEventsSpy,
+  subscribeToAuthHub: subscribeToAuthHubSpy,
 };
 
 const wrapper = ({ children }: { children: ReactNode }) =>
@@ -31,12 +31,7 @@ const wrapper = ({ children }: { children: ReactNode }) =>
 const dispatchAuthEvent = (payload: Record<string, unknown>) => {
   act(() => {
     hubHandlers.forEach((handler) => {
-      handler(
-        { payload } as Parameters<AuthMachineHubHandler>[0],
-        {
-          send: () => undefined,
-        } as unknown as Parameters<AuthMachineHubHandler>[1]
-      );
+      handler({ payload } as Parameters<AuthHubHandler>[0]);
     });
   });
 };
@@ -119,7 +114,7 @@ describe('useAuth', () => {
         expect(result.current.user).toBe(undefined);
       });
       await waitFor(() => {
-        expect(subscribeToAuthEventsSpy).toHaveBeenCalled();
+        expect(subscribeToAuthHubSpy).toHaveBeenCalled();
       });
 
       dispatchAuthEvent({ event, data: mockCognitoUser });
@@ -140,7 +135,7 @@ describe('useAuth', () => {
       expect(result.current.user).toBe(mockCognitoUser);
     });
     await waitFor(() => {
-      expect(subscribeToAuthEventsSpy).toHaveBeenCalled();
+      expect(subscribeToAuthHubSpy).toHaveBeenCalled();
     });
 
     dispatchAuthEvent({ event: 'signedOut' });
@@ -168,7 +163,7 @@ describe('useAuth', () => {
       const { result } = renderHook(() => useAuth(), { wrapper });
 
       await waitFor(() => {
-        expect(subscribeToAuthEventsSpy).toHaveBeenCalled();
+        expect(subscribeToAuthHubSpy).toHaveBeenCalled();
       });
       dispatchAuthEvent({
         event,
@@ -188,7 +183,7 @@ describe('useAuth', () => {
     const { result } = renderHook(() => useAuth(), { wrapper });
 
     await waitFor(() => {
-      expect(subscribeToAuthEventsSpy).toHaveBeenCalled();
+      expect(subscribeToAuthHubSpy).toHaveBeenCalled();
     });
     dispatchAuthEvent({
       event: 'autoSignIn_failure',

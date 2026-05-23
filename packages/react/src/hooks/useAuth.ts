@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import type { AuthUser } from 'aws-amplify/auth';
-import type { AuthInterpreter, AuthMachineHubHandler } from '@aws-amplify/ui';
+import type { AuthHubHandler } from '@aws-amplify/ui';
 import { useAuthService } from '@aws-amplify/ui-react-core';
 
 export interface UseAuthResult {
@@ -46,7 +46,7 @@ export const useAuth = (): UseAuthResult => {
     }
   }, [authService]);
 
-  const handleAuth: AuthMachineHubHandler = React.useCallback(
+  const handleAuth: AuthHubHandler = React.useCallback(
     ({ payload: unsafePayload }) => {
       const payload = unsafePayload as AuthHubPayload;
 
@@ -100,10 +100,9 @@ export const useAuth = (): UseAuthResult => {
   );
 
   React.useEffect(() => {
-    const service = {
-      send: () => undefined,
-    } as unknown as AuthInterpreter;
-    const unsubscribe = authService.subscribeToAuthEvents(service, handleAuth);
+    // useAuth only mirrors Auth Hub state into React state. It does not drive
+    // the authenticator state machine, so subscribe without a machine service.
+    const unsubscribe = authService.subscribeToAuthHub(handleAuth, 'useAuth');
     fetchCurrentUser(); // on init, see if user is already logged in
 
     return unsubscribe;
