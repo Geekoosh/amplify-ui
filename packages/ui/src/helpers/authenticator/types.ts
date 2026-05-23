@@ -30,6 +30,12 @@ export type AuthInterpreter = Interpreter<
 export type AuthMachineSend = AuthInterpreter['send'];
 
 /**
+ * Handles Amplify JS Auth hub events without requiring an authenticator
+ * machine service.
+ */
+export type AuthHubHandler = (data: HubCapsule<any, any>) => void;
+
+/**
  * Handles Amplify JS Auth hub events, by forwarding hub events as appropriate
  * xstate events.
  */

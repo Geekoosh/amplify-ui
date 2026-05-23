@@ -70,35 +70,12 @@ jobs:
         with:
           config-file: '.github/dependency-review/config.yml'
 
-  codeql:
-    needs: setup
-    runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      security-events: write # to write security event to the PR
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [javascript]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@7fc6561ed893d15cec696e062df840b21db27eb0 # v4.35.2
-        with:
-          languages: ${{ matrix.language }}
-          config-file: ./.github/codeql/codeql-config.yml
-          queries: +security-and-quality
-
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@7fc6561ed893d15cec696e062df840b21db27eb0 # v4.35.2
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@7fc6561ed893d15cec696e062df840b21db27eb0 # v4.35.2
-        with:
-          category: '/language:${{ matrix.language }}'
+  # Fork-only delta from upstream:
+  # The upstream PR workflow carries an inline CodeQL job here. This fork relies
+  # on GitHub CodeQL default setup instead, because GitHub rejects a second
+  # workflow-based CodeQL upload for the same language while default setup is
+  # enabled. If syncing this file back to upstream, restore upstream's CodeQL job
+  # or disable default setup before reintroducing an advanced CodeQL job here.
 
   setup-cache:
     needs: setup
@@ -115,6 +92,12 @@ jobs:
       repository: ${{ github.repository }}
 
   e2e:
+    # Fork-only delta from upstream:
+    # Upstream can run AWS-backed e2e because aws-amplify/amplify-ui owns the
+    # private Amplify apps, OIDC roles, and e2e secrets used by reusable-e2e.yml.
+    # This fork does not, so e2e is skipped unless equivalent AWS infrastructure
+    # is configured and this repository guard is intentionally relaxed.
+    if: github.repository == 'aws-amplify/amplify-ui'
     uses: ./.github/workflows/reusable-e2e.yml
     needs: unit
     with:
@@ -140,9 +123,23 @@ jobs:
       DOCSEARCH_DOCS_API_KEY: ${{ secrets.DOCSEARCH_DOCS_API_KEY }}
       DOCSEARCH_DOCS_INDEX_NAME: ${{ secrets.DOCSEARCH_DOCS_INDEX_NAME }}
 
+  e2e-skip:
+    # Keep the aggregate "Run PR checks" status meaningful in forks: unit and
+    # dependency checks still run, but AWS-backed e2e is represented by this
+    # explicit skip path instead of failing on missing private AWS credentials.
+    if: github.repository != 'aws-amplify/amplify-ui'
+    needs: unit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip AWS-backed e2e checks
+        run: echo "Skipping e2e checks because this repository does not provide AWS e2e role secrets."
+
   update-success-status:
-    if: ${{ success() }}
-    needs: [setup, e2e, codeql, dependency-review]
+    # e2e is skipped in forks, so use result-aware conditions instead of
+    # success(). Skipped fork e2e should not block success, but actual failures
+    # or cancellations should still publish a failure status.
+    if: ${{ always() && needs.setup.result == 'success' && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') }}
+    needs: [setup, e2e, e2e-skip, dependency-review]
     runs-on: ubuntu-latest
     permissions:
       statuses: write # This is required for running set-status actions
@@ -158,8 +155,11 @@ jobs:
           target-url: https://github.com/${{ github.event.repository.owner.login }}/${{ github.event.repository.name }}/actions/runs/${{ github.run_id }}
 
   update-failure-status:
-    if: ${{ failure() }}
-    needs: [setup, e2e, codeql, dependency-review]
+    # Do not set a failure status when setup was skipped because the PR event did
+    # not meet this workflow's trigger rules. Real downstream failures are still
+    # reported on the PR commit.
+    if: ${{ always() && needs.setup.result != 'skipped' && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) }}
+    needs: [setup, e2e, e2e-skip, dependency-review]
     runs-on: ubuntu-latest
     permissions:
       statuses: write # This is required for running set-status actions

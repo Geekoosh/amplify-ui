@@ -147,6 +147,11 @@ export const createAmplifyLogger = (namespace: string) => new Logger(namespace);
 export const AMPLIFY_NETWORK_ERROR = AmplifyErrorCode.NetworkError;
 export const amplifyI18n = I18n;
 
+const subscribeToAuthHub: AmplifyAuthAdapter['subscribeToAuthHub'] = (
+  handler,
+  listenerName = 'authenticator-hub-handler'
+) => Hub.listen('auth', handler, listenerName);
+
 export const amplifyAuthAdapter: AmplifyAuthAdapter = {
   getAmplifyConfig,
   getCurrentUser,
@@ -184,9 +189,8 @@ export const amplifyAuthAdapter: AmplifyAuthAdapter = {
 
   changePassword,
   getPasswordPolicy,
+  subscribeToAuthHub,
   subscribeToAuthEvents(service, handler) {
-    const eventHandler: Parameters<typeof Hub.listen>[1] = (data) =>
-      handler(data, service);
-    return Hub.listen('auth', eventHandler, 'authenticator-hub-handler');
+    return subscribeToAuthHub((data) => handler(data, service));
   },
 };

@@ -3,6 +3,7 @@ import type * as AmplifyAuth from 'aws-amplify/auth';
 import type { UserAttributeKey } from 'aws-amplify/auth';
 
 import type {
+  AuthHubHandler,
   AuthInterpreter,
   AuthMachineHubHandler,
 } from '../../helpers/authenticator/types';
@@ -83,6 +84,15 @@ export interface AuthServices {
   changePassword(input: ChangePasswordInput): Promise<void>;
   deleteUser: typeof AmplifyAuth.deleteUser;
   getPasswordPolicy(): PasswordSettings | undefined;
+  /**
+   * Passive Auth Hub subscription for consumers that only observe auth events.
+   * Use `subscribeToAuthEvents` when the handler also needs to drive the
+   * authenticator state machine via `service.send`.
+   */
+  subscribeToAuthHub(
+    handler: AuthHubHandler,
+    listenerName?: string
+  ): () => void;
   subscribeToAuthEvents(
     service: AuthInterpreter,
     handler: AuthMachineHubHandler

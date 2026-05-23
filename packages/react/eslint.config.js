@@ -4,6 +4,11 @@ const js = require('@eslint/js');
 
 const { FlatCompat } = require('@eslint/eslintrc');
 
+const {
+  AUTH_BOUNDARY_SOURCE_FILES,
+  createAuthBoundaryConfig,
+} = require('@aws-amplify/eslint-config-amplify-ui/auth-boundary');
+
 const compat = new FlatCompat({
   baseDirectory: __dirname,
   recommendedConfig: js.configs.recommended,
@@ -21,6 +26,13 @@ module.exports = defineConfig([
       },
     },
   },
+  createAuthBoundaryConfig({
+    files: [
+      `src/components/Authenticator/${AUTH_BOUNDARY_SOURCE_FILES}`,
+      `src/components/AccountSettings/${AUTH_BOUNDARY_SOURCE_FILES}`,
+      'src/hooks/useAuth.ts',
+    ],
+  }),
   globalIgnores([
     '**/eslint.config.js',
     '**/.lintstagedrc.js',

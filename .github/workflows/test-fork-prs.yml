@@ -130,55 +130,6 @@ jobs:
           # URL below is a link to the current workflow run to allow users to see the status of the workflow.
           target-url: https://github.com/${{ github.event.repository.owner.login }}/${{ github.event.repository.name }}/actions/runs/${{ github.run_id }}
 
-  codeql:
-    needs: setup
-    runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      security-events: write # required to write security findings
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [javascript]
-    steps:
-      - name: Remove run-codeql label, if applicable
-        if: github.event.label.name == 'run-codeql'
-        env:
-          ISSUE_NUMBER: ${{ github.event.pull_request.number }}
-          REPO_OWNER: ${{ github.repository_owner }}
-          REPO_NAME: ${{ github.event.repository.name }}
-          LABEL_NAME: 'run-codeql'
-        uses: actions/github-script@d746ffe35508b1917358783b479e04febd2b8f71 # v9.0.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { ISSUE_NUMBER, REPO_OWNER, REPO_NAME, LABEL_NAME } = process.env
-            github.rest.issues.removeLabel({ owner: REPO_OWNER, repo: REPO_NAME, issue_number: ISSUE_NUMBER, name: LABEL_NAME })
-
-      - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          ref: ${{ needs.setup.outputs.commit_id }}
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@7fc6561ed893d15cec696e062df840b21db27eb0 # v4.35.2
-        with:
-          languages: ${{ matrix.language }}
-          config-file: ./.github/codeql/codeql-config.yml
-          queries: +security-and-quality
-
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@7fc6561ed893d15cec696e062df840b21db27eb0 # v4.35.2
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@7fc6561ed893d15cec696e062df840b21db27eb0 # v4.35.2
-        with:
-          # ref should target refs/pull/<number>/head
-          ref: refs/pull/${{ needs.setup.outputs.pr_number }}/head
-          sha: ${{ needs.setup.outputs.commit_id }}
-          category: '/language:${{ matrix.language }}'
-
   dependency-review:
     needs: setup
     runs-on: ubuntu-latest
@@ -197,6 +148,13 @@ jobs:
           head-ref: ${{ needs.setup.outputs.commit_id }}
           config-file: '.github/dependency-review/config.yml'
 
+  # Fork-only delta from upstream:
+  # The upstream fork-PR workflow carries an inline CodeQL job here. This fork
+  # relies on GitHub CodeQL default setup instead, because GitHub rejects a
+  # second workflow-based CodeQL upload for the same language while default setup
+  # is enabled. If syncing this file back to upstream, restore upstream's CodeQL
+  # job or disable default setup before reintroducing an advanced CodeQL job here.
+
   setup-cache:
     needs: setup
     uses: aws-amplify/amplify-ui/.github/workflows/reusable-setup-cache.yml@main
@@ -205,6 +163,12 @@ jobs:
       repository: ${{ github.repository }}
 
   e2e:
+    # Fork-only delta from upstream:
+    # Upstream can run AWS-backed e2e because aws-amplify/amplify-ui owns the
+    # private Amplify apps, OIDC roles, and e2e secrets used by reusable-e2e.yml.
+    # This fork does not, so e2e is skipped unless equivalent AWS infrastructure
+    # is configured and this repository guard is intentionally relaxed.
+    if: github.repository == 'aws-amplify/amplify-ui'
     uses: aws-amplify/amplify-ui/.github/workflows/reusable-e2e.yml@main
     needs: [setup, setup-cache]
     permissions:
@@ -232,10 +196,25 @@ jobs:
       DOCSEARCH_DOCS_API_KEY: ${{ secrets.DOCSEARCH_DOCS_API_KEY }}
       DOCSEARCH_DOCS_INDEX_NAME: ${{ secrets.DOCSEARCH_DOCS_INDEX_NAME }}
 
+  e2e-skip:
+    # Keep the aggregate "Run PR checks" status meaningful in forks: setup,
+    # dependency, and cache checks still run, but AWS-backed e2e is represented by
+    # this explicit skip path instead of failing on missing private AWS
+    # credentials.
+    if: github.repository != 'aws-amplify/amplify-ui'
+    needs: [setup, setup-cache]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip AWS-backed e2e checks
+        run: echo "Skipping e2e checks because this repository does not provide AWS e2e role secrets."
+
   # update status on success
   update-success-status:
-    if: ${{ success() }}
-    needs: [setup, e2e, codeql, dependency-review]
+    # e2e is skipped in forks, so use result-aware conditions instead of
+    # success(). Skipped fork e2e should not block success, but actual failures
+    # or cancellations should still publish a failure status.
+    if: ${{ always() && needs.setup.result == 'success' && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') }}
+    needs: [setup, e2e, e2e-skip, dependency-review]
     runs-on: ubuntu-latest
     permissions:
       statuses: write # This is required for running set-status actions
@@ -252,8 +231,11 @@ jobs:
 
   # update status on failure
   update-failure-status:
-    if: ${{ failure() }}
-    needs: [setup, e2e, codeql, dependency-review]
+    # Do not set a failure status when setup was skipped because the fork review
+    # workflow was not approved. Real downstream failures are still reported on
+    # the PR commit.
+    if: ${{ always() && needs.setup.result != 'skipped' && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) }}
+    needs: [setup, e2e, e2e-skip, dependency-review]
     runs-on: ubuntu-latest
     permissions:
       statuses: write # This is required for running set-status actions

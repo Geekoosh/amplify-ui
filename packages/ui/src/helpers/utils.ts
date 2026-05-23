@@ -7,5 +7,10 @@ type LoggerCategory =
   | 'Notifications'
   | 'Storage';
 
-export const getLogger = (category: LoggerCategory) =>
-  createAmplifyLogger(`AmplifyUI:${category}`);
+export const getLogger = (category: LoggerCategory, scope?: string) => {
+  const namespace = scope
+    ? `AmplifyUI:${category}:${scope}`
+    : `AmplifyUI:${category}`;
+
+  return createAmplifyLogger(namespace);
+};

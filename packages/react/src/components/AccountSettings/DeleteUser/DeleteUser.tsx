@@ -78,7 +78,7 @@ function DeleteUser({
       setErrorMessage(error.message);
       onError?.(error);
     }
-  }, [errorMessage, handleDelete, onError, onSuccess, user]);
+  }, [deleteUser, errorMessage, handleDelete, onError, onSuccess, user]);
 
   // called when end user cancels account deletion confirmation
   const handleCancel = React.useCallback(() => {

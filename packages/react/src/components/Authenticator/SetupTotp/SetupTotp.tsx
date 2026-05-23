@@ -1,8 +1,11 @@
 import QRCode from 'qrcode';
 import * as React from 'react';
 
-import { ConsoleLogger as Logger } from 'aws-amplify/utils';
-import { authenticatorTextUtil, getTotpCodeURL } from '@aws-amplify/ui';
+import {
+  authenticatorTextUtil,
+  getLogger,
+  getTotpCodeURL,
+} from '@aws-amplify/ui';
 
 import { Flex } from '../../../primitives/Flex';
 import { Heading } from '../../../primitives/Heading';
@@ -16,7 +19,10 @@ import { FormFields } from '../shared/FormFields';
 import type { RouteProps } from '../RouteContainer';
 import { RouteContainer } from '../RouteContainer';
 
-const logger = new Logger('SetupTotp-logger');
+// Fork drift from upstream: upstream creates a ConsoleLogger in this component.
+// Keep aws-amplify/utils behind the shared adapter boundary while preserving a
+// SetupTotp-specific logger namespace for filtering/debugging.
+const logger = getLogger('Auth', 'SetupTotp');
 
 type LegacyQRFields = { totpIssuer?: string; totpUsername?: string };
 

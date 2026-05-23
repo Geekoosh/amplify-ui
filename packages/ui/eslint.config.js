@@ -4,6 +4,11 @@ const globals = require('globals');
 const typescriptEslint = require('@typescript-eslint/eslint-plugin');
 const _import = require('eslint-plugin-import');
 
+const {
+  AUTH_BOUNDARY_SOURCE_FILES,
+  createAuthBoundaryConfig,
+} = require('@aws-amplify/eslint-config-amplify-ui/auth-boundary');
+
 const { fixupPluginRules } = require('@eslint/compat');
 
 const tsParser = require('@typescript-eslint/parser');
@@ -56,6 +61,14 @@ module.exports = defineConfig([
       ],
     },
   },
+  createAuthBoundaryConfig({
+    files: [
+      `src/machines/authenticator/${AUTH_BOUNDARY_SOURCE_FILES}`,
+      `src/helpers/authenticator/${AUTH_BOUNDARY_SOURCE_FILES}`,
+      `src/helpers/accountSettings/${AUTH_BOUNDARY_SOURCE_FILES}`,
+    ],
+    ignores: ['src/machines/authenticator/amplifyAuthAdapter.ts'],
+  }),
   globalIgnores([
     '**/eslint.config.js',
     '**/coverage',
