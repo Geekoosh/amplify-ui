@@ -78,6 +78,10 @@ jobs:
           skip-cypress-binary: true # unit test doesn't need cypress
 
       - name: Run auth import guard
+        # SAA-342 fork guard: prevent guarded auth UI surfaces from adding direct
+        # runtime imports from aws-amplify/auth or aws-amplify/utils. Those calls
+        # should stay behind AuthServices so the fork can swap auth implementations
+        # without carrying large React-component diffs during upstream syncs.
         if: ${{ matrix.package == 'ui' }}
         run: yarn auth:import-guard
 
