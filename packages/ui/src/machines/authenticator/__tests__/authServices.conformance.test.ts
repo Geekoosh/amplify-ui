@@ -1,3 +1,19 @@
+/**
+ * Maintainer note for the SaaSOn auth seam:
+ *
+ * This file is primarily a compile-time conformance test. The authenticator
+ * machine receives auth results through `AuthServices`, while the default
+ * adapter still delegates to `aws-amplify/auth`. These type pins make sure the
+ * `AuthServices` return types continue to expose the Amplify `nextStep` fields
+ * consumed by authenticator actions.
+ *
+ * If an Amplify upgrade or upstream sync changes one of those shapes, TypeScript
+ * should fail here before the fork ships a mismatched service contract. Treat
+ * that failure as a review signal: compare the new Amplify output type with
+ * `AuthServices` and the consuming authenticator action, then either preserve
+ * the existing service shape in the adapter or update the action, service
+ * contract, and this test together with an explicit migration note.
+ */
 import type { SignInOutput, SignUpOutput } from 'aws-amplify/auth';
 
 import type { AuthServices } from '../authServices';

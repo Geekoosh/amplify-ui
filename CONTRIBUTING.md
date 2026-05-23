@@ -156,6 +156,22 @@ upstream Amplify runtime imports. Runtime imports from `aws-amplify/auth` and
    yarn ui test --runTestsByPath src/machines/authenticator/__tests__/authServices.conformance.test.ts src/machines/authenticator/__tests__/fakeServices.test.ts
    ```
 
+The `authServices.conformance.test.ts` suite is a compile-time guard for the
+SaaSOn auth seam. It pins the Amplify `nextStep` fields that authenticator
+actions consume through `AuthServices`, such as TOTP setup details, MFA options,
+code delivery details, and sign-in/sign-up step names. If an upstream Amplify
+type change removes or renames one of those fields, `yarn ui typecheck` or the
+focused Jest run should fail in that test before the fork ships a mismatched
+service contract.
+
+When that guard fails, do not loosen the test just to restore green CI. Compare
+the new upstream Amplify output type with `AuthServices` and the consuming
+authenticator action. If the existing SaaSOn-facing service shape is still the
+right contract, normalize the new upstream shape inside the adapter. If the
+runtime behavior genuinely changed, update the action, `AuthServices`, the
+conformance test, and release notes together so downstream maintainers can see
+the contract change.
+
 ### SaaSOn Publish
 
 The fork uses changesets and publishes the SaaSOn-consumed packages as public
