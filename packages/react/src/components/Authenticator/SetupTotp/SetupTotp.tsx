@@ -19,7 +19,10 @@ import { FormFields } from '../shared/FormFields';
 import type { RouteProps } from '../RouteContainer';
 import { RouteContainer } from '../RouteContainer';
 
-const logger = getLogger('Auth');
+// Fork drift from upstream: upstream creates a ConsoleLogger in this component.
+// Keep aws-amplify/utils behind the shared adapter boundary while preserving a
+// SetupTotp-specific logger namespace for filtering/debugging.
+const logger = getLogger('Auth', 'SetupTotp');
 
 type LegacyQRFields = { totpIssuer?: string; totpUsername?: string };
 
