@@ -6,6 +6,9 @@ on:
 
 jobs:
   analyze:
+    # This fork uses GitHub CodeQL default setup. Running this advanced workflow
+    # as well causes GitHub to reject the uploaded SARIF.
+    if: github.repository == 'aws-amplify/amplify-ui'
     runs-on: ubuntu-latest
     permissions:
       actions: read
