@@ -11,6 +11,9 @@ on:
 
 jobs:
   build:
+    # This scheduled canary reports metrics with credentials only configured in
+    # the upstream repository.
+    if: github.repository == 'aws-amplify/amplify-ui'
     uses: ./.github/workflows/reusable-build-system-test-react-native.yml
     with:
       dist-tag: latest
@@ -20,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: ci
     needs: build
-    if: ${{ failure() }}
+    if: ${{ github.repository == 'aws-amplify/amplify-ui' && failure() }}
     steps:
       - name: Log failure data point to metric BuildSystemTestFailure
         uses: aws-amplify/amplify-ui/.github/actions/log-metric@main
@@ -35,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: ci
     needs: build
-    if: ${{ success() }}
+    if: ${{ github.repository == 'aws-amplify/amplify-ui' && success() }}
     steps:
       - name: Log success data point to metric BuildSystemTestFailure
         uses: aws-amplify/amplify-ui/.github/actions/log-metric@main
