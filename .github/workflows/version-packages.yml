@@ -16,6 +16,9 @@ permissions:
 
 jobs:
   version:
+    # Forks do not need upstream package release PRs, and GitHub blocks the
+    # default Actions token from creating PRs when that repository setting is off.
+    if: github.repository == 'aws-amplify/amplify-ui'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo

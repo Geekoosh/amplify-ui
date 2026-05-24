@@ -11,6 +11,12 @@ on:
 
 jobs:
   build:
+    # This scheduled canary depends on private AWS Amplify test resources that
+    # are only configured in the upstream repository.
+    if: github.repository == 'aws-amplify/amplify-ui'
+    permissions:
+      id-token: write # This is required for aws-actions/configure-aws-credentials
+      contents: read # This is required for actions/checkout
     uses: ./.github/workflows/reusable-build-system-test.yml
     with:
       dist-tag: latest
