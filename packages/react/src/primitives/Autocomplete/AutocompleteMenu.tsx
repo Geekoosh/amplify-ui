@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 import { Loader } from '../Loader';
 
 import { ScrollView } from '../ScrollView';

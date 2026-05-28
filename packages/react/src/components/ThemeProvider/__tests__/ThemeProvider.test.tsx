@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { Theme } from '@aws-amplify/ui';
+import { Theme } from '@saasontools/amplify-ui';
 import * as React from 'react';
 
 import { ThemeProvider } from '../ThemeProvider';

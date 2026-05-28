@@ -1,8 +1,8 @@
 import React from 'react';
-import type { AuthEventTypes } from '@aws-amplify/ui';
-import { authenticatorTextUtil } from '@aws-amplify/ui';
+import type { AuthEventTypes } from '@saasontools/amplify-ui';
+import { authenticatorTextUtil } from '@saasontools/amplify-ui';
 
-import { useAuthenticator } from '@aws-amplify/ui-react-core';
+import { useAuthenticator } from '@saasontools/amplify-ui-react-core';
 import { Button } from '../../../primitives/Button';
 import { Flex } from '../../../primitives/Flex';
 

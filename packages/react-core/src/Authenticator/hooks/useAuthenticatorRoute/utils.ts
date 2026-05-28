@@ -1,4 +1,4 @@
-import type { AuthenticatorRoute } from '@aws-amplify/ui';
+import type { AuthenticatorRoute } from '@saasontools/amplify-ui';
 
 import { RenderNothing } from '../../../components';
 import type {

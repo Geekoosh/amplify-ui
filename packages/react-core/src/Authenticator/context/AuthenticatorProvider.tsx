@@ -2,11 +2,14 @@ import type { ReactNode } from 'react';
 import React, { useContext, useEffect, useMemo } from 'react';
 import { useInterpret } from '@xstate/react';
 
-import type { AuthStatus, AuthMachineHubHandler } from '@aws-amplify/ui';
+import type {
+  AuthStatus,
+  AuthMachineHubHandler,
+} from '@saasontools/amplify-ui';
 import {
   createAuthenticatorMachine,
   defaultAuthHubHandler,
-} from '@aws-amplify/ui';
+} from '@saasontools/amplify-ui';
 
 import { AuthenticatorContext } from './AuthenticatorContext';
 import { useAuthService } from '../../AuthService';

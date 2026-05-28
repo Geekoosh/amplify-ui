@@ -3,7 +3,7 @@ import { createTheme } from '../createTheme';
 
 const { tokens } = createTheme();
 
-describe('@aws-amplify/ui', () => {
+describe('@saasontools/amplify-ui', () => {
   describe('createGlobalCSS', () => {
     it('should work with regular styles', () => {
       expect(

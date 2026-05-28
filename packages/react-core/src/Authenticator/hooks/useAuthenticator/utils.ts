@@ -4,7 +4,7 @@ import type {
   FormFieldsArray,
   UnverifiedUserAttributes,
   AuthMFAType,
-} from '@aws-amplify/ui';
+} from '@saasontools/amplify-ui';
 import {
   areEmptyArrays,
   areEmptyObjects,
@@ -12,7 +12,7 @@ import {
   getActorContext,
   isString,
   authenticatorTextUtil,
-} from '@aws-amplify/ui';
+} from '@saasontools/amplify-ui';
 
 import type {
   AuthenticatorLegacyField,

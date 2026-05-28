@@ -9,7 +9,7 @@ import {
   TableHead,
   TableRow,
 } from '..';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 import { TableProps } from '../../types';
 
 describe('Table primitive', () => {

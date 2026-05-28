@@ -5,7 +5,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 jest.mock('qrcode');
 let mockAuthService: Record<string, jest.Mock>;
 
-jest.mock('@aws-amplify/ui-react-core', () => ({
+jest.mock('@saasontools/amplify-ui-react-core', () => ({
   useAuthService: () => mockAuthService,
   useSetUserAgent: jest.fn(),
 }));

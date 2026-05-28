@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import type { SetUserAgentOptions } from '@aws-amplify/ui';
-import { setUserAgent } from '@aws-amplify/ui';
+import type { SetUserAgentOptions } from '@saasontools/amplify-ui';
+import { setUserAgent } from '@saasontools/amplify-ui';
 
 export default function useSetUserAgent({
   componentName,

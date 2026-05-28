@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { act, screen, render } from '@testing-library/react';
 
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 import { Menu, MENU_ITEMS_GROUP_TEST_ID, MENU_TRIGGER_TEST_ID } from '../Menu';
 import { MenuButton } from '../MenuButton';
 import { MenuItem, MENU_ITEM_TEST_ID } from '../MenuItem';

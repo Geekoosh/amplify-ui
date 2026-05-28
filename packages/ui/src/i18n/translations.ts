@@ -62,7 +62,7 @@ export type Phrase = (typeof DefaultTexts)[keyof typeof DefaultTexts];
 export type Dict = Record<string, string>;
 
 /**
- * This helper type checks that given phrase is one of the texts @aws-amplify/ui
+ * This helper type checks that given phrase is one of the texts @saasontools/amplify-ui
  * provides by default. This enables vscode autocompletion to help catch typos
  * during development.
  *

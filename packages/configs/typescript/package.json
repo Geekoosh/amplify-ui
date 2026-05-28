@@ -1,7 +1,7 @@
 {
   "name": "@aws-amplify/typescript-config",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "description": "Typescript configuration for Amplify UI packages",
   "exports": {
     "./*.json": "./*.json"

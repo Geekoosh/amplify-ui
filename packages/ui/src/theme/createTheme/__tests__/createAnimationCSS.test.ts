@@ -1,7 +1,7 @@
 import { createAnimationCSS } from '../createAnimationCSS';
 import { createTheme } from '../createTheme';
 const { tokens } = createTheme();
-describe('@aws-amplify/ui', () => {
+describe('@saasontools/amplify-ui', () => {
   describe('createAnimationCSS', () => {
     it('should work with a theme as a function or an object', () => {
       const css = createAnimationCSS({

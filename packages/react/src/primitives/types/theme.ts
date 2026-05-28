@@ -6,7 +6,7 @@ import type {
   Radii,
   Shadows,
   SpaceSizes,
-} from '@aws-amplify/ui';
+} from '@saasontools/amplify-ui';
 import { stylePropsToThemeKeys } from '../shared/constants';
 
 /**

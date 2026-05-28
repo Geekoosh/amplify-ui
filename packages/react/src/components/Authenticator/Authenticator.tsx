@@ -3,17 +3,17 @@ import type {
   AuthenticatorMachineOptions,
   FormFieldComponents,
   FormFieldOptions,
-} from '@aws-amplify/ui';
-import { isFunction } from '@aws-amplify/ui';
+} from '@saasontools/amplify-ui';
+import { isFunction } from '@saasontools/amplify-ui';
 import type { AuthUser } from 'aws-amplify/auth';
 
-import type { UseAuthenticator } from '@aws-amplify/ui-react-core';
+import type { UseAuthenticator } from '@saasontools/amplify-ui-react-core';
 import {
   AuthenticatorProvider as Provider,
   useAuthenticator,
   useAuthenticatorInitMachine,
   useSetUserAgent,
-} from '@aws-amplify/ui-react-core';
+} from '@saasontools/amplify-ui-react-core';
 
 import { VERSION } from '../../version';
 import { useDeprecationWarning } from '../../hooks/useDeprecationWarning';

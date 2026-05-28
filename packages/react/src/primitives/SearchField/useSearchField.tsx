@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { isFunction } from '@aws-amplify/ui';
+import { isFunction } from '@saasontools/amplify-ui';
 
 import { ESCAPE_KEY, ENTER_KEY } from '../shared/constants';
 import type { UseSearchFieldProps } from '../types';

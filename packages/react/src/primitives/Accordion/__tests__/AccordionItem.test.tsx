@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import * as React from 'react';
 
 import { Accordion } from '../Accordion';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 describe('Accordion.Item:', () => {
   it('should render default and custom classnames', async () => {

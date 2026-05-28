@@ -7,11 +7,10 @@
   <h1 align="center">Amplify UI</h1>
 </p>
 
-[![GitHub](https://img.shields.io/github/license/aws-amplify/amplify-ui)](LICENSE)
+[![GitHub](https://img.shields.io/github/license/saasontools/amplify-ui)](LICENSE)
 [![Discord](https://img.shields.io/discord/308323056592486420?logo=discord)](https://discord.gg/jWVbPfC)
-[![Open Bugs](https://img.shields.io/github/issues/aws-amplify/amplify-ui/bug?color=d73a4a&label=bugs)](https://github.com/aws-amplify/amplify-ui/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
-[![Feature Requests](https://img.shields.io/github/issues/aws-amplify/amplify-ui/feature-request?color=ff9001&label=feature%20requests)](https://github.com/aws-amplify/amplify-ui/issues?q=is%3Aissue+label%3Afeature-request+is%3Aopen)
-[![GA milestone](https://img.shields.io/github/milestones/progress-percent/aws-amplify/amplify-ui/1)](https://github.com/aws-amplify/amplify-ui/milestone/1)
+[![Open Bugs](https://img.shields.io/github/issues/saasontools/amplify-ui/bug?color=d73a4a&label=bugs)](https://github.com/saasontools/amplify-ui/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
+[![Feature Requests](https://img.shields.io/github/issues/saasontools/amplify-ui/feature-request?color=ff9001&label=feature%20requests)](https://github.com/saasontools/amplify-ui/issues?q=is%3Aissue+label%3Afeature-request+is%3Aopen)
 
 Amplify UI is an open-source UI library with cloud-connected components that are endlessly customizable, accessible, and can integrate into _any_ application. Amplify UI consists of:
 
@@ -20,11 +19,13 @@ Amplify UI is an open-source UI library with cloud-connected components that are
 3. Data-bound components that make it easy to display dynamic data, like DataStoreCollections.
 4. Theming capabilities that allow you to customize the appearance of Amplify UI to match your brand.
 
-| Package Name                                                                     | Downloads                                                                                       | Version                                                                 |
-| -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| [@aws-amplify/ui-react](https://www.npmjs.com/package/@aws-amplify/ui-react)     | ![](https://img.shields.io/npm/dw/@aws-amplify/ui-react?label=Download&logo=Amplify&style=flat) | ![](https://img.shields.io/npm/v/@aws-amplify/ui-react/latest)          |
-| [@aws-amplify/ui-vue](https://www.npmjs.com/package/@aws-amplify/ui-vue)         | ![](https://img.shields.io/npm/dw/@aws-amplify/ui-vue?label=Download&logo=Amplify)              | ![](https://img.shields.io/npm/v/@aws-amplify/ui-vue/latest?style=flat) |
-| [@aws-amplify/ui-angular](https://www.npmjs.com/package/@aws-amplify/ui-angular) | ![](https://img.shields.io/npm/dw/@aws-amplify/ui-angular?label=Download&logo=Amplify)          | ![](https://img.shields.io/npm/v/@aws-amplify/ui-angular/latest)        |
+This SaaSOn fork publishes exactly three internal packages to GitHub Packages:
+
+| Package Name                         | Registry                     | Visibility |
+| ------------------------------------ | ---------------------------- | ---------- |
+| `@saasontools/amplify-ui`            | `https://npm.pkg.github.com` | Internal   |
+| `@saasontools/amplify-ui-react`      | `https://npm.pkg.github.com` | Internal   |
+| `@saasontools/amplify-ui-react-core` | `https://npm.pkg.github.com` | Internal   |
 
 ## Documentation
 
@@ -111,7 +112,7 @@ Amplify UI consists of both primitive components like Buttons, Badges, and Cards
 
 **Where should I file bugs and requests?**
 
-[Bugs and feature requests for Amplify UI](https://github.com/aws-amplify/amplify-ui/issues/new)
+[Bugs and feature requests for this fork](https://github.com/saasontools/amplify-ui/issues/new)
 
 You can also use the above link to report a bug or a feature request for previous version of Amplify UI Components.
 

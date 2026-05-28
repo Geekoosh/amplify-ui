@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { classNames } from '@aws-amplify/ui';
+import { classNames } from '@saasontools/amplify-ui';
 import { Button } from '../Button';
 
 import { classNameModifier } from '../shared/utils';
@@ -9,7 +9,7 @@ import type {
   ForwardRefPrimitive,
   Primitive,
 } from '../types';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 import { useStyles } from '../shared/styleUtils';
 import { primitiveWithForwardRef } from '../utils/primitiveWithForwardRef';
 

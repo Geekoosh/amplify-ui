@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { Accordion } from '../Accordion';
 import { AccordionProps } from '../types';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 const accordionItems = [
   {

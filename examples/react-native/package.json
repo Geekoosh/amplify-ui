@@ -14,8 +14,8 @@
   "dependencies": {
     "@aws-amplify/react-native": "1.1.1",
     "@aws-amplify/rtn-web-browser": "1.0.30",
-    "@aws-amplify/ui": "*",
-    "@aws-amplify/ui-react-core": "*",
+    "@saasontools/amplify-ui": "6.15.4-saasontools.0",
+    "@saasontools/amplify-ui-react-core": "6.15.4-saasontools.0",
     "@aws-amplify/ui-react-core-notifications": "*",
     "@aws-amplify/ui-react-native": "*",
     "@react-native-async-storage/async-storage": "^1.17.5",

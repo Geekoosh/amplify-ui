@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`@aws-amplify/ui-react exports should match snapshot 1`] = `
+exports[`@saasontools/amplify-ui-react exports should match snapshot 1`] = `
 [
   "Accordion",
   "AccountSettings",
@@ -84,7 +84,7 @@ exports[`@aws-amplify/ui-react exports should match snapshot 1`] = `
 ]
 `;
 
-exports[`@aws-amplify/ui-react/internal exports should match snapshot 1`] = `
+exports[`@saasontools/amplify-ui-react/internal exports should match snapshot 1`] = `
 [
   "AlertIcon",
   "Field",
@@ -131,7 +131,7 @@ exports[`@aws-amplify/ui-react/internal exports should match snapshot 1`] = `
 ]
 `;
 
-exports[`@aws-amplify/ui-react/server exports should match snapshot 1`] = `
+exports[`@saasontools/amplify-ui-react/server exports should match snapshot 1`] = `
 [
   "ComponentStyle",
   "GlobalStyle",

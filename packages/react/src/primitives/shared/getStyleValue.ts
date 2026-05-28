@@ -1,5 +1,5 @@
-import type { WebTheme } from '@aws-amplify/ui';
-import { isDesignToken, isString } from '@aws-amplify/ui';
+import type { WebTheme } from '@saasontools/amplify-ui';
+import { isDesignToken, isString } from '@saasontools/amplify-ui';
 import { getCSSVariableIfValueIsThemeKey } from './utils';
 
 interface GetStyleValueProps {

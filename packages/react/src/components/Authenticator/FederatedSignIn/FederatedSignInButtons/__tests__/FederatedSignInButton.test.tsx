@@ -1,8 +1,8 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import { FederatedIdentityProviders } from '@aws-amplify/ui';
-import * as ReactCoreModule from '@aws-amplify/ui-react-core';
+import { FederatedIdentityProviders } from '@saasontools/amplify-ui';
+import * as ReactCoreModule from '@saasontools/amplify-ui-react-core';
 
 import { FederatedSignInButton } from '../FederatedSignInButton';
 

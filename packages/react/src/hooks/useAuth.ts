@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 import type { AuthUser } from 'aws-amplify/auth';
-import type { AuthHubHandler } from '@aws-amplify/ui';
-import { useAuthService } from '@aws-amplify/ui-react-core';
+import type { AuthHubHandler } from '@saasontools/amplify-ui';
+import { useAuthService } from '@saasontools/amplify-ui-react-core';
 
 export interface UseAuthResult {
   user?: AuthUser;

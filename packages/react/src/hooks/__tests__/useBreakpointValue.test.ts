@@ -6,7 +6,7 @@ import MatchMediaMock from 'jest-matchmedia-mock';
 import * as React from 'react';
 import { getMediaQueries } from '../../primitives/shared/responsive/getMediaQueries';
 import { MediaQueryBreakpoint } from '../../primitives/types/responsive';
-import { defaultTheme } from '@aws-amplify/ui';
+import { defaultTheme } from '@saasontools/amplify-ui';
 
 jest.mock('react', () => ({
   ...jest.requireActual<typeof React>('react'),

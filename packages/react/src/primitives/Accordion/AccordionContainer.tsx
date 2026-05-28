@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { classNames } from '@aws-amplify/ui';
+import { classNames } from '@saasontools/amplify-ui';
 
-import { ComponentClassName, isFunction } from '@aws-amplify/ui';
+import { ComponentClassName, isFunction } from '@saasontools/amplify-ui';
 import type { ElementType, PrimitiveProps } from '../types/view';
 import { primitiveWithForwardRef } from '../utils/primitiveWithForwardRef';
 import type { ForwardRefPrimitive, Primitive } from '../types/view';

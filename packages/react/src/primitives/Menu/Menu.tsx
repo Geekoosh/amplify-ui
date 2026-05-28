@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { classNames } from '@aws-amplify/ui';
+import { classNames } from '@saasontools/amplify-ui';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -7,7 +7,7 @@ import {
 } from '@radix-ui/react-dropdown-menu';
 
 import { ButtonGroup } from '../ButtonGroup';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 import { IconMenu, useIcons } from '../Icon';
 import { MenuButton } from './MenuButton';
 import type {

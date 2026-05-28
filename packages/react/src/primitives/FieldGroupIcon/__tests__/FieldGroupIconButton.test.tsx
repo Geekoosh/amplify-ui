@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import * as React from 'react';
 
 import { FieldGroupIconButton } from '../FieldGroupIconButton';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 describe('FieldGroupIconButton:', () => {
   it('should render default and custom classname', async () => {

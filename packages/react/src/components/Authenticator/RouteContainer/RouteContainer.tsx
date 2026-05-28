@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from '../../../primitives/View';
-import { useAuthenticator } from '@aws-amplify/ui-react-core';
+import { useAuthenticator } from '@saasontools/amplify-ui-react-core';
 import { useCustomComponents } from '../hooks/useCustomComponents';
 import type { RouteContainerProps } from './types';
 

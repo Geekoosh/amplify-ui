@@ -7,7 +7,7 @@ import type {
 } from 'aws-amplify/storage';
 import { getUrl } from 'aws-amplify/storage';
 
-import { isFunction } from '@aws-amplify/ui';
+import { isFunction } from '@saasontools/amplify-ui';
 
 export type UseGetUrlInput = (GetUrlInput | GetUrlWithPathInput) & {
   onError?: (error: Error) => void;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { isFunction } from '@aws-amplify/ui';
+import { isFunction } from '@saasontools/amplify-ui';
 
 export interface UseComposeRefsCallbackProps<RefType> {
   externalRef?: React.ForwardedRef<RefType>;

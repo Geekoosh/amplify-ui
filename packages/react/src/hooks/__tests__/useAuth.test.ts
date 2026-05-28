@@ -2,8 +2,8 @@ import React from 'react';
 import type { ReactNode } from 'react';
 import { act, renderHook, waitFor } from '@testing-library/react';
 
-import { AuthServiceProvider } from '@aws-amplify/ui-react-core';
-import type { AuthHubHandler, AuthServices } from '@aws-amplify/ui';
+import { AuthServiceProvider } from '@saasontools/amplify-ui-react-core';
+import type { AuthHubHandler, AuthServices } from '@saasontools/amplify-ui';
 
 import { useAuth } from '../useAuth';
 

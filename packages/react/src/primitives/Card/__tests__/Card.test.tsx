@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Card } from '../Card';
 import { render, screen } from '@testing-library/react';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 const testId = 'cardId';
 

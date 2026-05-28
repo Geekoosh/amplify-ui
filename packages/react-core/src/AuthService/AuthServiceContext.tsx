@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 
-import type { AuthServices } from '@aws-amplify/ui';
-import { defaultServices } from '@aws-amplify/ui';
+import type { AuthServices } from '@saasontools/amplify-ui';
+import { defaultServices } from '@saasontools/amplify-ui';
 
 export type AuthServiceContextValue = Partial<AuthServices>;
 

@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { Tabs } from '../Tabs';
 import { Text } from '../../Text';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 describe('Tabs', () => {
   it('can render custom classnames', async () => {

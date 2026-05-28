@@ -3,8 +3,8 @@ import React from 'react';
 import { renderHook, waitFor } from '@testing-library/react';
 
 import * as AuthModule from 'aws-amplify/auth';
-import { AuthenticatorServiceFacade } from '@aws-amplify/ui';
-import * as UIModule from '@aws-amplify/ui';
+import { AuthenticatorServiceFacade } from '@saasontools/amplify-ui';
+import * as UIModule from '@saasontools/amplify-ui';
 
 import { AuthenticatorProvider } from '../../../context';
 import { USE_AUTHENTICATOR_ERROR } from '../constants';

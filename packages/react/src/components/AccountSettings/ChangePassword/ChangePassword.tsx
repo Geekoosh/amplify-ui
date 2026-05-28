@@ -1,14 +1,17 @@
 import React from 'react';
 import isEqual from 'lodash/isEqual.js';
 
-import { useAuthService, useSetUserAgent } from '@aws-amplify/ui-react-core';
-import type { ValidatorOptions } from '@aws-amplify/ui';
+import {
+  useAuthService,
+  useSetUserAgent,
+} from '@saasontools/amplify-ui-react-core';
+import type { ValidatorOptions } from '@saasontools/amplify-ui';
 import {
   getDefaultConfirmPasswordValidators,
   getDefaultPasswordValidators,
   getLogger,
   runFieldValidators,
-} from '@aws-amplify/ui';
+} from '@saasontools/amplify-ui';
 
 import { useAuth } from '../../../internal';
 import { View, Flex } from '../../../primitives';

@@ -1,7 +1,7 @@
 {
-  "private": true,
   "name": "@aws-amplify/ui-docs",
   "version": "0.0.1",
+  "private": true,
   "scripts": {
     "dev": "yarn prebuild && yarn next dev -p 5001",
     "preflutter:build": "yarn flutter:clean",
@@ -24,7 +24,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@aws-amplify/ui-react": "6.15.4",
+    "@saasontools/amplify-ui-react": "6.15.4-saasontools.0",
     "@aws-amplify/ui-react-storage": "3.17.3",
     "@docsearch/react": "3",
     "@mdx-js/loader": "^2.1.0",

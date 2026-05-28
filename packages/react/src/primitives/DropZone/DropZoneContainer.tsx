@@ -1,8 +1,11 @@
 import React from 'react';
-import { classNames } from '@aws-amplify/ui';
+import { classNames } from '@saasontools/amplify-ui';
 
 import { View } from '../View';
-import { ComponentClassName, classNameModifierByFlag } from '@aws-amplify/ui';
+import {
+  ComponentClassName,
+  classNameModifierByFlag,
+} from '@saasontools/amplify-ui';
 import { DropZoneContext } from './DropZoneProvider';
 import type {
   BaseDropZoneContainerProps,

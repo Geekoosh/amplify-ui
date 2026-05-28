@@ -51,7 +51,7 @@ You should open an issue to discuss your pull request, unless it's a trivial cha
 1. If this is a change to any customer-facing aspect of a component, for example a new prop, feature, or a breaking change, update or add relevant documentation. If this is a large change, documentation updates can be made in a separate PR, but should be noted as a followup in the PR description. See the specific contributing guide for documentation [here](docs/README.md#contributing)
 1. Push your branch with `git push origin -u`
 1. Open a PR against this repo from your newly published branch.
-1. Add a [changeset](https://github.com/changesets/changesets) that describes your changes. More info [here](https://github.com/changesets/changesets/blob/main/docs/adding-a-changeset.md). Please make sure that your changeset only bumps `@aws-amplify/*` packages and does not bump any of private packages like `docs`, `e2e`, `examples`, etc. If you only updated a private package like `docs`, `e2e`, or `examples`, skip this step.
+1. Add a [changeset](https://github.com/changesets/changesets) that describes your changes. More info [here](https://github.com/changesets/changesets/blob/main/docs/adding-a-changeset.md). For this fork, changesets should only bump `@saasontools/amplify-ui`, `@saasontools/amplify-ui-react`, and `@saasontools/amplify-ui-react-core`. All other workspaces are private and ignored by changesets.
 1. Finally, Amplify UI team will review your PR. Add reviewers based on the core member who is tracking the issue with you or code owners. In the meantime, address any automated check that fail (such as linting, unit tests, etc. in CI)
 
 ### Troubleshooting
@@ -105,9 +105,9 @@ amplify-ui
 Please refer to the following contributing guides:
 
 - [`docs`](docs/README.md#contributing)
-- [`@aws-amplify/ui`](packages/ui/CONTRIBUTING.md)
+- [`@saasontools/amplify-ui`](packages/ui/CONTRIBUTING.md)
 - [`@aws-amplify/ui-angular`](packages/angular/CONTRIBUTING.md)
-- [`@aws-amplify/ui-react`](packages/react/CONTRIBUTING.md)
+- [`@saasontools/amplify-ui-react`](packages/react/CONTRIBUTING.md)
 - [`@aws-amplify/ui-vue`](packages/vue/CONTRIBUTING.md)
 - [`examples`](examples/README.md#examples-development)
 - [`e2e`](packages/e2e/README.md#contributing)
@@ -176,25 +176,39 @@ the contract change.
 
 ### SaaSOn Publish
 
-The fork uses changesets and publishes the SaaSOn-consumed packages as public
-scoped npm packages. For each release:
+The fork publishes exactly three SaaSOn-consumed packages to GitHub Packages:
+`@saasontools/amplify-ui`, `@saasontools/amplify-ui-react`, and
+`@saasontools/amplify-ui-react-core`. Every other workspace remains on its
+`@aws-amplify/*` name, is marked `private: true`, and is ignored by changesets.
 
-1. Add or update a changeset for `@aws-amplify/ui` and
-   `@aws-amplify/ui-react`.
-1. Build the publish targets with `yarn ui build` and `yarn react build`.
-1. Publish the public scoped packages with changesets. For first-time scoped
-   npm publishes, pass `--access public` in the release command or workflow.
-1. Smoke install in SaaSOn and verify imports from the public fork packages
-   before promoting the version.
+Release flow:
+
+1. Add or update a changeset for one or more of the three `@saasontools/*`
+   packages.
+1. Build and test only the publish targets:
+
+   ```bash
+   yarn build:published
+   yarn test:published
+   ```
+
+1. Merge to `main`. The `publish-github-packages` workflow installs with the
+   lockfile, builds/tests the three publish targets, and runs
+   `yarn changeset publish` against `https://npm.pkg.github.com`.
+1. Keep publishing auth on `GITHUB_TOKEN` only. The workflow grants
+   `packages: write`; do not add PAT-backed npm publish secrets for this fork.
+1. After first publish, set the three GitHub Packages to Internal visibility so
+   SaaSOn Enterprise repositories can install them with their own
+   `GITHUB_TOKEN`.
+1. During upstream syncs, keep new non-published workspaces private and add
+   their names to `.changeset/config.json` `ignore` before release.
 
 ## Publishing
 
-Amplify UI publishes to NPM on every Tuesday. We use [`changesets`](https://github.com/changesets/changesets) to drive our deployment procedure:
-
-1. Each contributor adds a changeset in their PR
-1. Changesets get accumulated into [Version Packages PR](https://github.com/aws-amplify/amplify-ui/pulls/app%2Fgithub-actions).
-1. Maintainer will run tests, approve, and merge the PR.
-1. Previous step will trigger [`publish-latest`](./.github/workflows/publish-next.yml) action that will build and publish packages to NPM.
+Upstream Amplify UI publishes to npm on its own cadence. This fork does not run
+the upstream npm publish workflows in `saasontools/amplify-ui`; it publishes the
+three `@saasontools/*` packages through
+[`publish-github-packages`](./.github/workflows/publish-github-packages.yml).
 
 ### Docs Publishing
 

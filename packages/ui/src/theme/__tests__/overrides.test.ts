@@ -28,7 +28,7 @@ const discoTokens = {
   },
 };
 
-describe('@aws-amplify/ui', () => {
+describe('@saasontools/amplify-ui', () => {
   describe('overrides', () => {
     const themeWithOverrides = createTheme({
       name: 'test-theme',

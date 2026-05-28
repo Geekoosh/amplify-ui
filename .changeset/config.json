@@ -2,24 +2,39 @@
   "$schema": "https://unpkg.com/@changesets/config@1.6.0/schema.json",
   "changelog": [
     "@changesets/changelog-github",
-    { "repo": "aws-amplify/amplify-ui" }
+    {
+      "repo": "saasontools/amplify-ui"
+    }
   ],
   "commit": false,
   "linked": [],
-  "access": "public",
+  "access": "restricted",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
   "ignore": [
-    "@aws-amplify/ui-angular-mono",
+    "@aws-amplify/eslint-config-amplify-ui",
+    "@aws-amplify/typescript-config",
+    "@aws-amplify/ui-angular",
     "@aws-amplify/ui-angular-example",
+    "@aws-amplify/ui-angular-mono",
     "@aws-amplify/ui-docs",
     "@aws-amplify/ui-e2e",
     "@aws-amplify/ui-environments",
-    "@aws-amplify/ui-next-pages-router-example",
     "@aws-amplify/ui-next-app-router-example",
+    "@aws-amplify/ui-next-pages-router-example",
+    "@aws-amplify/ui-react-ai",
+    "@aws-amplify/ui-react-core-notifications",
+    "@aws-amplify/ui-react-geo",
+    "@aws-amplify/ui-react-liveness",
+    "@aws-amplify/ui-react-native",
     "@aws-amplify/ui-react-native-example",
+    "@aws-amplify/ui-react-notifications",
     "@aws-amplify/ui-react-router-example",
+    "@aws-amplify/ui-react-storage",
+    "@aws-amplify/ui-svelte",
     "@aws-amplify/ui-svelte-example",
+    "@aws-amplify/ui-test-utils",
+    "@aws-amplify/ui-vue",
     "@aws-amplify/ui-vue-example"
   ]
 }

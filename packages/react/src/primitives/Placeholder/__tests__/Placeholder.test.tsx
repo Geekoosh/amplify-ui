@@ -7,7 +7,7 @@ import {
   Placeholder,
 } from '../Placeholder';
 import { Text } from '../../Text';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 describe('Placeholder:', () => {
   it('renders correct defaults', async () => {

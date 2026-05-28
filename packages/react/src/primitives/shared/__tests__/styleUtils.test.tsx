@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 
-import { defaultTheme, createTheme } from '@aws-amplify/ui';
+import { defaultTheme, createTheme } from '@saasontools/amplify-ui';
 
 import {
   convertGridSpan,

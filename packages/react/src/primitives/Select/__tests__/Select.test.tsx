@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { Select } from '../Select';
 import { Fieldset } from '../../Fieldset';
 import { IconExpandMore } from '../../Icon/internal';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 describe('Select primitive test suite', () => {
   const testId = 'test-select';

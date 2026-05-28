@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createEvent, fireEvent, render, screen } from '@testing-library/react';
 import { DropZone } from '../DropZone';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 import { View } from '../../View';
 
 describe('DropZone', () => {

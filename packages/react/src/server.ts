@@ -7,4 +7,4 @@ export {
   createComponentClasses,
   defaultTheme,
   defaultDarkModeOverride,
-} from '@aws-amplify/ui';
+} from '@saasontools/amplify-ui';

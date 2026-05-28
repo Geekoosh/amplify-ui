@@ -2,7 +2,7 @@ import * as React from 'react';
 import { render } from '@testing-library/react';
 
 import { FieldDescription, QA_FIELD_DESCRIPTION } from '../FieldDescription';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 describe('FieldDescription component', () => {
   it('should render if it has a "labelHidden" prop is `true`, as long as there\'s descriptiveText', () => {

@@ -1,4 +1,4 @@
-import { createTheme } from '@aws-amplify/ui';
+import { createTheme } from '@saasontools/amplify-ui';
 import {
   getConsecutiveIntArray,
   strHasLength,

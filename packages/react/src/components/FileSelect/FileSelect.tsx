@@ -1,5 +1,5 @@
 import React from 'react';
-import { isFunction } from '@aws-amplify/ui';
+import { isFunction } from '@saasontools/amplify-ui';
 
 import { useStableId } from '../../primitives/utils/useStableId';
 

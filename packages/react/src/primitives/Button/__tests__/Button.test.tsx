@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { Button } from '../Button';
 import { Fieldset } from '../../Fieldset';
 import { ButtonColorTheme } from '../../types';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 const SUPPORTED_COLOR_THEMES: ButtonColorTheme[] = [
   'info',

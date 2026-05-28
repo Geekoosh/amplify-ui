@@ -1,4 +1,4 @@
-import type { InputEventType, ValidatorOptions } from '@aws-amplify/ui';
+import type { InputEventType, ValidatorOptions } from '@saasontools/amplify-ui';
 
 import type {
   SubmitButtonComponent,

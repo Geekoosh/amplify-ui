@@ -1,8 +1,8 @@
 {
   "name": "@aws-amplify/ui-e2e",
   "version": "0.0.1",
-  "license": "MIT",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "clean": "rimraf node_modules",
     "dev": "cypress open",
@@ -29,7 +29,7 @@
     ]
   },
   "devDependencies": {
-    "@aws-amplify/ui": "^6.15.4",
+    "@saasontools/amplify-ui": "6.15.4-saasontools.0",
     "@badeball/cypress-cucumber-preprocessor": "^22.0.1",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.4",
     "@cucumber/cucumber": "^11.2.0",

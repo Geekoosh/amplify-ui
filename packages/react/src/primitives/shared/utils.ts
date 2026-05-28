@@ -1,10 +1,10 @@
-import type { WebTheme } from '@aws-amplify/ui';
+import type { WebTheme } from '@saasontools/amplify-ui';
 import {
   cssNameTransform,
   isDesignToken,
   classNameModifier,
   classNameModifierByFlag,
-} from '@aws-amplify/ui';
+} from '@saasontools/amplify-ui';
 
 import { isThemeStylePropKey } from '../types/theme';
 import { stylePropsToThemeKeys } from './constants';

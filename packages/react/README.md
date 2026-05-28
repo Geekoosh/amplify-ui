@@ -1,6 +1,6 @@
 # Amplify UI React
 
-[![@aws-amplify/ui-react Weekly Downloads stat badge](https://img.shields.io/npm/dw/@aws-amplify/ui-react?label=Download&logo=Amplify&style=flat)](https://www.npmjs.com/package/@aws-amplify/ui-react) [![@aws-amplify/ui-react version badge](https://img.shields.io/npm/v/@aws-amplify/ui-react/latest)](https://www.npmjs.com/package/@aws-amplify/ui-react)
+[![@saasontools/amplify-ui-react Weekly Downloads stat badge](https://img.shields.io/npm/dw/@saasontools/amplify-ui-react?label=Download&logo=Amplify&style=flat)](https://www.npmjs.com/package/@saasontools/amplify-ui-react) [![@saasontools/amplify-ui-react version badge](https://img.shields.io/npm/v/@saasontools/amplify-ui-react/latest)](https://www.npmjs.com/package/@saasontools/amplify-ui-react)
 
 The React package provides components and utilities for building Amplify connected applications on React.
 

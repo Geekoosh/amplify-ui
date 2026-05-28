@@ -1,8 +1,11 @@
 import QRCode from 'qrcode';
 import React from 'react';
 
-import { useAuthService, useSetUserAgent } from '@aws-amplify/ui-react-core';
-import { getLogger } from '@aws-amplify/ui';
+import {
+  useAuthService,
+  useSetUserAgent,
+} from '@saasontools/amplify-ui-react-core';
+import { getLogger } from '@saasontools/amplify-ui';
 import type {
   FetchMFAPreferenceOutput,
   SetUpTOTPOutput,

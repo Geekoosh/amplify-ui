@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`@aws-amplify/ui createAnimationCSS should work with a theme as a function or an object 1`] = `
+exports[`@saasontools/amplify-ui createAnimationCSS should work with a theme as a function or an object 1`] = `
 "
   @keyframes dot {
     0% {

@@ -6,7 +6,7 @@ import { Checkbox } from '../Checkbox';
 import { Fieldset } from '../../Fieldset';
 import { CheckboxProps } from '../../types/checkbox';
 import { PrimitiveProps } from '../../types/view';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 import {
   testFlexProps,
   expectFlexContainerStyleProps,

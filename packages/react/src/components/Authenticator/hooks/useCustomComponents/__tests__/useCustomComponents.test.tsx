@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import { RenderNothing } from '@aws-amplify/ui-react-core';
+import { RenderNothing } from '@saasontools/amplify-ui-react-core';
 
 import { useCustomComponents } from '../useCustomComponents';
 

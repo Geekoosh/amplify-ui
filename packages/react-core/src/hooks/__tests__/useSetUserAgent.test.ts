@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 
-import * as UserAgentModule from '@aws-amplify/ui';
+import * as UserAgentModule from '@saasontools/amplify-ui';
 
 import useSetUserAgent from '../useSetUserAgent';
 

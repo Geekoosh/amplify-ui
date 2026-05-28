@@ -21,19 +21,9 @@ jobs:
       matrix:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
         package:
-          - angular
           - react
-          - react-ai
           - react-core
-          - react-core-notifications
-          - react-geo
-          - react-liveness
-          - react-native
-          - react-notifications
-          - react-storage
           - ui
-          - vue
-          - svelte
 
     steps:
       - name: Checkout Amplify UI
@@ -83,30 +73,8 @@ jobs:
 
       - name: Build react-core package
         if: |
-          matrix.package == 'react' ||
-          matrix.package == 'react-ai' ||
-          matrix.package == 'react-core-notifications' ||
-          matrix.package == 'react-geo' ||
-          matrix.package == 'react-liveness' ||
-          matrix.package == 'react-native' ||
-          matrix.package == 'react-notifications' ||
-          matrix.package == 'react-storage'
+          matrix.package == 'react'
         run: yarn react-core build
-
-      - name: Build react-core-notifications package
-        if: |
-          matrix.package == 'react-native' ||
-          matrix.package == 'react-notifications'
-        run: yarn react-core-notifications build
-
-      - name: Build react package
-        if: |
-          matrix.package == 'react-ai' ||
-          matrix.package == 'react-geo' ||
-          matrix.package == 'react-liveness' ||
-          matrix.package == 'react-notifications' ||
-          matrix.package == 'react-storage'
-        run: yarn react build
 
       - name: Build ${{ matrix.package }} package
         if: ${{ matrix.package != 'ui' }}
@@ -119,20 +87,11 @@ jobs:
         run: yarn ${{ matrix.package }} lint
 
       - name: Validate ${{ matrix.package }} package esm modules
-        if: |
-          matrix.package != 'angular' &&
-          matrix.package != 'svelte' &&
-          matrix.package != 'react-native'
         run: yarn ${{ matrix.package }} check:esm
 
       - name: Check ${{ matrix.package }} bundle size
         if: |
-          matrix.package == 'react' ||
-          matrix.package == 'react-ai' ||
-          matrix.package == 'react-geo' ||
-          matrix.package == 'react-liveness' ||
-          matrix.package == 'react-notifications' ||
-          matrix.package == 'react-storage'
+          matrix.package == 'react'
         run: yarn ${{ matrix.package }} size
 
       - name: Cache ${{ matrix.package }}/dist

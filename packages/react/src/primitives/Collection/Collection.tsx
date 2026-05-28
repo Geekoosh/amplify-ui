@@ -1,8 +1,8 @@
-import { classNames } from '@aws-amplify/ui';
+import { classNames } from '@saasontools/amplify-ui';
 import * as React from 'react';
 import debounce from 'lodash/debounce.js';
 
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 import { Flex } from '../Flex';
 import { Grid } from '../Grid';

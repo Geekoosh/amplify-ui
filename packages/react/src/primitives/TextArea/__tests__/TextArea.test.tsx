@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import { TextArea } from '../TextArea';
 import { Fieldset } from '../../Fieldset';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 describe('TextArea component', () => {
   it('should render custom classname for TextArea', async () => {

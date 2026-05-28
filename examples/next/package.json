@@ -10,7 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@aws-amplify/ui-react": "^6.15.4",
+    "@saasontools/amplify-ui-react": "6.15.4-saasontools.0",
     "@aws-amplify/ui-react-ai": "1.5.1",
     "@aws-amplify/ui-react-geo": "^2.3.4",
     "@aws-amplify/ui-react-liveness": "^3.6.5",

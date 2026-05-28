@@ -1,11 +1,11 @@
 import * as React from 'react';
-import type { FormFieldOptions } from '@aws-amplify/ui';
-import { getErrors } from '@aws-amplify/ui';
+import type { FormFieldOptions } from '@saasontools/amplify-ui';
+import { getErrors } from '@saasontools/amplify-ui';
 
 import { PasswordField } from '../../../primitives/PasswordField';
 import { PhoneNumberField } from '../../../primitives/PhoneNumberField';
 import { TextField } from '../../../primitives/TextField';
-import { useAuthenticator } from '@aws-amplify/ui-react-core';
+import { useAuthenticator } from '@saasontools/amplify-ui-react-core';
 import { useStableId } from '../../../primitives/utils/useStableId';
 import { ValidationErrors } from '../../shared/ValidationErrors';
 

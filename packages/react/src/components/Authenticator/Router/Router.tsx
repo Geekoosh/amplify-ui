@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import { useAuthenticator } from '@aws-amplify/ui-react-core';
+import { useAuthenticator } from '@saasontools/amplify-ui-react-core';
 import { ConfirmSignUp } from '../ConfirmSignUp';
 import { ForceNewPassword } from '../ForceNewPassword';
 import { SetupTotp } from '../SetupTotp';

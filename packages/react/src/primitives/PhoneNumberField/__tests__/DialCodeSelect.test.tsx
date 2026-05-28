@@ -1,10 +1,10 @@
 import * as React from 'react';
 
 import { render, screen } from '@testing-library/react';
-import { countryDialCodes } from '@aws-amplify/ui';
+import { countryDialCodes } from '@saasontools/amplify-ui';
 
 import { DialCodeSelect } from '../DialCodeSelect';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 import { DialCodeSelectProps } from '../../types';
 
 describe('CountryCodeSelect', () => {

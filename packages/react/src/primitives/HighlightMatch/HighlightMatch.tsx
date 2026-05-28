@@ -1,10 +1,10 @@
-import { classNames } from '@aws-amplify/ui';
+import { classNames } from '@saasontools/amplify-ui';
 import * as React from 'react';
 
 import { View } from '../View';
 import { strHasLength } from '../shared/utils';
 import { getUniqueComponentId } from '../utils/getUniqueComponentId';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 import type {
   BaseHighlightMatchProps,
   HighlightMatchProps,

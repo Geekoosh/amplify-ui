@@ -1,12 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import * as React from 'react';
 
-import { defaultFormFieldOptions } from '@aws-amplify/ui';
+import { defaultFormFieldOptions } from '@saasontools/amplify-ui';
 import { FormField, FormFieldProps } from '../FormField';
-import * as UIReactCore from '@aws-amplify/ui-react-core';
+import * as UIReactCore from '@saasontools/amplify-ui-react-core';
 import * as UseStableIdModule from '../../../../primitives/utils/useStableId';
 
-jest.mock('@aws-amplify/ui-react-core');
+jest.mock('@saasontools/amplify-ui-react-core');
 
 const useStableIdSpy = jest.spyOn(UseStableIdModule, 'useStableId');
 

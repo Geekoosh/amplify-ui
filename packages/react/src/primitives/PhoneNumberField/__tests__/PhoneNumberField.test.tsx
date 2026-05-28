@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import { Flex } from '../../Flex';
 import { Button } from '../../Button';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 import { PhoneNumberField } from '../PhoneNumberField';
 

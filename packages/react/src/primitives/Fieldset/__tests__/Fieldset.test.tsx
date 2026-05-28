@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 
 import { Fieldset } from '../Fieldset';
 
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 describe('Fieldset', () => {
   it('should render Fieldset variations', async () => {

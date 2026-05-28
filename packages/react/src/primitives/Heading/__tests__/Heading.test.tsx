@@ -3,7 +3,7 @@ import kebabCase from 'lodash/kebabCase';
 import { render, screen } from '@testing-library/react';
 
 import { Heading } from '../Heading';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 import { ComponentPropsToStylePropsMap } from '../../types';
 
 describe('Heading:', () => {

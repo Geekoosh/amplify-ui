@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`@aws-amplify/ui defaultTheme should match snapshot 1`] = `
+exports[`@saasontools/amplify-ui defaultTheme should match snapshot 1`] = `
 "[data-amplify-theme="default-theme"] {
 --amplify-components-accordion-background-color: var(--amplify-colors-background-primary);
 --amplify-components-accordion-item-border-color: var(--amplify-colors-border-secondary);

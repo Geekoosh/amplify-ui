@@ -3,7 +3,7 @@ import kebabCase from 'lodash/kebabCase';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import { Image } from '../Image';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 import { ComponentPropsToStylePropsMap } from '../../types';
 
 const altText = 'Cool cat';

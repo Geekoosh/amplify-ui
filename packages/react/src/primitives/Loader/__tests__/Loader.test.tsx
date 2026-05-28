@@ -10,7 +10,7 @@ import {
   LINEAR_EMPTY,
   LINEAR_FILLED,
 } from '../Loader';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 describe('Loader:', () => {
   it('should render default and custom classname', async () => {

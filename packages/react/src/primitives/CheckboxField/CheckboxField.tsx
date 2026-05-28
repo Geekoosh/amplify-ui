@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { classNames } from '@aws-amplify/ui';
+import { classNames } from '@saasontools/amplify-ui';
 
 import { classNameModifier } from '../shared/utils';
 import { Checkbox } from '../Checkbox';
@@ -9,7 +9,7 @@ import type {
   ForwardRefPrimitive,
   Primitive,
 } from '../types';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 import { FieldErrorMessage } from '../Field';
 import { getUniqueComponentId } from '../utils/getUniqueComponentId';
 import { primitiveWithForwardRef } from '../utils/primitiveWithForwardRef';

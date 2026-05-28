@@ -1,7 +1,7 @@
-import { classNames } from '@aws-amplify/ui';
+import { classNames } from '@saasontools/amplify-ui';
 import * as React from 'react';
 
-import { ComponentClassName, isFunction } from '@aws-amplify/ui';
+import { ComponentClassName, isFunction } from '@saasontools/amplify-ui';
 import { primitiveWithForwardRef } from '../utils/primitiveWithForwardRef';
 
 import { AutocompleteOption } from './AutocompleteOption';

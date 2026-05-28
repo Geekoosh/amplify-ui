@@ -1,17 +1,20 @@
 import React from 'react';
-import type { ContactMethod, UnverifiedUserAttributes } from '@aws-amplify/ui';
+import type {
+  ContactMethod,
+  UnverifiedUserAttributes,
+} from '@saasontools/amplify-ui';
 import {
   defaultFormFieldOptions,
   censorContactMethod,
   translate,
   authenticatorTextUtil,
-} from '@aws-amplify/ui';
+} from '@saasontools/amplify-ui';
 
 import { Flex } from '../../../primitives/Flex';
 import { Heading } from '../../../primitives/Heading';
 import { Radio } from '../../../primitives/Radio';
 import { RadioGroupField } from '../../../primitives/RadioGroupField';
-import { useAuthenticator } from '@aws-amplify/ui-react-core';
+import { useAuthenticator } from '@saasontools/amplify-ui-react-core';
 import { useCustomComponents } from '../hooks/useCustomComponents';
 import { useFormHandlers } from '../hooks/useFormHandlers';
 import { RemoteErrorMessage } from '../shared/RemoteErrorMessage';

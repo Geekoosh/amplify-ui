@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, render, waitFor } from '@testing-library/react';
-import * as UIModule from '@aws-amplify/ui';
+import * as UIModule from '@saasontools/amplify-ui';
 
 import { useAuthenticator } from '../..';
 import { AuthenticatorProvider } from '..';

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { render } from '@testing-library/react';
 
 import { Field } from '../Field';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 describe('Field component', () => {
   it('should match snapshot', () => {
