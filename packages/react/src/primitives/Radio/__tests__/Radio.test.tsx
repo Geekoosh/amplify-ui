@@ -5,7 +5,7 @@ import { Radio } from '../Radio';
 import { Fieldset } from '../../Fieldset';
 import { RadioGroupField } from '../../RadioGroupField';
 import { View } from '../../View';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 describe('RadioField test suite', () => {
   it('should render basic props correctly', async () => {

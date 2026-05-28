@@ -1,11 +1,11 @@
-import { classNames } from '@aws-amplify/ui';
+import { classNames } from '@saasontools/amplify-ui';
 import { Range, Root, Thumb, Track } from '@radix-ui/react-slider';
 import * as React from 'react';
 
-import { classNameModifierByFlag, isFunction } from '@aws-amplify/ui';
+import { classNameModifierByFlag, isFunction } from '@saasontools/amplify-ui';
 
 import { classNameModifier } from '../shared/utils';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 import { FieldDescription, FieldErrorMessage } from '../Field';
 import { FieldGroup } from '../FieldGroup';
 import { Flex } from '../Flex';

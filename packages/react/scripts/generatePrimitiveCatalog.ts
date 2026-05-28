@@ -204,7 +204,7 @@ for (const [componentName, [node]] of source.getExportedDeclarations()) {
 /**
  * Generate the es module of the PrimitiveCatalog
  * this is being exported under the /internal/primitives-catalog subpath and can be used as
- * import { PrimitiveCatalog } from '@aws-amplify/ui-react/internal/primitives-catalog'
+ * import { PrimitiveCatalog } from '@saasontools/amplify-ui-react/internal/primitives-catalog'
  */
 const primitiveCatalog = JSON.stringify(catalog, null, 2);
 const exportString = `import type { PrimitiveCatalogType } from './types/catalog';

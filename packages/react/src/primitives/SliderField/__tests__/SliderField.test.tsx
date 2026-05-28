@@ -14,7 +14,7 @@ import {
   testFlexProps,
   expectFlexContainerStyleProps,
 } from '../../Flex/__tests__/Flex.test';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 import { AUTO_GENERATED_ID_PREFIX } from '../../utils/useStableId';
 import { ERROR_SUFFIX, DESCRIPTION_SUFFIX } from '../../../helpers/constants';
 import { Button } from '../../Button';

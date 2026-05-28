@@ -6,7 +6,7 @@ import type {
   UseControlledField,
   UseControlledFieldParams,
 } from './types';
-import { isFunction } from '@aws-amplify/ui';
+import { isFunction } from '@saasontools/amplify-ui';
 
 export const DEFAULT_ERROR_MESSAGE =
   '`useControlledField` must be used within a `FormProvider`';

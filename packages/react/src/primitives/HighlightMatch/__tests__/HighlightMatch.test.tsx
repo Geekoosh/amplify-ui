@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import * as React from 'react';
 
 import { HighlightMatch } from '../HighlightMatch';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 const TEST_ID = 'highlight-match-test-id';
 const MATCH_TEST_ID = 'highlight-match-test-id-match';

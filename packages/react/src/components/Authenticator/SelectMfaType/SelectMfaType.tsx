@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { authenticatorTextUtil } from '@aws-amplify/ui';
-import { useAuthenticator } from '@aws-amplify/ui-react-core';
+import { authenticatorTextUtil } from '@saasontools/amplify-ui';
+import { useAuthenticator } from '@saasontools/amplify-ui-react-core';
 
 import { Flex } from '../../../primitives/Flex';
 import { Heading } from '../../../primitives/Heading';

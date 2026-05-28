@@ -13,7 +13,7 @@ const customTheme = createTheme({
   },
 });
 
-describe('@aws-amplify/ui', () => {
+describe('@saasontools/amplify-ui', () => {
   describe('defineComponentTheme', () => {
     it('should return a cssText function', () => {
       const testComponentTheme = defineComponentTheme({

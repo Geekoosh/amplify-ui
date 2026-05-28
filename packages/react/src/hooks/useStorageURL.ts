@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import * as Storage from 'aws-amplify/storage';
 
-import { isFunction } from '@aws-amplify/ui';
-import { useHasValueUpdated } from '@aws-amplify/ui-react-core';
+import { isFunction } from '@saasontools/amplify-ui';
+import { useHasValueUpdated } from '@saasontools/amplify-ui-react-core';
 
 interface UseStorageURLParams {
   key: string;

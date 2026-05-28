@@ -1,6 +1,6 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import { noop } from '@aws-amplify/ui';
+import { noop } from '@saasontools/amplify-ui';
 
 import type {
   FormValues,

@@ -1,10 +1,19 @@
 import * as React from 'react';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { useAuthService, useAuthenticator } from '@aws-amplify/ui-react-core';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
+import {
+  useAuthService,
+  useAuthenticator,
+} from '@saasontools/amplify-ui-react-core';
 
 import { PasskeyPrompt } from '../PasskeyPrompt';
 
-jest.mock('@aws-amplify/ui-react-core');
+jest.mock('@saasontools/amplify-ui-react-core');
 jest.mock('../../hooks/useCustomComponents', () => ({
   useCustomComponents: () => ({
     components: {

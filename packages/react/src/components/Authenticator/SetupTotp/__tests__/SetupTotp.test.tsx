@@ -1,8 +1,11 @@
 import * as React from 'react';
 import { act, render } from '@testing-library/react';
 
-import * as UI from '@aws-amplify/ui';
-import { useAuthenticator, UseAuthenticator } from '@aws-amplify/ui-react-core';
+import * as UI from '@saasontools/amplify-ui';
+import {
+  useAuthenticator,
+  UseAuthenticator,
+} from '@saasontools/amplify-ui-react-core';
 
 import { SetupTotp } from '..';
 
@@ -12,7 +15,7 @@ jest.mock('../../hooks/useFormHandlers', () => ({
   useFormHandlers: () => ({ handleChange: jest.fn(), handleSubmit: jest.fn() }),
 }));
 
-jest.mock('@aws-amplify/ui-react-core');
+jest.mock('@saasontools/amplify-ui-react-core');
 
 jest.mock('../../hooks/useCustomComponents', () => ({
   useCustomComponents: () => ({

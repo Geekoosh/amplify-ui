@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useSelector } from '@xstate/react';
-import type { AuthMachineState } from '@aws-amplify/ui';
-import { getServiceFacade } from '@aws-amplify/ui';
+import type { AuthMachineState } from '@saasontools/amplify-ui';
+import { getServiceFacade } from '@saasontools/amplify-ui';
 
 import { AuthenticatorContext } from '../../context';
 

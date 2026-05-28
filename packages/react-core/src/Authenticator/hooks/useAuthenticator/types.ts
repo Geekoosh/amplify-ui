@@ -1,7 +1,7 @@
 import type {
   AuthenticatorServiceFacade,
   LegacyFormFieldOptions,
-} from '@aws-amplify/ui';
+} from '@saasontools/amplify-ui';
 
 /**
  * These are the "facades" that we provide, which contains contexts respective

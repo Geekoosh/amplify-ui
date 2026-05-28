@@ -99,7 +99,7 @@ const avatarTheme = defineComponentTheme({
   ],
 });
 
-describe('@aws-amplify/ui', () => {
+describe('@saasontools/amplify-ui', () => {
   describe('createComponentCSS', () => {
     it('should work with a theme as a function or an object', () => {
       const theme = {

@@ -1,7 +1,7 @@
-import { classNames } from '@aws-amplify/ui';
+import { classNames } from '@saasontools/amplify-ui';
 import * as React from 'react';
 
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 import { Flex } from '../Flex';
 import type {
   Primitive,
@@ -12,7 +12,7 @@ import type {
 } from '../types';
 import { useToggleButtonGroup } from './useToggleButtonGroup';
 import { primitiveWithForwardRef } from '../utils/primitiveWithForwardRef';
-import { isString } from '@aws-amplify/ui';
+import { isString } from '@saasontools/amplify-ui';
 
 const ToggleButtonGroupPrimitive: Primitive<ToggleButtonGroupProps, 'div'> = (
   {

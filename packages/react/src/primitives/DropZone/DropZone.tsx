@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { useDropZone } from '@aws-amplify/ui-react-core';
+import { useDropZone } from '@saasontools/amplify-ui-react-core';
 import type { ForwardRefPrimitive, Primitive } from '../types';
 import type { DropZoneProps, BaseDropZoneProps } from './types';
 import { DropZoneProvider } from './DropZoneProvider';

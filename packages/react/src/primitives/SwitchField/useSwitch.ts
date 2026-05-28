@@ -1,7 +1,7 @@
 import type { ChangeEvent } from 'react';
 import type React from 'react';
 import { useCallback, useState } from 'react';
-import { isFunction } from '@aws-amplify/ui';
+import { isFunction } from '@saasontools/amplify-ui';
 
 type ChangeHandler = React.ChangeEventHandler<HTMLInputElement>;
 

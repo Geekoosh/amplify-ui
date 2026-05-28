@@ -1,6 +1,6 @@
 import type * as React from 'react';
 import type { ElementType, PrimitiveProps, BaseViewProps } from '../types';
-import type { UseDropZoneParams } from '@aws-amplify/ui-react-core';
+import type { UseDropZoneParams } from '@saasontools/amplify-ui-react-core';
 
 export interface BaseDropZoneProps extends BaseViewProps, UseDropZoneParams {}
 

@@ -1,13 +1,16 @@
 import React from 'react';
 import type { AuthWebAuthnCredential } from 'aws-amplify/auth';
-import { authenticatorTextUtil } from '@aws-amplify/ui';
+import { authenticatorTextUtil } from '@saasontools/amplify-ui';
 
 import { Button } from '../../../primitives/Button';
 import { Flex } from '../../../primitives/Flex';
 import { Heading } from '../../../primitives/Heading';
 import { Text } from '../../../primitives/Text';
 import { View } from '../../../primitives/View';
-import { useAuthenticator, useAuthService } from '@aws-amplify/ui-react-core';
+import {
+  useAuthenticator,
+  useAuthService,
+} from '@saasontools/amplify-ui-react-core';
 import { IconCheckCircleFill, IconPasskey } from '../../../primitives/Icon';
 import { PasskeyList } from '../../shared';
 import { RemoteErrorMessage } from '../shared/RemoteErrorMessage';

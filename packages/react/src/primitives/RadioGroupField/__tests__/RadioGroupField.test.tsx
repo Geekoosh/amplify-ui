@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { Radio } from '../../Radio';
 import { RadioGroupField } from '../RadioGroupField';
 import { RadioGroupFieldProps } from '../../types/radioGroupField';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 import {
   testFlexProps,
   expectFlexContainerStyleProps,

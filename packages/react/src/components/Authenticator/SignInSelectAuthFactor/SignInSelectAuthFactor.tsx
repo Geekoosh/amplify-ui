@@ -1,6 +1,6 @@
 import React from 'react';
-import { useAuthenticator } from '@aws-amplify/ui-react-core';
-import { authenticatorTextUtil } from '@aws-amplify/ui';
+import { useAuthenticator } from '@saasontools/amplify-ui-react-core';
+import { authenticatorTextUtil } from '@saasontools/amplify-ui';
 
 import {
   Button,

@@ -16,13 +16,13 @@ Amplify UI exports 2 CSS files:
 You can import the styles in a CSS file:
 
 ```css
-@import '@aws-amplify/ui/styles.css';
+@import '@saasontools/amplify-ui/styles.css';
 ```
 
 You can also import it in the Javascript:
 
 ```javascript
-import '@aws-amplify/ui/styles.css';
+import '@saasontools/amplify-ui/styles.css';
 ```
 
 ### Typescript / Javascript
@@ -33,7 +33,7 @@ In addition to the static CSS, this package exports:
 - `createTheme`: A function that takes theme customizations and returns a `Theme` object which contains the CSS needed to theme Amplify UI components
 
 ```javascript
-import { createTheme, defaultTheme } from '@aws-amplify/ui';
+import { createTheme, defaultTheme } from '@saasontools/amplify-ui';
 
 export const theme = createTheme({
   tokens: {
@@ -80,7 +80,7 @@ export interface Breakpoints {
 You can modify default breakpoints in the `createTheme` method:
 
 ```javascript
-import { createTheme } from '@aws-amplify/ui';
+import { createTheme } from '@saasontools/amplify-ui';
 
 const myTheme = createTheme({
   name: 'my-theme',
@@ -101,7 +101,7 @@ const myTheme = createTheme({
 An `override` is a collection of design tokens that should take precedence in certain situations, like dark mode. Overrides are built into the theme configuration, but kept separate, so that Amplify UI can use CSS for overriding parts of the theme.
 
 ```javascript
-import { createTheme } from '@aws-amplify/ui';
+import { createTheme } from '@saasontools/amplify-ui';
 
 export const theme = createTheme({
   name: 'my-theme',

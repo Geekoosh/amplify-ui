@@ -1,4 +1,4 @@
-import { classNames } from '@aws-amplify/ui';
+import { classNames } from '@saasontools/amplify-ui';
 import * as React from 'react';
 
 import { FieldClearButton } from '../Field';
@@ -7,7 +7,7 @@ import { IconSearch } from '../Icon/internal';
 import { SearchFieldButton } from './SearchFieldButton';
 import { TextField } from '../TextField';
 import { useSearchField } from './useSearchField';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 import { strHasLength } from '../shared/utils';
 import type {
   BaseSearchFieldProps,

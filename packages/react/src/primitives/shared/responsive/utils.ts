@@ -1,4 +1,4 @@
-import { defaultTheme } from '@aws-amplify/ui';
+import { defaultTheme } from '@saasontools/amplify-ui';
 
 import { objectKeys } from '../../shared/utils';
 import type {

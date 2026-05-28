@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import kebabCase from 'lodash/kebabCase';
 
 import { AUTO_GENERATED_ID_PREFIX } from '../../utils/useStableId';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 import { ComponentPropsToStylePropsMap } from '../../types';
 import { SwitchField } from '../SwitchField';
 import { Fieldset } from '../../Fieldset';

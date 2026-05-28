@@ -2,11 +2,11 @@ import React from 'react';
 import {
   authenticatorTextUtil,
   FederatedIdentityProviders,
-} from '@aws-amplify/ui';
+} from '@saasontools/amplify-ui';
 
 import { Divider } from '../../../primitives/Divider';
 import { Flex } from '../../../primitives/Flex';
-import { useAuthenticator } from '@aws-amplify/ui-react-core';
+import { useAuthenticator } from '@saasontools/amplify-ui-react-core';
 import { FederatedSignInButton } from './FederatedSignInButtons';
 
 const { getSignInWithFederationText, getOrText } = authenticatorTextUtil;

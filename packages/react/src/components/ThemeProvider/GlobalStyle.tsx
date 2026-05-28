@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createGlobalCSS } from '@aws-amplify/ui';
+import { createGlobalCSS } from '@saasontools/amplify-ui';
 import { Style } from './Style';
 
 interface GlobalStyleProps extends React.ComponentProps<'style'> {

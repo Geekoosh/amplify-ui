@@ -1,6 +1,7 @@
 {
   "name": "@aws-amplify/ui-svelte",
   "version": "1.1.4",
+  "private": true,
   "scripts": {
     "dev": "svelte-package --watch",
     "build": "svelte-kit sync && svelte-package",
@@ -37,7 +38,7 @@
     "svelte": "^5.0.0"
   },
   "dependencies": {
-    "@aws-amplify/ui": "6.15.4",
+    "@saasontools/amplify-ui": "6.15.4-saasontools.0",
     "nanoid": "3.3.8",
     "qrcode": "1.5.0",
     "xstate": "^4.33.6"

@@ -1,11 +1,14 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import { useAuthenticator, UseAuthenticator } from '@aws-amplify/ui-react-core';
+import {
+  useAuthenticator,
+  UseAuthenticator,
+} from '@saasontools/amplify-ui-react-core';
 
 import { VerifyUser } from '..';
 
-jest.mock('@aws-amplify/ui-react-core');
+jest.mock('@saasontools/amplify-ui-react-core');
 
 jest.mock('../../hooks/useFormHandlers', () => ({
   useFormHandlers: () => ({ handleChange: jest.fn(), handleSubmit: jest.fn() }),

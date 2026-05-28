@@ -1,5 +1,5 @@
 import type * as React from 'react';
-import type { MergeProps } from '@aws-amplify/ui-react-core';
+import type { MergeProps } from '@saasontools/amplify-ui-react-core';
 
 import type { AriaProps, BaseComponentProps } from './base';
 import type { BaseStyleProps } from './style';

@@ -6,11 +6,11 @@
 1. Run `yarn setup`
 1. Run `yarn react dev`
 
-This will start building `@aws-amplify/ui-react` in watch mode. To test your changes, you can utilize [`examples/next`](../../examples/next) to run examples on `next.js`. Please see examples [README](../../examples/README.md) and e2e [README](../e2e/README.md#contributing) to get started.
+This will start building `@saasontools/amplify-ui-react` in watch mode. To test your changes, you can utilize [`examples/next`](../../examples/next) to run examples on `next.js`. Please see examples [README](../../examples/README.md) and e2e [README](../e2e/README.md#contributing) to get started.
 
 ## Dependencies
 
-`@aws-amplify/ui-react` depends on [`@aws-amplify/ui`](../ui) for theming, state management, and translation logic. If you're looking for change in these, please refer to `@aws-amplify/ui` [README](../ui/README.md).
+`@saasontools/amplify-ui-react` depends on [`@saasontools/amplify-ui`](../ui) for theming, state management, and translation logic. If you're looking for change in these, please refer to `@saasontools/amplify-ui` [README](../ui/README.md).
 
 ## Code Standards
 

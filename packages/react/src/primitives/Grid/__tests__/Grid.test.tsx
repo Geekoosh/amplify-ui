@@ -11,7 +11,7 @@ import {
   GridContainerStyleProps,
   GridItemStyleProps,
 } from '../../types';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 import { errorMessageWrapper } from '../../utils/testUtils';
 import { convertGridSpan } from '../../shared/styleUtils';
 

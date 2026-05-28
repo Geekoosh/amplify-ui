@@ -1,7 +1,7 @@
 import StyleDictionary from 'style-dictionary';
 import { defaultTheme, createTheme } from '../';
 
-describe('@aws-amplify/ui', () => {
+describe('@saasontools/amplify-ui', () => {
   describe('defaultTheme', () => {
     it('all references should resolve', () => {
       expect(() => {

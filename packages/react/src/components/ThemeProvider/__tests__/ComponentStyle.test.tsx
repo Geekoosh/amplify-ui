@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import * as React from 'react';
 
 import { ComponentStyle } from '../ComponentStyle';
-import { createTheme, defineComponentTheme } from '@aws-amplify/ui';
+import { createTheme, defineComponentTheme } from '@saasontools/amplify-ui';
 
 describe('ComponentStyle', () => {
   it('does not render anything if no theme is passed', async () => {

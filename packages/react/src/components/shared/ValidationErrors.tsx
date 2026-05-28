@@ -1,5 +1,5 @@
 import React from 'react';
-import { translate } from '@aws-amplify/ui';
+import { translate } from '@saasontools/amplify-ui';
 
 import { View } from '../../primitives/View';
 import { Text } from '../../primitives/Text';

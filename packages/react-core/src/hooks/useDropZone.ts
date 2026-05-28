@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { isFunction } from '@aws-amplify/ui';
+import { isFunction } from '@saasontools/amplify-ui';
 import { filterAllowedFiles } from '../utils/filterAllowedFiles';
 import { processDroppedItems } from '../utils/processDroppedItems';
 

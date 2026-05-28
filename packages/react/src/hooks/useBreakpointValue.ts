@@ -3,7 +3,7 @@ import { getValueAtCurrentBreakpoint } from '../primitives/shared/responsive/uti
 import { useBreakpoint } from '../primitives/shared/responsive/useBreakpoint';
 import { useTheme } from './useTheme';
 import { getStyleValue } from '../primitives/shared/getStyleValue';
-import { isDesignToken, isString } from '@aws-amplify/ui';
+import { isDesignToken, isString } from '@saasontools/amplify-ui';
 
 interface UseBreakpointValue<T = unknown> {
   (

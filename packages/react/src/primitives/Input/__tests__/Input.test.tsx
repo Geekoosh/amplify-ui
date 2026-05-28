@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import { Input } from '../Input';
 import { Fieldset } from '../../Fieldset';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 describe('Input component', () => {
   it('should render custom classname for Input', async () => {

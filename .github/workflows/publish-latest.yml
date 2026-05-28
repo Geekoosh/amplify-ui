@@ -16,6 +16,7 @@ permissions:
 
 jobs:
   setup:
+    if: github.repository == 'aws-amplify/amplify-ui'
     runs-on: ubuntu-latest
     outputs:
       has-changesets: ${{ steps.has-changesets.outputs.has-changesets }}

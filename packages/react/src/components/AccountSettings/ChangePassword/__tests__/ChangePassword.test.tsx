@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
-import * as UIModule from '@aws-amplify/ui';
-import { AuthServiceProvider } from '@aws-amplify/ui-react-core';
+import * as UIModule from '@saasontools/amplify-ui';
+import { AuthServiceProvider } from '@saasontools/amplify-ui-react-core';
 
 import ChangePassword from '../ChangePassword';
 import { Button } from '../../../../primitives';

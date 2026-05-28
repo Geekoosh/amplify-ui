@@ -1,7 +1,7 @@
 {
   "name": "@aws-amplify/ui-react-router-example",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite --port 3000",
@@ -10,7 +10,7 @@
     "start": "vite preview --port 3000"
   },
   "dependencies": {
-    "@aws-amplify/ui-react": "6.15.4",
+    "@saasontools/amplify-ui-react": "6.15.4-saasontools.0",
     "@aws-amplify/ui-react-storage": "3.17.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

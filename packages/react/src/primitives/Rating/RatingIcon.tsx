@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { classNames, ComponentClassName } from '@aws-amplify/ui';
+import { classNames, ComponentClassName } from '@saasontools/amplify-ui';
 import type { Property } from 'csstype';
 
 import type { StyleToken } from '../types/style';

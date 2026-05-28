@@ -1,4 +1,4 @@
-import { WebDesignToken } from '@aws-amplify/ui';
+import { WebDesignToken } from '@saasontools/amplify-ui';
 import { renderHook } from '@testing-library/react';
 
 import { useTheme } from '../../../../hooks/useTheme';

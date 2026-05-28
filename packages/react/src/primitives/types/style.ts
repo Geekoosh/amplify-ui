@@ -1,5 +1,5 @@
 import type { Property } from 'csstype';
-import type { WebDesignToken } from '@aws-amplify/ui';
+import type { WebDesignToken } from '@saasontools/amplify-ui';
 
 import type {
   BoxShadowKeys,

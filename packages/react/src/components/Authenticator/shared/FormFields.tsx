@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import type { FormFieldProps } from './FormField';
 import { FormField } from './FormField';
-import { useAuthenticator } from '@aws-amplify/ui-react-core';
+import { useAuthenticator } from '@saasontools/amplify-ui-react-core';
 
 export function FormFields({
   includePassword,

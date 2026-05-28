@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { classNames } from '@aws-amplify/ui';
+import { classNames } from '@saasontools/amplify-ui';
 import type { Property } from 'csstype';
 
 import { View } from '../View';
 import type { StyleToken } from '../types/style';
-import { ComponentClassName, classNameModifier } from '@aws-amplify/ui';
+import { ComponentClassName, classNameModifier } from '@saasontools/amplify-ui';
 
 interface RatingMixedIconProps {
   emptyColor?: StyleToken<Property.Color>;

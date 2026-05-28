@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { FieldGroupIcon } from '../FieldGroupIcon';
 
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 describe('FieldGroupIcon component', () => {
   const testId = 'fieldGroupTestId';

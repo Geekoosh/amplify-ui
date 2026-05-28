@@ -1,6 +1,6 @@
 # Amplify UI (Core)
 
-`@aws-amplify/ui` contains low-level logic & styles for stand-alone usage or re-use in framework-specific implementations.
+`@saasontools/amplify-ui` contains low-level logic & styles for stand-alone usage or re-use in framework-specific implementations.
 
 ## Contents
 

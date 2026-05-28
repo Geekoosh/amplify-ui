@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import { CheckboxField } from '../CheckboxField';
 import { CheckboxFieldProps } from '../../types/checkboxField';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 describe('CheckboxField test suite', () => {
   const basicProps = {

@@ -5,7 +5,7 @@ afterEach(() => {
   consoleWarnSpy?.mockRestore();
 });
 
-describe('@aws-amplify/ui', () => {
+describe('@saasontools/amplify-ui', () => {
   describe('createTheme', () => {
     describe('without a base theme', () => {
       const { tokens } = createTheme({ name: 'test-theme' });

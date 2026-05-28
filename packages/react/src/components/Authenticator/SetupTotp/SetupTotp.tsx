@@ -5,11 +5,11 @@ import {
   authenticatorTextUtil,
   getLogger,
   getTotpCodeURL,
-} from '@aws-amplify/ui';
+} from '@saasontools/amplify-ui';
 
 import { Flex } from '../../../primitives/Flex';
 import { Heading } from '../../../primitives/Heading';
-import { useAuthenticator } from '@aws-amplify/ui-react-core';
+import { useAuthenticator } from '@saasontools/amplify-ui-react-core';
 import { TotpSetupDisplay } from '../../shared';
 import { useCustomComponents } from '../hooks/useCustomComponents';
 import { useFormHandlers } from '../hooks/useFormHandlers';

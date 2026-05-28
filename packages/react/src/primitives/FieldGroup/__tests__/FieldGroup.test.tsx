@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import { Button } from '../../Button';
 import { FieldGroup } from '../FieldGroup';
 import { Text } from '../../Text';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 import { classNameModifier } from '../../shared/utils';
 
 describe('FieldGroup component', () => {

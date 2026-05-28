@@ -2,9 +2,9 @@ import React from 'react';
 import type {
   FederatedIdentityProviders,
   SocialProvider,
-} from '@aws-amplify/ui';
+} from '@saasontools/amplify-ui';
 
-import { useAuthenticator } from '@aws-amplify/ui-react-core';
+import { useAuthenticator } from '@saasontools/amplify-ui-react-core';
 import { Button } from '../../../../primitives/Button';
 import { Icon } from '../../../../primitives/Icon';
 import { Text } from '../../../../primitives/Text';

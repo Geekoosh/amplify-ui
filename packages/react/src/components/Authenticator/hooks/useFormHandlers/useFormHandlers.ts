@@ -1,7 +1,7 @@
 import type * as React from 'react';
 import { useCallback } from 'react';
 import { getFormDataFromEvent } from '../../../../helpers/utils';
-import { useAuthenticator } from '@aws-amplify/ui-react-core';
+import { useAuthenticator } from '@saasontools/amplify-ui-react-core';
 
 export function useFormHandlers(): {
   handleBlur: (event: React.FocusEvent<HTMLFormElement>) => void;

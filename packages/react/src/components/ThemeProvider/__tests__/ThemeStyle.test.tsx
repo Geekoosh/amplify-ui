@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import * as React from 'react';
 
 import { ThemeStyle } from '../ThemeStyle';
-import { createTheme } from '@aws-amplify/ui';
+import { createTheme } from '@saasontools/amplify-ui';
 
 describe('ThemeStyle', () => {
   it('does not render anything if no theme is passed', async () => {

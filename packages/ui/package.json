@@ -1,6 +1,15 @@
 {
-  "name": "@aws-amplify/ui",
-  "version": "6.15.4",
+  "name": "@saasontools/amplify-ui",
+  "version": "6.15.4-saasontools.0",
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/saasontools/amplify-ui.git",
+    "directory": "packages/ui"
+  },
   "main": "dist/index.js",
   "module": "dist/esm/index.mjs",
   "exports": {
@@ -22,11 +31,6 @@
   "eslint": "./eslint.config.js",
   "types": "dist/types/index.d.ts",
   "license": "Apache-2.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/aws-amplify/amplify-ui",
-    "directory": "packages/ui"
-  },
   "files": [
     "dist",
     "LICENSE"
@@ -35,7 +39,7 @@
     "build": "yarn build:css && yarn build:dist",
     "build:css": "node -r esbuild-register ./scripts/generateCSS.ts",
     "build:dist": "rollup --config",
-    "check:esm": "node --input-type=module --eval 'import \"@aws-amplify/ui\"'",
+    "check:esm": "node --input-type=module --eval 'import \"@saasontools/amplify-ui\"'",
     "clean": "rimraf dist node_modules",
     "dev": "yarn build --watch",
     "lint": "yarn typecheck && eslint src",

@@ -1,10 +1,10 @@
-import { PrimitiveCatalog } from '@aws-amplify/ui-react/internal';
+import { PrimitiveCatalog } from '@saasontools/amplify-ui-react/internal';
 
 import * as exported from '../src';
 import * as internal from '../src/internal';
 import * as server from '../src/server';
 
-describe('@aws-amplify/ui-react', () => {
+describe('@saasontools/amplify-ui-react', () => {
   describe('exports', () => {
     it('should match snapshot', () => {
       const sortedExports = Object.keys(exported).sort();
@@ -14,7 +14,7 @@ describe('@aws-amplify/ui-react', () => {
   });
 });
 
-describe('@aws-amplify/ui-react/internal', () => {
+describe('@saasontools/amplify-ui-react/internal', () => {
   describe('exports', () => {
     it('should match snapshot', () => {
       const sortedInternalExports = Object.keys(internal).sort();
@@ -24,7 +24,7 @@ describe('@aws-amplify/ui-react/internal', () => {
   });
 });
 
-describe('@aws-amplify/ui-react/server', () => {
+describe('@saasontools/amplify-ui-react/server', () => {
   describe('exports', () => {
     it('should match snapshot', () => {
       const sortedServerExports = Object.keys(server).sort();

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { AuthenticatorMachineOptions } from '@aws-amplify/ui';
+import type { AuthenticatorMachineOptions } from '@saasontools/amplify-ui';
 
 import type { UseAuthenticatorSelector } from '../useAuthenticator';
 import { useAuthenticator } from '../useAuthenticator';

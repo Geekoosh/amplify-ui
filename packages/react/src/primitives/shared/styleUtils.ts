@@ -1,6 +1,6 @@
 import * as React from 'react';
-import type { WebTheme } from '@aws-amplify/ui';
-import { isDesignToken } from '@aws-amplify/ui';
+import type { WebTheme } from '@saasontools/amplify-ui';
+import { isDesignToken } from '@saasontools/amplify-ui';
 
 import type {
   GridItemStyleProps,

@@ -4,7 +4,7 @@ import type {
   ChallengeName,
   AuthenticatorServiceFacade,
   LegacyFormFieldOptions,
-} from '@aws-amplify/ui';
+} from '@saasontools/amplify-ui';
 
 import type { UseAuthenticator } from './useAuthenticator';
 

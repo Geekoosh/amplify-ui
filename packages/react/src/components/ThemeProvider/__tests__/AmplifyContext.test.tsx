@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 
 import { ThemeContext } from '../ThemeContext';
-import { WebTheme } from '@aws-amplify/ui';
+import { WebTheme } from '@saasontools/amplify-ui';
 
 describe('ThemeContext', () => {
   it('should provide default context values', () => {

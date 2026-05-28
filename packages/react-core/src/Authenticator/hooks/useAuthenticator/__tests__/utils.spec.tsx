@@ -2,9 +2,9 @@ import {
   AuthenticatorServiceFacade,
   AuthMachineState,
   AuthActorContext,
-} from '@aws-amplify/ui';
+} from '@saasontools/amplify-ui';
 
-import * as UIModule from '@aws-amplify/ui';
+import * as UIModule from '@saasontools/amplify-ui';
 
 import {
   areSelectorDepsEqual,

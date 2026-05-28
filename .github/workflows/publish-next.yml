@@ -19,6 +19,7 @@ permissions:
 
 jobs:
   setup-cache:
+    if: github.repository == 'aws-amplify/amplify-ui'
     uses: aws-amplify/amplify-ui/.github/workflows/reusable-setup-cache.yml@main
     with:
       commit: ${{ github.sha }}
@@ -57,6 +58,7 @@ jobs:
       DOCSEARCH_DOCS_INDEX_NAME: ${{ secrets.DOCSEARCH_DOCS_INDEX_NAME }}
 
   publish:
+    if: github.repository == 'aws-amplify/amplify-ui'
     uses: aws-amplify/amplify-ui/.github/workflows/reusable-tagged-publish.yml@main
     with:
       dist-tag: next

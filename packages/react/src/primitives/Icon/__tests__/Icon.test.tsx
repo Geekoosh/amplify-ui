@@ -2,7 +2,7 @@ import * as React from 'react';
 import { render, screen, within } from '@testing-library/react';
 
 import { Icon } from '../Icon';
-import { ComponentClassName } from '@aws-amplify/ui';
+import { ComponentClassName } from '@saasontools/amplify-ui';
 
 describe('Icon component', () => {
   const iconTestId = 'iconSearch';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { isUndefined, isString } from '@aws-amplify/ui';
+import { isUndefined, isString } from '@saasontools/amplify-ui';
 
 export const INVALID_OPTIONS_MESSAGE =
   'an `errorMessage` or a `defaultValue` must be provided in `options`';

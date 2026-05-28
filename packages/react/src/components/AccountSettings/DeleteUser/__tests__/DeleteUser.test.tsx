@@ -7,7 +7,7 @@ import {
   act,
 } from '@testing-library/react';
 
-import { AuthServiceProvider } from '@aws-amplify/ui-react-core';
+import { AuthServiceProvider } from '@saasontools/amplify-ui-react-core';
 
 import {
   Button,

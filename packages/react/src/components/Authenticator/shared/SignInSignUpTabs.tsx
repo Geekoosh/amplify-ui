@@ -1,7 +1,7 @@
 import React from 'react';
-import { authenticatorTextUtil } from '@aws-amplify/ui';
+import { authenticatorTextUtil } from '@saasontools/amplify-ui';
 
-import { useAuthenticator } from '@aws-amplify/ui-react-core';
+import { useAuthenticator } from '@saasontools/amplify-ui-react-core';
 import { Tabs } from '../../../primitives/Tabs';
 import { View } from '../../../primitives/View';
 import { SignIn } from '../SignIn';

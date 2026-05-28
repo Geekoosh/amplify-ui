@@ -1,4 +1,4 @@
-import { createTheme, WebTheme } from '@aws-amplify/ui';
+import { createTheme, WebTheme } from '@saasontools/amplify-ui';
 import { renderHook } from '@testing-library/react';
 import { ThemeProvider } from '../../components/ThemeProvider';
 import { useTheme } from '../useTheme';
